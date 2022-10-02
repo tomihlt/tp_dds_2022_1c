@@ -53,6 +53,7 @@ public class MenuLogInCandidato extends JPanel
 		add(panel, BorderLayout.SOUTH);
 		
 		salirButton = new JButton("Salir");
+		salirButton.addActionListener(e -> wWindow.dispose());
 		panel.add(salirButton);
 		
 		panel_1 = new JPanel();
