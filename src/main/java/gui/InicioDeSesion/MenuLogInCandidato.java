@@ -21,23 +21,23 @@ import clases.enums.TipoDNI;
 
 public class MenuLogInCandidato extends JPanel
 {
-	Main wWindow;
-	public JPanel panel;
-	public JButton salirButton;
-	public JPanel panel_1;
-	public JLabel lblNewLabel;
-	public JLabel lblNewLabel_1;
-	public JLabel lblNewLabel_2;
-	public JLabel lblNewLabel_3;
-	public JLabel lblNewLabel_4;
-	public JTextField textField;
-	public JComboBox comboBox;
-	public JPasswordField passwordField;
-	public JLabel lblNewLabel_5;
-	public JLabel lblNewLabel_6;
-	public JButton volverButton;
-	public JButton iniciarSesionButton;
-	public JLabel lblNewLabel_7;
+	private Main wWindow;
+	private JPanel panel;
+	private JButton salirButton;
+	private JPanel panel_1;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JTextField textField;
+	private JComboBox comboBox;
+	private JPasswordField passwordField;
+	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_6;
+	private JButton volverButton;
+	private JButton iniciarSesionButton;
+	private JLabel lblNewLabel_7;
 
 	/**
 	 * Create the panel.

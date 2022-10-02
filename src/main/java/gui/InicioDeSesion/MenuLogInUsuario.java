@@ -11,6 +11,7 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import gui.Main;
+import gui.Consultor.MenuPrincipal;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
@@ -18,20 +19,20 @@ import java.awt.event.ActionEvent;
 
 public class MenuLogInUsuario extends JPanel
 {
-	Main wWindow;
-	public JPanel panel;
-	public JButton salirButton;
-	public JPanel panel_1;
-	public JLabel lblNewLabel;
-	public JLabel lblNewLabel_1;
-	public JLabel lblNewLabel_2;
-	public JLabel lblNewLabel_3;
-	public JTextField textField;
-	public JPasswordField passwordField;
-	public JButton btnNewButton;
-	public JButton btnNewButton_1;
-	public JLabel lblNewLabel_4;
-	public JLabel lblNewLabel_5;
+	private Main wWindow;
+	private JPanel panel;
+	private JButton salirButton;
+	private JPanel panel_1;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JTextField textField;
+	private JPasswordField passwordField;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
 
 	/**
 	 * Create the panel.
@@ -131,6 +132,10 @@ public class MenuLogInUsuario extends JPanel
 		panel_1.add(btnNewButton, gbc_btnNewButton);
 		
 		btnNewButton_1 = new JButton("Ingresar");
+		btnNewButton_1.addActionListener(e -> {
+			MenuPrincipal home = new MenuPrincipal(wWindow);
+			wWindow.setCurrentMenu(home);
+		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.anchor = GridBagConstraints.EAST;
 		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);

@@ -30,14 +30,14 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 public class MenuLogIn extends JPanel
 {
 	
-	Main wWindow;
-	public JPanel panelSur;
-	public JButton salirButton;
-	public JPanel panel;
-	public JLabel lblNewLabel;
-	public JLabel lblNewLabel_1;
-	public JButton usuarioButton;
-	public JButton cuestionarioButton;
+	private Main wWindow;
+	private JPanel panelSur;
+	private JButton salirButton;
+	private JPanel panel;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JButton usuarioButton;
+	private JButton cuestionarioButton;
 	/**
 	 * Create the panel.
 	 */
