@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 
 import gui.Main;
 import gui.Consultor.MenuPrincipal;
+import gui.Consultor.PanelUsuario;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
@@ -134,6 +135,8 @@ public class MenuLogInUsuario extends JPanel
 		btnNewButton_1 = new JButton("Ingresar");
 		btnNewButton_1.addActionListener(e -> {
 			MenuPrincipal home = new MenuPrincipal(wWindow);
+			PanelUsuario homePanel = new PanelUsuario(wWindow, home);
+			home.setCurrentMenu(homePanel);
 			wWindow.setCurrentMenu(home);
 		});
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
