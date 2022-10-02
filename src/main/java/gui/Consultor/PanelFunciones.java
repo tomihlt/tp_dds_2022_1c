@@ -11,6 +11,8 @@ import javax.swing.JTextField;
 import gui.Main;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.border.LineBorder;
@@ -20,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelFunciones extends JPanel
 {
@@ -38,21 +42,21 @@ public class PanelFunciones extends JPanel
 	private JLabel lblNewLabel_7;
 	private JButton buscarButton;
 	private JLabel lblNewLabel_9;
-	public Component verticalStrut;
-	public Component verticalStrut_1;
-	public Component verticalStrut_2;
-	public JPanel panelDeDatos;
-	public JPanel panelDeBotones;
-	public JButton eliminarButton;
-	public JButton modificarButton;
-	public JButton nuevoButton;
-	public Component horizontalStrut;
-	public Component horizontalStrut_1;
-	public JScrollPane scrollPane;
-	public JTable table;
-	public Component horizontalStrut_2;
-	public Component horizontalStrut_3;
-	public Component verticalStrut_3;
+	private Component verticalStrut;
+	private Component verticalStrut_1;
+	private Component verticalStrut_2;
+	private JPanel panelDeDatos;
+	private JPanel panelDeBotones;
+	private JButton eliminarButton;
+	private JButton modificarButton;
+	private JButton nuevoButton;
+	private Component horizontalStrut;
+	private Component horizontalStrut_1;
+	private JScrollPane scrollPane;
+	private JTable table;
+	private Component horizontalStrut_2;
+	private Component horizontalStrut_3;
+	private Component verticalStrut_3;
 
 	/**
 	 * Create the panel.
@@ -253,6 +257,10 @@ public class PanelFunciones extends JPanel
 		panelDeBotones.add(horizontalStrut_1);
 		
 		nuevoButton = new JButton("Nuevo");
+		nuevoButton.addActionListener(e -> {
+			JDialog altaFuncion = new VentanaAltaFuncion(wWindow);
+			altaFuncion.setVisible(true);
+		});
 		panelDeBotones.add(nuevoButton);
 
 	}

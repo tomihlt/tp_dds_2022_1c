@@ -64,6 +64,8 @@ public class Main extends JFrame
 		
 		JPanel m = new MenuLogIn(this);
 		setCurrentMenu(m);
+		
+		setLocationRelativeTo(null);
 	}
 
 	public void setCurrentMenu(JPanel nuevoPanel)
