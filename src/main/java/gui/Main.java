@@ -54,6 +54,7 @@ public class Main extends JFrame
 	 */
 	public Main()
 	{
+		setTitle("TP DDS");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();

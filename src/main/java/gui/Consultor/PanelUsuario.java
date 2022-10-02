@@ -18,21 +18,20 @@ public class PanelUsuario extends JPanel
 {
 	private Main wWindow;
 	private JPanel mainMenu;
-	public JLabel lblNewLabel;
-	public JLabel lblNewLabel_1;
-	public JLabel lblNewLabel_2;
-	public JLabel lblNewLabel_3;
-	public JLabel lblNewLabel_4;
-	public JLabel lblNewLabel_5;
-	public JButton btnNewButton;
+	private JLabel lblNewLabel;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JButton btnNewButton;
 
 	/**
 	 * Create the panel.
 	 */
-	public PanelUsuario(Main wWindow, MenuPrincipal mainMenu)
+	public PanelUsuario(Main wWindow)
 	{
 		this.wWindow = wWindow;
-		this.mainMenu = mainMenu;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};

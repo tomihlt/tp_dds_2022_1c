@@ -3,38 +3,35 @@ package gui.Consultor;
 import javax.swing.JPanel;
 
 import gui.Main;
-import gui.InicioDeSesion.MenuLogIn;
 
 import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.JLabel;
-import java.awt.Insets;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import java.awt.CardLayout;
+import java.awt.Point;
+
+import javax.swing.JTabbedPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 public class MenuPrincipal extends JPanel
 {
+	private Integer lastSelectedTab;
 	private Main wWindow;
 	private JPanel currentMenu;
-	private JPanel menuBarPanel;
-	private JMenuBar menuBar;
-	private JMenu gestionarCandidatosMenu;
-	private JMenu importarCandidatosMenu;
-	private JMenu gestionarCompetenciasMenu;
-	private JMenu gestionarFactoresMenu;
-	private JMenu gestionarPreguntasMenu;
-	private JMenu gestionarPuestosMenu;
-	private JMenu evaluarCandidatosMenu;
-	private JMenu exportarResultadosMenu;
-	private JMenu reporteComparativoMenu;
-	private JMenu ordenDeMeritosMenu;
-	private JPanel panelCentral;
+	private JTabbedPane tabbedPane;
+	private JPanel inicioTab;
+	private JPanel gestionarCandidatosTab;
+	private JPanel impCandidatosTab;
+	private JPanel gestionarCompetenciasTab;
+	private JPanel panel;
+	private JPanel panel_1;
+	private JPanel panel_2;
+	private JPanel panel_3;
+	private JPanel panel_4;
+	private JPanel panel_5;
+	private JPanel panel_6;
 
 	/**
 	 * Create the panel.
@@ -43,75 +40,43 @@ public class MenuPrincipal extends JPanel
 	{
 		this.wWindow = wWindow;
 		setLayout(new BorderLayout(0, 0));
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		add(tabbedPane, BorderLayout.CENTER);
+		
+		inicioTab = new JPanel();
+		tabbedPane.addTab("Inicio", null, new PanelUsuario(wWindow), null);
+		
+		gestionarCandidatosTab = new JPanel();
+		tabbedPane.addTab("Gestionar candidatos", null, gestionarCandidatosTab, null);
+		
+		impCandidatosTab = new JPanel();
+		tabbedPane.addTab("Importar candidatos", null, impCandidatosTab, null);
+		
+		gestionarCompetenciasTab = new JPanel();
+		tabbedPane.addTab("Gestionar competencias", null, gestionarCompetenciasTab, null);
+		
+		panel = new JPanel();
+		tabbedPane.addTab("Gestionar factores", null, panel, null);
+		
+		panel_6 = new JPanel();
+		tabbedPane.addTab("Orden de méritos", null, panel_6, null);
+		
+		panel_1 = new JPanel();
+		tabbedPane.addTab("Gestionar preguntas", null, panel_1, null);
+		
+		panel_2 = new JPanel();
+		tabbedPane.addTab("Gestionar funciones", null, new PanelFunciones(wWindow), null);
+		
+		panel_3 = new JPanel();
+		tabbedPane.addTab("Evaluar candidatos", null, panel_3, null);
+		
+		panel_4 = new JPanel();
+		tabbedPane.addTab("Exportar resultados", null, panel_4, null);
+		
+		panel_5 = new JPanel();
+		tabbedPane.addTab("Reporte comparativo", null, panel_5, null);
 
-		menuBarPanel = new JPanel();
-		add(menuBarPanel, BorderLayout.NORTH);
-		GridBagLayout gbl_menuBarPanel = new GridBagLayout();
-		gbl_menuBarPanel.columnWidths = new int[]
-		{ 1166, 0 };
-		gbl_menuBarPanel.rowHeights = new int[]
-		{ 22, 0 };
-		gbl_menuBarPanel.columnWeights = new double[]
-		{ 0.0, Double.MIN_VALUE };
-		gbl_menuBarPanel.rowWeights = new double[]
-		{ 0.0, Double.MIN_VALUE };
-		menuBarPanel.setLayout(gbl_menuBarPanel);
-
-		menuBar = new JMenuBar();
-		GridBagConstraints gbc_menuBar = new GridBagConstraints();
-		gbc_menuBar.weightx = 1.0;
-		gbc_menuBar.gridx = 0;
-		gbc_menuBar.gridy = 0;
-		menuBarPanel.add(menuBar, gbc_menuBar);
-
-		gestionarCandidatosMenu = new JMenu("Gestionar candidatos");
-		menuBar.add(gestionarCandidatosMenu);
-
-		importarCandidatosMenu = new JMenu("Importar candidatos");
-		menuBar.add(importarCandidatosMenu);
-
-		gestionarCompetenciasMenu = new JMenu("Gestionar competencias");
-		menuBar.add(gestionarCompetenciasMenu);
-
-		gestionarFactoresMenu = new JMenu("Gestionar factores");
-		menuBar.add(gestionarFactoresMenu);
-
-		gestionarPreguntasMenu = new JMenu("Gestionar preguntas");
-		menuBar.add(gestionarPreguntasMenu);
-
-		gestionarPuestosMenu = new JMenu("Gestionar puestos");
-		menuBar.add(gestionarPuestosMenu);
-
-		evaluarCandidatosMenu = new JMenu("Evaluar candidatos");
-		menuBar.add(evaluarCandidatosMenu);
-
-		exportarResultadosMenu = new JMenu("Exportar resultados");
-		menuBar.add(exportarResultadosMenu);
-
-		reporteComparativoMenu = new JMenu("Reporte comparativo");
-		menuBar.add(reporteComparativoMenu);
-
-		ordenDeMeritosMenu = new JMenu("Orden de méritos");
-		menuBar.add(ordenDeMeritosMenu);
-
-		panelCentral = new JPanel();
-		add(panelCentral, BorderLayout.CENTER);
-		panelCentral.setLayout(new CardLayout(0, 0));
-
-	}
-	
-	public void setCurrentMenu(JPanel nuevoPanel)
-	{
-		panelCentral.removeAll();
-		panelCentral.add(nuevoPanel, BorderLayout.CENTER);
-		currentMenu = nuevoPanel;
-		panelCentral.repaint();
-		panelCentral.revalidate();
-	}
-
-	public JPanel getCurrentMenu()
-	{
-		return currentMenu;
 	}
 
 }
