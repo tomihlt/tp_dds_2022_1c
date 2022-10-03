@@ -1,11 +1,40 @@
 package clases.tablas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bloque
 {
 	private Integer id;
 	private Integer numeroBloque;
 	private Boolean visitable;
-	//TODO atributos del mapeo
+	private Cuestionario cuestionario;
+	private List<PreguntaCuestionario> preguntas;
+	
+	public Bloque()
+	{
+		preguntas = new ArrayList<PreguntaCuestionario>();
+	}
+	
+	public Cuestionario getCuestionario()
+	{
+		return cuestionario;
+	}
+
+	public void setCuestionario(Cuestionario cuestionario)
+	{
+		this.cuestionario = cuestionario;
+	}
+
+	public List<PreguntaCuestionario> getPreguntas()
+	{
+		return preguntas;
+	}
+
+	public void setPreguntas(List<PreguntaCuestionario> preguntas)
+	{
+		this.preguntas = preguntas;
+	}
 
 	public Integer getId()
 	{

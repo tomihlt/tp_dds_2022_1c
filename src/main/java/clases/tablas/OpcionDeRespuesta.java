@@ -1,12 +1,41 @@
 package clases.tablas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OpcionDeRespuesta
 {
 	private Integer id;
 	private String nombre;
 	private String descripcion;
+	private Pregunta pregunta;
+	private List<Respuesta> respuestas;
 
-	// TODO atributos del mapeo
+	public OpcionDeRespuesta()
+	{
+		respuestas = new ArrayList<Respuesta>();
+	}
+
+	public Pregunta getPregunta()
+	{
+		return pregunta;
+	}
+
+	public void setPregunta(Pregunta pregunta)
+	{
+		this.pregunta = pregunta;
+	}
+
+	public List<Respuesta> getRespuestas()
+	{
+		return respuestas;
+	}
+
+	public void setRespuestas(List<Respuesta> respuestas)
+	{
+		this.respuestas = respuestas;
+	}
+
 	public Integer getId()
 	{
 		return id;

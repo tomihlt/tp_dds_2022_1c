@@ -2,6 +2,8 @@ package clases.tablas;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import clases.enums.EstadoCuestionario;
 
@@ -19,7 +21,44 @@ public class Cuestionario
 	private Instant tiempoMaximo;
 	private String clave;
 	private Integer puntajeObtenido;
-	// TODO atributos del mapeo
+	private Candidato candidato;
+	private List<Bloque> bloques;
+	private Evaluacion evaluacion;
+
+	public Cuestionario()
+	{
+		bloques = new ArrayList<Bloque>();
+	}
+
+	public Evaluacion getEvaluacion()
+	{
+		return evaluacion;
+	}
+
+	public void setEvaluacion(Evaluacion evaluacion)
+	{
+		this.evaluacion = evaluacion;
+	}
+
+	public Candidato getCandidato()
+	{
+		return candidato;
+	}
+
+	public void setCandidato(Candidato candidato)
+	{
+		this.candidato = candidato;
+	}
+
+	public List<Bloque> getBloques()
+	{
+		return bloques;
+	}
+
+	public void setBloques(List<Bloque> bloques)
+	{
+		this.bloques = bloques;
+	}
 
 	public Integer getId()
 	{

@@ -1,5 +1,8 @@
 package clases.tablas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Factor
 {
 	private Integer id;
@@ -7,8 +10,14 @@ public class Factor
 	private String descripcion;
 	private Integer codigo;
 	private Integer nroOrden;
-
-	// TODO atributos del mapeo
+	private Competencia competencia;
+	private List<Pregunta> preguntas;
+	
+	public Factor()
+	{
+		preguntas = new ArrayList<Pregunta>();
+	}
+	
 	public Integer getId()
 	{
 		return id;

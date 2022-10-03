@@ -7,8 +7,29 @@ public class FactorCuestionario
 	private String descripcion;
 	private Integer codigo;
 	private Integer nroOrden;
+	private CompetenciaCuestionario competencia;
+	private PreguntaCuestionario pregunta; // TODO
 
-	// TODO atributos del mapeo
+	public CompetenciaCuestionario getCompetencia()
+	{
+		return competencia;
+	}
+
+	public void setCompetencia(CompetenciaCuestionario competencia)
+	{
+		this.competencia = competencia;
+	}
+
+	public PreguntaCuestionario getPregunta()
+	{
+		return pregunta;
+	}
+
+	public void setPregunta(PreguntaCuestionario pregunta)
+	{
+		this.pregunta = pregunta;
+	}
+
 	public Integer getId()
 	{
 		return id;

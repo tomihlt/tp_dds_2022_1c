@@ -14,7 +14,17 @@ public class Candidato extends Usuario
 	// private Escolaridad escolaridad;
 	private Boolean eliminado;
 	private String nacionalidad;
-	// TODO Atributos por mapeo
+	private Cuestionario cuestionario;
+	
+	public Cuestionario getCuestionario()
+	{
+		return cuestionario;
+	}
+
+	public void setCuestionario(Cuestionario cuestionario)
+	{
+		this.cuestionario = cuestionario;
+	}
 
 	public Integer getNumeroCandidato()
 	{

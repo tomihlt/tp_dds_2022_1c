@@ -1,5 +1,8 @@
 package clases.tablas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CompetenciaCuestionario
 {
 	private Integer id;
@@ -7,8 +10,34 @@ public class CompetenciaCuestionario
 	private String descripcion;
 	private Integer ponderacion;
 	private Integer codigo;
+	private Cuestionario cuestionario;
+	private List<FactorCuestionario> factores;
+	
+	public CompetenciaCuestionario()
+	{
+		factores = new ArrayList<FactorCuestionario>();
+	}
+	
+	public Cuestionario getCuestionario()
+	{
+		return cuestionario;
+	}
 
-	// TODO atributos del mapeo
+	public void setCuestionario(Cuestionario cuestionario)
+	{
+		this.cuestionario = cuestionario;
+	}
+
+	public List<FactorCuestionario> getFactores()
+	{
+		return factores;
+	}
+
+	public void setFactores(List<FactorCuestionario> factores)
+	{
+		this.factores = factores;
+	}
+
 	public Integer getId()
 	{
 		return id;

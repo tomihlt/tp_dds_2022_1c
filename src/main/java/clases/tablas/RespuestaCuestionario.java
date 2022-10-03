@@ -7,8 +7,18 @@ public class RespuestaCuestionario
 	private Boolean seleccionada;
 	private Integer ponderacion;
 	private String descripcion;
+	private PreguntaCuestionario pregunta;
 
-	// TODO atributos del mapeo
+	public PreguntaCuestionario getPregunta()
+	{
+		return pregunta;
+	}
+
+	public void setPregunta(PreguntaCuestionario pregunta)
+	{
+		this.pregunta = pregunta;
+	}
+
 	public Integer getId()
 	{
 		return id;

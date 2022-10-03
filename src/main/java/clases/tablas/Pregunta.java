@@ -5,8 +5,29 @@ public class Pregunta
 	private Integer id;
 	private String nombre;
 	private String descripcion;
+	private Factor factor;
+	private OpcionDeRespuesta opcionDeRespuesta;
 
-	// TODO atributos del mapeo
+	public Factor getFactor()
+	{
+		return factor;
+	}
+
+	public void setFactor(Factor factor)
+	{
+		this.factor = factor;
+	}
+
+	public OpcionDeRespuesta getOpcionDeRespuesta()
+	{
+		return opcionDeRespuesta;
+	}
+
+	public void setOpcionDeRespuesta(OpcionDeRespuesta opcionDeRespuesta)
+	{
+		this.opcionDeRespuesta = opcionDeRespuesta;
+	}
+
 	public Integer getId()
 	{
 		return id;

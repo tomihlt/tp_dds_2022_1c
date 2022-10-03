@@ -1,13 +1,42 @@
 package clases.tablas;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Competencia
 {
 	private Integer id;
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
+	private List<Factor> factores;
+	private Funcion funcion;
+	
+	public Competencia()
+	{
+		factores = new ArrayList<Factor>();
+	}
+	
+	public Funcion getFuncion()
+	{
+		return funcion;
+	}
 
-	// TODO atributos del mapeo
+	public void setFuncion(Funcion funcion)
+	{
+		this.funcion = funcion;
+	}
+
+	public List<Factor> getFactores()
+	{
+		return factores;
+	}
+
+	public void setFactores(List<Factor> factores)
+	{
+		this.factores = factores;
+	}
+
 	public Integer getId()
 	{
 		return id;

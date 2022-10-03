@@ -6,8 +6,18 @@ public class Respuesta
 	private String nombre;
 	private String descripcion;
 	private Integer ordenVisualizacion;
+	private OpcionDeRespuesta opcionDeRespuesta;
 
-	// TODO atributos del mapeo
+	public OpcionDeRespuesta getOpcionDeRespuesta()
+	{
+		return opcionDeRespuesta;
+	}
+
+	public void setOpcionDeRespuesta(OpcionDeRespuesta opcionDeRespuesta)
+	{
+		this.opcionDeRespuesta = opcionDeRespuesta;
+	}
+
 	public Integer getId()
 	{
 		return id;
