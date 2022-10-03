@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 
 public class VentanaAltaFuncion extends JDialog
 {
@@ -219,6 +220,7 @@ public class VentanaAltaFuncion extends JDialog
 		panelTablaDecompetencias.add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
