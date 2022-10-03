@@ -9,6 +9,8 @@ import gui.InicioDeSesion.MenuLogIn;
 import java.awt.CardLayout;
 import javax.swing.UIManager;
 import java.awt.BorderLayout;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class Main extends JFrame
@@ -55,6 +57,7 @@ public class Main extends JFrame
 	public Main()
 	{
 		setTitle("TP DDS");
+		setIconImage(new ImageIcon(getClass().getResource("/gui/img/traje.png")).getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		contentPane = new JPanel();
