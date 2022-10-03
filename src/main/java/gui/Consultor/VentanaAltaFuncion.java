@@ -26,6 +26,7 @@ import javax.swing.ListSelectionModel;
 public class VentanaAltaFuncion extends JDialog
 {
 	private Main wWindow;
+	private JPanel invocador;
 	private JPanel panelBotones;
 	private JButton cancelarButton;
 	private JButton aceptarButton;
@@ -71,11 +72,12 @@ public class VentanaAltaFuncion extends JDialog
 	/**
 	 * Create the dialog.
 	 */
-	public VentanaAltaFuncion(Main wWindow)
+	public VentanaAltaFuncion(Main wWindow, JPanel invocador)
 	{
 		super(wWindow, "Crear paradas menú", Dialog.ModalityType.DOCUMENT_MODAL);
 		setLocationRelativeTo(wWindow);
 		this.wWindow = wWindow;
+		this.invocador = invocador;
 		setBounds(100, 100, 671, 416);
 		
 		panelBotones = new JPanel();

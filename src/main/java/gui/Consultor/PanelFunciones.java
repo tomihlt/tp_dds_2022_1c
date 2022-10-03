@@ -258,7 +258,7 @@ public class PanelFunciones extends JPanel
 		
 		nuevoButton = new JButton("Nuevo");
 		nuevoButton.addActionListener(e -> {
-			JDialog altaFuncion = new VentanaAltaFuncion(wWindow);
+			JDialog altaFuncion = new VentanaAltaFuncion(wWindow,this);
 			altaFuncion.setVisible(true);
 		});
 		panelDeBotones.add(nuevoButton);
