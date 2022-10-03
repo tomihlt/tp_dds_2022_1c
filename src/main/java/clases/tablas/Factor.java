@@ -12,12 +12,32 @@ public class Factor
 	private Integer nroOrden;
 	private Competencia competencia;
 	private List<Pregunta> preguntas;
-	
+
 	public Factor()
 	{
 		preguntas = new ArrayList<Pregunta>();
 	}
-	
+
+	public Competencia getCompetencia()
+	{
+		return competencia;
+	}
+
+	public void setCompetencia(Competencia competencia)
+	{
+		this.competencia = competencia;
+	}
+
+	public List<Pregunta> getPreguntas()
+	{
+		return preguntas;
+	}
+
+	public void setPreguntas(List<Pregunta> preguntas)
+	{
+		this.preguntas = preguntas;
+	}
+
 	public Integer getId()
 	{
 		return id;
