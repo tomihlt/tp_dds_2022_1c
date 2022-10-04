@@ -6,11 +6,22 @@ public class Pregunta
 	private String nombre;
 	private String descripcion;
 	private Factor factor;
+	private Ponderacion ponderacion;
 	private OpcionDeRespuesta opcionDeRespuesta;
 
 	public Factor getFactor()
 	{
 		return factor;
+	}
+
+	public Ponderacion getPonderacion()
+	{
+		return ponderacion;
+	}
+
+	public void setPonderacion(Ponderacion ponderacion)
+	{
+		this.ponderacion = ponderacion;
 	}
 
 	public void setFactor(Factor factor)

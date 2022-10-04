@@ -6,11 +6,22 @@ public class Respuesta
 	private String nombre;
 	private String descripcion;
 	private Integer ordenVisualizacion;
+	private Ponderacion ponderacion;
 	private OpcionDeRespuesta opcionDeRespuesta;
 
 	public OpcionDeRespuesta getOpcionDeRespuesta()
 	{
 		return opcionDeRespuesta;
+	}
+
+	public Ponderacion getPonderacion()
+	{
+		return ponderacion;
+	}
+
+	public void setPonderacion(Ponderacion ponderacion)
+	{
+		this.ponderacion = ponderacion;
 	}
 
 	public void setOpcionDeRespuesta(OpcionDeRespuesta opcionDeRespuesta)

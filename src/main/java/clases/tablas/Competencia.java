@@ -9,14 +9,25 @@ public class Competencia
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
+	private PuntajeNecesario puntajeNecesario;
 	private List<Factor> factores;
 	private Funcion funcion;
-	
+
 	public Competencia()
 	{
 		factores = new ArrayList<Factor>();
 	}
-	
+
+	public PuntajeNecesario getPuntajeNecesario()
+	{
+		return puntajeNecesario;
+	}
+
+	public void setPuntajeNecesario(PuntajeNecesario puntajeNecesario)
+	{
+		this.puntajeNecesario = puntajeNecesario;
+	}
+
 	public Funcion getFuncion()
 	{
 		return funcion;

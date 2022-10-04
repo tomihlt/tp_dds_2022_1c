@@ -7,12 +7,23 @@ public class FactorCuestionario
 	private String descripcion;
 	private Integer codigo;
 	private Integer nroOrden;
+	private Integer puntajeObtenido;
 	private CompetenciaCuestionario competencia;
 	private PreguntaCuestionario pregunta; // TODO
 
 	public CompetenciaCuestionario getCompetencia()
 	{
 		return competencia;
+	}
+
+	public Integer getPuntajeObtenido()
+	{
+		return puntajeObtenido;
+	}
+
+	public void setPuntajeObtenido(Integer puntajeObtenido)
+	{
+		this.puntajeObtenido = puntajeObtenido;
 	}
 
 	public void setCompetencia(CompetenciaCuestionario competencia)
