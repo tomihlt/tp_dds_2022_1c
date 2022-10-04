@@ -10,22 +10,23 @@ public class Funcion
 	private Integer codigo;
 	private String descripcion;
 	private Empresa empresa;
-	private PuntajeNecesario puntajeNecesario;
+	private List<PuntajeNecesario> puntajeNecesarioPorCompetencia;
 	private List<Competencia> competencias;
 
 	public Funcion()
 	{
 		competencias = new ArrayList<Competencia>();
+		puntajeNecesarioPorCompetencia = new ArrayList<PuntajeNecesario>();
 	}
 
-	public PuntajeNecesario getPuntajeNecesario()
+	public List<PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
 	{
-		return puntajeNecesario;
+		return puntajeNecesarioPorCompetencia;
 	}
 
-	public void setPuntajeNecesario(PuntajeNecesario puntajeNecesario)
+	public void setPuntajeNecesarioPorCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia)
 	{
-		this.puntajeNecesario = puntajeNecesario;
+		this.puntajeNecesarioPorCompetencia = puntajeNecesarioPorCompetencia;
 	}
 
 	public Empresa getEmpresa()
