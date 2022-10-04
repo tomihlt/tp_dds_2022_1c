@@ -9,12 +9,24 @@ public class Funcion
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
+	private Boolean eliminado;
 	private Empresa empresa;
 	private Map<Competencia, PuntajeNecesario> puntajeNecesarioPorCompetencia;
 
 	public Funcion()
 	{
 		puntajeNecesarioPorCompetencia = new HashMap<Competencia, PuntajeNecesario>();
+		eliminado = false;
+	}
+
+	public Boolean getEliminado()
+	{
+		return eliminado;
+	}
+
+	public void setEliminado(Boolean eliminado)
+	{
+		this.eliminado = eliminado;
 	}
 
 	public Map<Competencia, PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
