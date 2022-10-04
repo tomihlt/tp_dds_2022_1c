@@ -1,7 +1,9 @@
 package clases.tablas;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Funcion
 {
@@ -10,21 +12,19 @@ public class Funcion
 	private Integer codigo;
 	private String descripcion;
 	private Empresa empresa;
-	private List<PuntajeNecesario> puntajeNecesarioPorCompetencia;
-	private List<Competencia> competencias;
+	private Map<Competencia, PuntajeNecesario> puntajeNecesarioPorCompetencia;
 
 	public Funcion()
 	{
-		competencias = new ArrayList<Competencia>();
-		puntajeNecesarioPorCompetencia = new ArrayList<PuntajeNecesario>();
+		puntajeNecesarioPorCompetencia = new HashMap<Competencia, PuntajeNecesario>();
 	}
 
-	public List<PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
+	public Map<Competencia, PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
 	{
 		return puntajeNecesarioPorCompetencia;
 	}
 
-	public void setPuntajeNecesarioPorCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia)
+	public void setPuntajeNecesarioPorCompetencia(Map<Competencia, PuntajeNecesario> puntajeNecesarioPorCompetencia)
 	{
 		this.puntajeNecesarioPorCompetencia = puntajeNecesarioPorCompetencia;
 	}
@@ -37,16 +37,6 @@ public class Funcion
 	public void setEmpresa(Empresa empresa)
 	{
 		this.empresa = empresa;
-	}
-
-	public List<Competencia> getCompetencias()
-	{
-		return competencias;
-	}
-
-	public void setCompetencias(List<Competencia> competencias)
-	{
-		this.competencias = competencias;
 	}
 
 	public Integer getId()
