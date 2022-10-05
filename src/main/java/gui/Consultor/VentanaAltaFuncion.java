@@ -74,7 +74,7 @@ public class VentanaAltaFuncion extends JDialog
 	 */
 	public VentanaAltaFuncion(Main wWindow, JPanel invocador)
 	{
-		super(wWindow, "Crear paradas menú", Dialog.ModalityType.DOCUMENT_MODAL);
+		super(wWindow, "Dar de alta función", Dialog.ModalityType.DOCUMENT_MODAL);
 		setLocationRelativeTo(wWindow);
 		this.wWindow = wWindow;
 		this.invocador = invocador;
