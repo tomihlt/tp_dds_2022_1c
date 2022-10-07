@@ -54,7 +54,7 @@ public class MenuPrincipal extends JPanel
 		tabbedPane.addTab("Importar candidatos", null, impCandidatosTab, null);
 		
 		gestionarCompetenciasTab = new JPanel();
-		tabbedPane.addTab("Gestionar competencias", null, gestionarCompetenciasTab, null);
+		tabbedPane.addTab("Gestionar competencias", null, new PanelCompetencias(wWindow), null);
 		
 		panel = new JPanel();
 		tabbedPane.addTab("Gestionar factores", null, panel, null);

@@ -1,31 +1,28 @@
 package gui.Consultor;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
+
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 import gui.Main;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-
-import java.awt.Component;
-import javax.swing.Box;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class PanelFunciones extends JPanel
+public class PanelCompetencias extends JPanel
 {
 	private Main wWindow;
 	private JPanel panelDeDatos;
@@ -46,13 +43,13 @@ public class PanelFunciones extends JPanel
 	private Component verticalStrut;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JTextField codigoTxt;
+	private JTextField textField;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	private JTextField nombreFuncionTxt;
+	private JTextField nombreCompetenciaTxt;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
-	private JTextField nombreEmpresaTxt;
+	private JTextField textField_2;
 	private JLabel lblNewLabel_7;
 	private Component verticalStrut_1;
 	private JButton buscarButton;
@@ -61,11 +58,10 @@ public class PanelFunciones extends JPanel
 	private Component horizontalStrut_4;
 	private Component horizontalStrut_5;
 	private Component verticalStrut_4;
-
 	/**
 	 * Create the panel.
 	 */
-	public PanelFunciones(Main wWindow)
+	public PanelCompetencias(Main wWindow)
 	{
 		this.wWindow = wWindow;
 		setLayout(new BorderLayout(0, 0));
@@ -83,7 +79,7 @@ public class PanelFunciones extends JPanel
 			new Object[][] {
 			},
 			new String[] {
-				"Código", "Nombre de la función", "Nombre de la empresa"
+				"Código", "Nombre de la competencia"
 			}
 		));
 		table.getTableHeader().setReorderingAllowed(false);
@@ -116,8 +112,7 @@ public class PanelFunciones extends JPanel
 		
 		nuevoButton = new JButton("Nuevo");
 		nuevoButton.addActionListener(e -> {
-			JDialog altaFuncion = new VentanaAltaFuncion(wWindow,this);
-			altaFuncion.setVisible(true);
+			// TODO
 		});
 		panelDeBotones.add(nuevoButton);
 		
@@ -160,23 +155,23 @@ public class PanelFunciones extends JPanel
 		gbc_lblNewLabel_1.gridy = 2;
 		panelBuscador.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
-		lblNewLabel_2 = new JLabel("Código");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 1;
-		gbc_lblNewLabel_2.gridy = 2;
-		panelBuscador.add(lblNewLabel_2, gbc_lblNewLabel_2);
+//		lblNewLabel_2 = new JLabel("Código");
+//		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+//		gbc_lblNewLabel_2.fill = GridBagConstraints.VERTICAL;
+//		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+//		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+//		gbc_lblNewLabel_2.gridx = 1;
+//		gbc_lblNewLabel_2.gridy = 2;
+//		panelBuscador.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
-		codigoTxt = new JTextField();
-		codigoTxt.setColumns(10);
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 2;
-		panelBuscador.add(codigoTxt, gbc_textField);
+//		textField = new JTextField();
+//		textField.setColumns(10);
+//		GridBagConstraints gbc_textField = new GridBagConstraints();
+//		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+//		gbc_textField.insets = new Insets(0, 0, 5, 5);
+//		gbc_textField.gridx = 2;
+//		gbc_textField.gridy = 2;
+//		panelBuscador.add(textField, gbc_textField);
 		
 		lblNewLabel_3 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
@@ -187,7 +182,7 @@ public class PanelFunciones extends JPanel
 		gbc_lblNewLabel_3.gridy = 2;
 		panelBuscador.add(lblNewLabel_3, gbc_lblNewLabel_3);
 		
-		lblNewLabel_4 = new JLabel("Nombre de la función");
+		lblNewLabel_4 = new JLabel("Nombre de la competencia");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.fill = GridBagConstraints.VERTICAL;
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -196,14 +191,14 @@ public class PanelFunciones extends JPanel
 		gbc_lblNewLabel_4.gridy = 2;
 		panelBuscador.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
-		nombreFuncionTxt = new JTextField();
-		nombreFuncionTxt.setColumns(10);
+		nombreCompetenciaTxt = new JTextField();
+		nombreCompetenciaTxt.setColumns(10);
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.fill = GridBagConstraints.BOTH;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.gridx = 5;
 		gbc_textField_1.gridy = 2;
-		panelBuscador.add(nombreFuncionTxt, gbc_textField_1);
+		panelBuscador.add(nombreCompetenciaTxt, gbc_textField_1);
 		
 		lblNewLabel_5 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -214,23 +209,23 @@ public class PanelFunciones extends JPanel
 		gbc_lblNewLabel_5.gridy = 2;
 		panelBuscador.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
-		lblNewLabel_6 = new JLabel("Nombre de la empresa");
-		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
-		gbc_lblNewLabel_6.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_6.gridx = 7;
-		gbc_lblNewLabel_6.gridy = 2;
-		panelBuscador.add(lblNewLabel_6, gbc_lblNewLabel_6);
+//		lblNewLabel_6 = new JLabel("Nombre de la empresa");
+//		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+//		gbc_lblNewLabel_6.fill = GridBagConstraints.VERTICAL;
+//		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
+//		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
+//		gbc_lblNewLabel_6.gridx = 7;
+//		gbc_lblNewLabel_6.gridy = 2;
+//		panelBuscador.add(lblNewLabel_6, gbc_lblNewLabel_6);
 		
-		nombreEmpresaTxt = new JTextField();
-		nombreEmpresaTxt.setColumns(10);
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.fill = GridBagConstraints.BOTH;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.gridx = 8;
-		gbc_textField_2.gridy = 2;
-		panelBuscador.add(nombreEmpresaTxt, gbc_textField_2);
+//		textField_2 = new JTextField();
+//		textField_2.setColumns(10);
+//		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+//		gbc_textField_2.fill = GridBagConstraints.BOTH;
+//		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
+//		gbc_textField_2.gridx = 8;
+//		gbc_textField_2.gridy = 2;
+//		panelBuscador.add(textField_2, gbc_textField_2);
 		
 		lblNewLabel_7 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
@@ -252,8 +247,10 @@ public class PanelFunciones extends JPanel
 		GridBagConstraints gbc_buscarButton = new GridBagConstraints();
 		gbc_buscarButton.fill = GridBagConstraints.VERTICAL;
 		gbc_buscarButton.insets = new Insets(0, 0, 5, 5);
-		gbc_buscarButton.gridx = 5;
+		gbc_buscarButton.gridx = 4;
 		gbc_buscarButton.gridy = 4;
+		gbc_buscarButton.gridwidth = 2;
+		gbc_buscarButton.anchor = GridBagConstraints.CENTER;
 		panelBuscador.add(buscarButton, gbc_buscarButton);
 		
 		verticalStrut_2 = Box.createVerticalStrut(10);
@@ -279,7 +276,6 @@ public class PanelFunciones extends JPanel
 		
 		verticalStrut_4 = Box.createVerticalStrut(20);
 		panelNorte.add(verticalStrut_4, BorderLayout.NORTH);
-
 	}
 
 }
