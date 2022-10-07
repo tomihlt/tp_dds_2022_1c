@@ -112,7 +112,8 @@ public class PanelCompetencias extends JPanel
 		
 		nuevoButton = new JButton("Nuevo");
 		nuevoButton.addActionListener(e -> {
-			// TODO
+			JDialog altaComp = new VentanaAltaCompetencia(wWindow,this);
+			altaComp.setVisible(true);
 		});
 		panelDeBotones.add(nuevoButton);
 		

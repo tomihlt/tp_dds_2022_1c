@@ -154,6 +154,7 @@ public class MenuLogInUsuario extends JPanel
 		lblNewLabel_1 = new JLabel("Contraseña");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_1.gridx = 2;
 		gbc_lblNewLabel_1.gridy = 4;
 		panel_2.add(lblNewLabel_1, gbc_lblNewLabel_1);
