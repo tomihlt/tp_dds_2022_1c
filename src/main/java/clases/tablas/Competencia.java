@@ -11,34 +11,11 @@ public class Competencia
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
-	private Map<Funcion, PuntajeNecesario> puntajesNecesariosPorFuncion;
 	private List<Factor> factores;
-	private Funcion funcion;
 
 	public Competencia()
 	{
 		factores = new ArrayList<Factor>();
-		puntajesNecesariosPorFuncion = new HashMap<Funcion, PuntajeNecesario>();
-	}
-
-	public Map<Funcion, PuntajeNecesario> getPuntajesNecesariosPorFuncion()
-	{
-		return puntajesNecesariosPorFuncion;
-	}
-
-	public void setPuntajesNecesariosPorFuncion(Map<Funcion, PuntajeNecesario> puntajesNecesariosPorFuncion)
-	{
-		this.puntajesNecesariosPorFuncion = puntajesNecesariosPorFuncion;
-	}
-
-	public Funcion getFuncion()
-	{
-		return funcion;
-	}
-
-	public void setFuncion(Funcion funcion)
-	{
-		this.funcion = funcion;
 	}
 
 	public List<Factor> getFactores()

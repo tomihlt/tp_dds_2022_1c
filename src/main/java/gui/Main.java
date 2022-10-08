@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import clases.dao.DBConnection;
 import gui.InicioDeSesion.MenuLogIn;
 
 import java.awt.CardLayout;
@@ -49,6 +50,7 @@ public class Main extends JFrame
 //				}
 //			}
 //		});
+		DBConnection.close();
 	}
 
 	/**
