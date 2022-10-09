@@ -22,6 +22,10 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaAltaFuncion extends JDialog
 {
@@ -42,7 +46,7 @@ public class VentanaAltaFuncion extends JDialog
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	private JTextField textField_2;
-	private JComboBox<String> comboBox;
+	private JComboBox<String> empresaCbx;
 	private JLabel lblNewLabel_5;
 	private Component verticalStrut_1;
 	private JPanel panelTablaDecompetencias;
@@ -125,6 +129,21 @@ public class VentanaAltaFuncion extends JDialog
 		panelCargaDeDatosBasicos.add(lblNewLabel_1, gbc_lblNewLabel_1);
 		
 		textField = new JTextField();
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int key = e.getKeyChar();
+
+				boolean mayusculas = key >= 65 && key <= 90;
+				boolean minusculas = key >= 97 && key <= 122;
+				boolean espacio = key == 32;
+
+				if (minusculas || mayusculas || espacio)
+				{
+					e.consume();
+				}
+			}
+		});
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -189,13 +208,13 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_lblNewLabel_4.gridy = 3;
 		panelCargaDeDatosBasicos.add(lblNewLabel_4, gbc_lblNewLabel_4);
 		
-		comboBox = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 5;
-		gbc_comboBox.gridy = 3;
-		panelCargaDeDatosBasicos.add(comboBox, gbc_comboBox);
+		empresaCbx = new JComboBox<String>();
+		GridBagConstraints gbc_empresaCbx = new GridBagConstraints();
+		gbc_empresaCbx.insets = new Insets(0, 0, 5, 5);
+		gbc_empresaCbx.fill = GridBagConstraints.HORIZONTAL;
+		gbc_empresaCbx.gridx = 5;
+		gbc_empresaCbx.gridy = 3;
+		panelCargaDeDatosBasicos.add(empresaCbx, gbc_empresaCbx);
 		
 		lblNewLabel_5 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -240,6 +259,10 @@ public class VentanaAltaFuncion extends JDialog
 		panelTablaDecompetencias.add(panelBotonesTabla, BorderLayout.SOUTH);
 		
 		agregarButton = new JButton("Agregar");
+		agregarButton.addActionListener(e -> {
+			JDialog addCompetencia = new VentanaAgregarCompetencia(wWindow, this);
+			addCompetencia.setVisible(true);			
+		});
 		panelBotonesTabla.add(agregarButton);
 		
 		eliminarButton = new JButton("Eliminar");
