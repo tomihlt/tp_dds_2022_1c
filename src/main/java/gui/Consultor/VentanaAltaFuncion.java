@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 
 import gui.Main;
 import java.awt.Component;
+import java.awt.Cursor;
+
 import javax.swing.Box;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -21,11 +23,19 @@ import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import clases.dto.EmpresaDTO;
+import clases.gestores.GestorFuncion;
+import clases.tablas.Empresa;
+
 import javax.swing.ListSelectionModel;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 public class VentanaAltaFuncion extends JDialog
 {
@@ -57,6 +67,7 @@ public class VentanaAltaFuncion extends JDialog
 	private JPanel panelBotonesTabla;
 	private JButton agregarButton;
 	private JButton eliminarButton;
+	private JLabel agregarEmpresaLabel;
 	/**
 	 * Launch the application.
 	 */
@@ -105,9 +116,9 @@ public class VentanaAltaFuncion extends JDialog
 		panelCargaDeDatosBasicos = new JPanel();
 		panelDeContenido.add(panelCargaDeDatosBasicos);
 		GridBagLayout gbl_panelCargaDeDatosBasicos = new GridBagLayout();
-		gbl_panelCargaDeDatosBasicos.columnWidths = new int[]{0, 0, 140, 0, 0, 154, 0, 0};
+		gbl_panelCargaDeDatosBasicos.columnWidths = new int[]{0, 0, 140, 0, 0, 154, 0, 0, 0};
 		gbl_panelCargaDeDatosBasicos.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panelCargaDeDatosBasicos.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelCargaDeDatosBasicos.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panelCargaDeDatosBasicos.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelCargaDeDatosBasicos.setLayout(gbl_panelCargaDeDatosBasicos);
 		
@@ -216,11 +227,29 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_empresaCbx.gridy = 3;
 		panelCargaDeDatosBasicos.add(empresaCbx, gbc_empresaCbx);
 		
+		agregarEmpresaLabel = new JLabel("Agregar...");
+		agregarEmpresaLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JDialog addEmpresa = new VentanaAgregarEmpresa(wWindow,VentanaAltaFuncion.this);
+				addEmpresa.setVisible(true);
+			}
+		});
+		agregarEmpresaLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		agregarEmpresaLabel.setForeground(new Color(30, 144, 255));
+		agregarEmpresaLabel.setFont(new Font("Calibri", Font.PLAIN, 12));
+		GridBagConstraints gbc_agregarEmpresaLabel = new GridBagConstraints();
+		gbc_agregarEmpresaLabel.anchor = GridBagConstraints.EAST;
+		gbc_agregarEmpresaLabel.insets = new Insets(0, 10, 5, 5);
+		gbc_agregarEmpresaLabel.gridx = 6;
+		gbc_agregarEmpresaLabel.gridy = 3;
+		panelCargaDeDatosBasicos.add(agregarEmpresaLabel, gbc_agregarEmpresaLabel);
+		
 		lblNewLabel_5 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
 		gbc_lblNewLabel_5.weightx = 0.5;
 		gbc_lblNewLabel_5.weighty = 0.5;
-		gbc_lblNewLabel_5.gridx = 6;
+		gbc_lblNewLabel_5.gridx = 7;
 		gbc_lblNewLabel_5.gridy = 4;
 		panelCargaDeDatosBasicos.add(lblNewLabel_5, gbc_lblNewLabel_5);
 		
@@ -267,6 +296,21 @@ public class VentanaAltaFuncion extends JDialog
 		
 		eliminarButton = new JButton("Eliminar");
 		panelBotonesTabla.add(eliminarButton);
+		
+		// Init
+		cargarEmpresas();
+	}
+
+	private void cargarEmpresas()
+	{
+		GestorFuncion gestor = new GestorFuncion();
+		List<EmpresaDTO> empresas = gestor.getAllEmpresas();
+		empresas.forEach(e -> agregarElementoEmpresaCbx(e.getNombre()));
+	}
+
+	public void agregarElementoEmpresaCbx(String str)
+	{
+		empresaCbx.addItem(str);
 	}
 
 }

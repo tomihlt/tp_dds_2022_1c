@@ -1,18 +1,36 @@
 package clases.dao.postgres;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import clases.dao.DBConnection;
 import clases.dao.interfaces.EmpresaDAO;
 import clases.tablas.Empresa;
 
 public class PostgresEmpresa implements EmpresaDAO
 {
 
-	@Override
-	public void add(Empresa t)
-	{
-		// TODO Auto-generated method stub
+	private Connection conn = DBConnection.get();
 
+	@Override
+	public void add(Empresa t) throws SQLException
+	{
+		try (PreparedStatement pstm = conn.prepareStatement("INSERT INTO dds.empresa (nombre) VALUES (?)",
+				PreparedStatement.RETURN_GENERATED_KEYS))
+		{
+			pstm.setString(1, t.getNombre());
+			pstm.executeUpdate();
+			ResultSet rs = pstm.getGeneratedKeys();
+			if (rs.next())
+				t.setId(rs.getInt(1));
+		} catch (SQLException e)
+		{
+			throw e;
+		}
 	}
 
 	@Override
@@ -30,10 +48,25 @@ public class PostgresEmpresa implements EmpresaDAO
 	}
 
 	@Override
-	public List<Empresa> getAll()
+	public List<Empresa> getAll() throws SQLException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<Empresa> results = new ArrayList<Empresa>();
+		try (PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa"))
+		{
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next())
+			{
+				Empresa e = new Empresa();
+				e.setId(rs.getInt(1));
+				e.setNombre(rs.getString(2));
+				results.add(e);
+			}
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+		
+		return results;
 	}
 
 }

@@ -49,7 +49,7 @@ public class VentanaAgregarCompetencia extends JDialog
 	 */
 	public VentanaAgregarCompetencia(Main wWindow, JDialog invocador)
 	{
-		super(wWindow, "Agregar competencia a la función", Dialog.ModalityType.DOCUMENT_MODAL);
+		super(invocador, "Agregar competencia a la función", Dialog.ModalityType.DOCUMENT_MODAL);
 		setLocationRelativeTo(wWindow);
 		this.wWindow = wWindow;
 		this.invocador = invocador;

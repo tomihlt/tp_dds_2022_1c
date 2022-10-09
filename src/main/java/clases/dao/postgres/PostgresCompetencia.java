@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import clases.dao.DBConnection;
 import clases.dao.interfaces.CompetenciaDAO;
 import clases.tablas.Competencia;
@@ -13,12 +15,7 @@ import clases.tablas.Competencia;
 public class PostgresCompetencia implements CompetenciaDAO
 {
 
-	private Connection conn;
-
-	public PostgresCompetencia()
-	{
-		conn = DBConnection.get();
-	}
+	private Connection conn = DBConnection.get();
 
 	@Override
 	public void add(Competencia t) throws SQLException
