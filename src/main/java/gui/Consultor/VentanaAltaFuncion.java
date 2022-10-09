@@ -310,7 +310,7 @@ public class VentanaAltaFuncion extends JDialog
 		eliminarButton.addActionListener(e -> {
 			int irow = table.getSelectedRow();
 			if(-1 != irow)
-				((DefaultTableModel)table.getModel()).removeRow(irow);
+				((DefaultTableModel)table.getModel()).removeRow(irow); //TODO
 		});
 		panelBotonesTabla.add(eliminarButton);
 
@@ -342,7 +342,7 @@ public class VentanaAltaFuncion extends JDialog
 		if(existeComp(comp.getNombre()))
 			throw new Exception("Ya existe esa competencia para la función");
 		else
-			((DefaultTableModel) table.getModel()).addRow(new Object[]{comp.getNombre(), comp.getPonderacion()});
+			((DefaultTableModel) table.getModel()).addRow(new Object[]{comp.getNombre(), comp.getPonderacion()}); // TODO
 	}
 
 	private Boolean existeComp(String nombre)
