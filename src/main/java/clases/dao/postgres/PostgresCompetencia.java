@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -53,10 +54,29 @@ public class PostgresCompetencia implements CompetenciaDAO
 	}
 
 	@Override
-	public List<Competencia> getAll()
+	public List<Competencia> getAll() throws SQLException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<Competencia> resultados = new ArrayList<Competencia>();
+		
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre,codigo,descripcion from dds.competencia"))
+		{
+			ResultSet rs = pstm.executeQuery();
+			Competencia c;
+			while(rs.next())
+			{
+				c = new Competencia();
+				c.setId(rs.getInt(1));
+				c.setNombre(rs.getString(2));
+				c.setCodigo(rs.getInt(3));
+				c.setDescripcion(rs.getString(4));
+				resultados.add(c);
+			}
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+		
+		return resultados;
 	}
 
 }

@@ -146,12 +146,13 @@ public class VentanaAgregarEmpresa extends JDialog
 	{
 		if (!nombreValido())
 		{
-			JOptionPane.showInternalMessageDialog(this, "El nombre de la empresa supera los 200 caracteres", "Error",
+			JOptionPane.showInternalMessageDialog(this,
+					"El nombre de la empresa supera los 200 caracteres o no se facilito uno", "Error",
 					JOptionPane.ERROR_MESSAGE);
-			
+
 			return;
 		}
-		
+
 		EmpresaDAO dao = new PostgresEmpresa();
 		Empresa e = new Empresa();
 		e.setNombre(nombreTxt.getText());
@@ -167,12 +168,12 @@ public class VentanaAgregarEmpresa extends JDialog
 		}
 		((VentanaAltaFuncion) invocador).agregarElementoEmpresaCbx(e.getNombre());
 		dispose();
-		
+
 	}
 
 	private boolean nombreValido()
 	{
-		if (nombreTxt.getText().length() > 200)
+		if (nombreTxt.getText().length() > 200 && !nombreTxt.getText().isEmpty())
 			return false;
 		else
 			return true;
