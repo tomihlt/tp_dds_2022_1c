@@ -342,41 +342,41 @@ public class VentanaAltaFuncion extends JDialog
 			JOptionPane.showMessageDialog(this, "Campos inválidos", "Error de validación", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 		GestorFuncion gestor = new GestorFuncion();
 		FuncionCndeDTO f = new FuncionCndeDTO();
 		List<CompetenciaPuntajeNombreDTO> lc = new ArrayList<CompetenciaPuntajeNombreDTO>();
-		
+
 		f.setNombre(nombreFuncionTxt.getText());
 		f.setCodigo(Integer.parseInt(codigoTxt.getText()));
 		f.setDescripcion(descripcionTxt.getText());
-		f.setEmpresa((String)empresaCbx.getSelectedItem());
-		
+		f.setEmpresa((String) empresaCbx.getSelectedItem());
+
 		CompetenciaPuntajeNombreDTO c = new CompetenciaPuntajeNombreDTO();
-		for(int i = 0 ; i < table.getRowCount() ; i++)
+		for (int i = 0; i < table.getRowCount(); i++)
 		{
 			c = new CompetenciaPuntajeNombreDTO();
-			c.setNombre((String)table.getModel().getValueAt(i, 0));
-			c.setPonderacion((Integer)table.getModel().getValueAt(i, 1));
+			c.setNombre((String) table.getModel().getValueAt(i, 0));
+			c.setPonderacion((Integer) table.getModel().getValueAt(i, 1));
 			lc.add(c);
 		}
-		
+
 		try
 		{
-			gestor.guardarFuncion(f,lc);
+			gestor.guardarFuncion(f, lc);
+			dispose();
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Ya existe una funcion con ese código.", "Error de validación", JOptionPane.ERROR_MESSAGE);
 		}
-		
-		dispose();
+
 	}
 
 	private Boolean validarCampos()
 	{
-		return !(codigoTxt.getText().isBlank() || codigoTxt.getText().isEmpty() || nombreFuncionTxt.getText().isEmpty() || nombreFuncionTxt.getText().length() > 200
-				|| nombreFuncionTxt.getText().isBlank() || descripcionTxt.getText().isEmpty() || descripcionTxt.getText().length() > 500);
+		return !(codigoTxt.getText().isBlank() || codigoTxt.getText().isEmpty() || nombreFuncionTxt.getText().isEmpty()
+				|| nombreFuncionTxt.getText().length() > 200 || nombreFuncionTxt.getText().isBlank()
+				|| descripcionTxt.getText().isEmpty() || descripcionTxt.getText().length() > 500);
 	}
 
 	private void cargarCompetencias()
