@@ -9,6 +9,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import gui.Main;
+import gui.tableRenderersAndModels.CompetenciaPonderacionCellRenderer;
+import gui.tableRenderersAndModels.CompetenciaPonderacionTableModel;
+
 import java.awt.Component;
 import java.awt.Cursor;
 
@@ -288,9 +291,12 @@ public class VentanaAltaFuncion extends JDialog
 
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[]
-		{ "Competencia", "Ponderación" }));
+//		table.setModel(new DefaultTableModel(new Object[][] {}, new String[]
+//		{ "Competencia", "Ponderación" }));
 		table.getTableHeader().setReorderingAllowed(false);
+		table.setModel(new CompetenciaPonderacionTableModel(new Object[][] {}, new String[] {"Competencia", "Ponderación"}));
+		table.setDefaultRenderer(Object.class, new CompetenciaPonderacionCellRenderer());
+		table.setDefaultRenderer(Integer.class, new CompetenciaPonderacionCellRenderer());
 		scrollPane.setViewportView(table);
 
 		panelBotonesTabla = new JPanel();
@@ -342,7 +348,7 @@ public class VentanaAltaFuncion extends JDialog
 		if(existeComp(comp.getNombre()))
 			throw new Exception("Ya existe esa competencia para la función");
 		else
-			((DefaultTableModel) table.getModel()).addRow(new Object[]{comp.getNombre(), comp.getPonderacion()}); // TODO
+			((CompetenciaPonderacionTableModel) table.getModel()).addRow(new Object[]{comp.getNombre(), comp.getPonderacion()}); // TODO
 	}
 
 	private Boolean existeComp(String nombre)
