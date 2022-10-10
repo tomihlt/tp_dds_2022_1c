@@ -2,6 +2,11 @@ package gui.tableRenderersAndModels;
 
 import javax.swing.table.DefaultTableModel;
 
+/*
+ * Este modelo de tabla se usa en:
+ * VentanaAltaFuncion
+ */
+
 public class CompetenciaPonderacionTableModel extends DefaultTableModel
 {
 	private String[] titulos;
