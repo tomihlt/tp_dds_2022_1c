@@ -22,6 +22,7 @@ import java.awt.Insets;
 import javax.swing.JScrollPane;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
@@ -30,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
+import clases.dto.FuncionCndeDTO;
 import clases.gestores.GestorCompetencia;
 import clases.gestores.GestorFuncion;
 import clases.tablas.Empresa;
@@ -41,6 +43,8 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
@@ -50,6 +54,10 @@ public class VentanaAltaFuncion extends JDialog
 {
 	private Main wWindow;
 	private JPanel invocador;
+	/*
+	 * Utilizo una lista de competencias para no consultar a la bdd cada vez que
+	 * quiero añadir una competencia a la nueva funcion
+	 */
 	private List<CompetenciaBasicaDTO> competenciasBasicasDTO;
 
 	private JPanel panelBotones;
@@ -59,14 +67,14 @@ public class VentanaAltaFuncion extends JDialog
 	private JPanel panelCargaDeDatosBasicos;
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
-	private JTextField textField;
+	private JTextField codigoTxt;
 	private Component verticalStrut;
 	private JLabel lblNewLabel_2;
-	private JTextField textField_1;
+	private JTextField descripcionTxt;
 	private Component horizontalStrut;
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	private JTextField textField_2;
+	private JTextField nombreFuncionTxt;
 	private JComboBox<String> empresaCbx;
 	private JLabel lblNewLabel_5;
 	private Component verticalStrut_1;
@@ -118,6 +126,7 @@ public class VentanaAltaFuncion extends JDialog
 		panelBotones.add(cancelarButton);
 
 		aceptarButton = new JButton("Aceptar");
+		aceptarButton.addActionListener(e -> crearFuncion());
 		panelBotones.add(aceptarButton);
 
 		panelDeContenido = new JPanel();
@@ -154,8 +163,8 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_lblNewLabel_1.gridy = 1;
 		panelCargaDeDatosBasicos.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		textField = new JTextField();
-		textField.addKeyListener(new KeyAdapter()
+		codigoTxt = new JTextField();
+		codigoTxt.addKeyListener(new KeyAdapter()
 		{
 			@Override
 			public void keyTyped(KeyEvent e)
@@ -172,13 +181,13 @@ public class VentanaAltaFuncion extends JDialog
 				}
 			}
 		});
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
-		panelCargaDeDatosBasicos.add(textField, gbc_textField);
-		textField.setColumns(10);
+		GridBagConstraints gbc_codigoTxt = new GridBagConstraints();
+		gbc_codigoTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_codigoTxt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_codigoTxt.gridx = 2;
+		gbc_codigoTxt.gridy = 1;
+		panelCargaDeDatosBasicos.add(codigoTxt, gbc_codigoTxt);
+		codigoTxt.setColumns(10);
 
 		horizontalStrut = Box.createHorizontalStrut(20);
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
@@ -187,7 +196,7 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_horizontalStrut.gridy = 1;
 		panelCargaDeDatosBasicos.add(horizontalStrut, gbc_horizontalStrut);
 
-		lblNewLabel_3 = new JLabel("Nombre del puesto");
+		lblNewLabel_3 = new JLabel("Nombre de la función");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
@@ -195,14 +204,14 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_lblNewLabel_3.gridy = 1;
 		panelCargaDeDatosBasicos.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 5;
-		gbc_textField_2.gridy = 1;
-		panelCargaDeDatosBasicos.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		nombreFuncionTxt = new JTextField();
+		GridBagConstraints gbc_nombreFuncionTxt = new GridBagConstraints();
+		gbc_nombreFuncionTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_nombreFuncionTxt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nombreFuncionTxt.gridx = 5;
+		gbc_nombreFuncionTxt.gridy = 1;
+		panelCargaDeDatosBasicos.add(nombreFuncionTxt, gbc_nombreFuncionTxt);
+		nombreFuncionTxt.setColumns(10);
 
 		verticalStrut = Box.createVerticalStrut(20);
 		GridBagConstraints gbc_verticalStrut = new GridBagConstraints();
@@ -219,14 +228,14 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_lblNewLabel_2.gridy = 3;
 		panelCargaDeDatosBasicos.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 2;
-		gbc_textField_1.gridy = 3;
-		panelCargaDeDatosBasicos.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		descripcionTxt = new JTextField();
+		GridBagConstraints gbc_descripcionTxt = new GridBagConstraints();
+		gbc_descripcionTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_descripcionTxt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_descripcionTxt.gridx = 2;
+		gbc_descripcionTxt.gridy = 3;
+		panelCargaDeDatosBasicos.add(descripcionTxt, gbc_descripcionTxt);
+		descripcionTxt.setColumns(10);
 
 		lblNewLabel_4 = new JLabel("Empresa");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
@@ -294,7 +303,8 @@ public class VentanaAltaFuncion extends JDialog
 //		table.setModel(new DefaultTableModel(new Object[][] {}, new String[]
 //		{ "Competencia", "Ponderación" }));
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setModel(new CompetenciaPonderacionTableModel(new Object[][] {}, new String[] {"Competencia", "Ponderación"}));
+		table.setModel(new CompetenciaPonderacionTableModel(new Object[][] {}, new String[]
+		{ "Competencia", "Ponderación" }));
 		table.setDefaultRenderer(Object.class, new CompetenciaPonderacionCellRenderer());
 		table.setDefaultRenderer(Integer.class, new CompetenciaPonderacionCellRenderer());
 		scrollPane.setViewportView(table);
@@ -315,14 +325,58 @@ public class VentanaAltaFuncion extends JDialog
 		eliminarButton = new JButton("Eliminar");
 		eliminarButton.addActionListener(e -> {
 			int irow = table.getSelectedRow();
-			if(-1 != irow)
-				((DefaultTableModel)table.getModel()).removeRow(irow); //TODO
+			if (-1 != irow)
+				((DefaultTableModel) table.getModel()).removeRow(irow); // TODO
 		});
 		panelBotonesTabla.add(eliminarButton);
 
 		// Init
 		cargarEmpresas();
 		cargarCompetencias();
+	}
+
+	private void crearFuncion()
+	{
+		if (!validarCampos())
+		{
+			JOptionPane.showMessageDialog(this, "Campos inválidos", "Error de validación", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		
+		GestorFuncion gestor = new GestorFuncion();
+		FuncionCndeDTO f = new FuncionCndeDTO();
+		List<CompetenciaPuntajeNombreDTO> lc = new ArrayList<CompetenciaPuntajeNombreDTO>();
+		
+		f.setNombre(nombreFuncionTxt.getText());
+		f.setCodigo(Integer.parseInt(codigoTxt.getText()));
+		f.setDescripcion(descripcionTxt.getText());
+		f.setEmpresa((String)empresaCbx.getSelectedItem());
+		
+		CompetenciaPuntajeNombreDTO c = new CompetenciaPuntajeNombreDTO();
+		for(int i = 0 ; i < table.getRowCount() ; i++)
+		{
+			c = new CompetenciaPuntajeNombreDTO();
+			c.setNombre((String)table.getModel().getValueAt(i, 0));
+			c.setPonderacion((Integer)table.getModel().getValueAt(i, 1));
+			lc.add(c);
+		}
+		
+		try
+		{
+			gestor.guardarFuncion(f,lc);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		dispose();
+	}
+
+	private Boolean validarCampos()
+	{
+		return !(codigoTxt.getText().isBlank() || codigoTxt.getText().isEmpty() || nombreFuncionTxt.getText().isEmpty() || nombreFuncionTxt.getText().length() > 200
+				|| nombreFuncionTxt.getText().isBlank() || descripcionTxt.getText().isEmpty() || descripcionTxt.getText().length() > 500);
 	}
 
 	private void cargarCompetencias()
@@ -345,19 +399,20 @@ public class VentanaAltaFuncion extends JDialog
 
 	public void agregarCompetenciaTabla(CompetenciaPuntajeNombreDTO comp) throws Exception
 	{
-		if(existeComp(comp.getNombre()))
+		if (existeComp(comp.getNombre()))
 			throw new Exception("Ya existe esa competencia para la función");
 		else
-			((CompetenciaPonderacionTableModel) table.getModel()).addRow(new Object[]{comp.getNombre(), comp.getPonderacion()}); // TODO
+			((CompetenciaPonderacionTableModel) table.getModel()).addRow(new Object[]
+			{ comp.getNombre(), comp.getPonderacion() });
 	}
 
 	private Boolean existeComp(String nombre)
 	{
-		
-		for(int i = 0 ; i < table.getRowCount() ; i++)
-			if(((String) table.getValueAt(i, 0)).equals(nombre))
+
+		for (int i = 0; i < table.getRowCount(); i++)
+			if (((String) table.getValueAt(i, 0)).equals(nombre))
 				return true;
-		
+
 		return false;
 	}
 

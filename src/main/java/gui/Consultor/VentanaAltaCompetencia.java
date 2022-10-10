@@ -213,6 +213,7 @@ public class VentanaAltaCompetencia extends JDialog
 			Competencia comp = new Competencia();
 			comp.setCodigo(Integer.parseInt(codigoTxt.getText()));
 			comp.setNombre(nombreTxt.getText());
+			comp.setEliminado(false);
 			comp.setDescripcion(descripcionTxt.getText());
 
 			CompetenciaDAO dao = new PostgresCompetencia();

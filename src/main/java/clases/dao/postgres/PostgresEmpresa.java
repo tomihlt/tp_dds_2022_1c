@@ -69,4 +69,25 @@ public class PostgresEmpresa implements EmpresaDAO
 		return results;
 	}
 
+	@Override
+	public Empresa findByName(String name) throws SQLException
+	{
+		Empresa emp = new Empresa();
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa WHERE nombre = ?"))
+		{
+			pstm.setString(1, name);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				emp.setId(rs.getInt(1));
+				emp.setNombre(rs.getString(2));
+			}
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+		
+		return emp;
+	}
+
 }

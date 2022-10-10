@@ -1,7 +1,7 @@
 package clases.tablas;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Funcion
 {
@@ -11,11 +11,11 @@ public class Funcion
 	private String descripcion;
 	private Boolean eliminado;
 	private Empresa empresa;
-	private Map<Competencia, PuntajeNecesario> puntajeNecesarioPorCompetencia;
+	private List<PuntajeNecesario> puntajeNecesarioPorCompetencia;
 
 	public Funcion()
 	{
-		puntajeNecesarioPorCompetencia = new HashMap<Competencia, PuntajeNecesario>();
+		puntajeNecesarioPorCompetencia = new ArrayList<PuntajeNecesario>();
 		eliminado = false;
 	}
 
@@ -29,12 +29,12 @@ public class Funcion
 		this.eliminado = eliminado;
 	}
 
-	public Map<Competencia, PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
+	public List<PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
 	{
 		return puntajeNecesarioPorCompetencia;
 	}
 
-	public void setPuntajeNecesarioPorCompetencia(Map<Competencia, PuntajeNecesario> puntajeNecesarioPorCompetencia)
+	public void setPuntajeNecesarioPorCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia)
 	{
 		this.puntajeNecesarioPorCompetencia = puntajeNecesarioPorCompetencia;
 	}
@@ -88,5 +88,9 @@ public class Funcion
 	{
 		this.descripcion = descripcion;
 	}
-
+	
+	public void addCompetencia(PuntajeNecesario p)
+	{
+		puntajeNecesarioPorCompetencia.add(p);
+	}
 }

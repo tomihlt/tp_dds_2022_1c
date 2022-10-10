@@ -11,11 +11,22 @@ public class Competencia
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
+	private Boolean eliminado;
 	private List<Factor> factores;
 
 	public Competencia()
 	{
 		factores = new ArrayList<Factor>();
+	}
+
+	public Boolean getEliminado()
+	{
+		return eliminado;
+	}
+
+	public void setEliminado(Boolean eliminado)
+	{
+		this.eliminado = eliminado;
 	}
 
 	public List<Factor> getFactores()
