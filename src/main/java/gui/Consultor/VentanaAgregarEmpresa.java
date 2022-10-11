@@ -146,7 +146,7 @@ public class VentanaAgregarEmpresa extends JDialog
 	{
 		if (!nombreValido())
 		{
-			JOptionPane.showInternalMessageDialog(this,
+			JOptionPane.showMessageDialog(this,
 					"El nombre de la empresa supera los 200 caracteres o no se facilito uno", "Error",
 					JOptionPane.ERROR_MESSAGE);
 
@@ -173,10 +173,7 @@ public class VentanaAgregarEmpresa extends JDialog
 
 	private boolean nombreValido()
 	{
-		if (nombreTxt.getText().length() > 200 && !nombreTxt.getText().isEmpty())
-			return false;
-		else
-			return true;
+		return !(nombreTxt.getText().isEmpty() || nombreTxt.getText().isBlank() || nombreTxt.getText().length() > 200);
 	}
 
 }
