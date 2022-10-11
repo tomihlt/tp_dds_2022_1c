@@ -125,7 +125,7 @@ public class VentanaAgregarCompetencia extends JDialog
 		contentPanel.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
 		ponderacionTxt = new JSpinner();
-		ponderacionTxt.setModel(new SpinnerNumberModel(0, 0, 10, 1));
+		ponderacionTxt.setModel(new SpinnerNumberModel(1, 1, 10, 1));
 		GridBagConstraints gbc_ponderacionTxt = new GridBagConstraints();
 		gbc_ponderacionTxt.fill = GridBagConstraints.BOTH;
 		gbc_ponderacionTxt.insets = new Insets(0, 0, 5, 5);
@@ -163,6 +163,13 @@ public class VentanaAgregarCompetencia extends JDialog
 		CompetenciaPuntajeNombreDTO comp = new CompetenciaPuntajeNombreDTO();
 		comp.setNombre((String) competenciaCbx.getSelectedItem());
 		comp.setPonderacion((Integer) ponderacionTxt.getValue());
+
+		if (competenciaCbx.getSelectedItem() == null)
+		{
+			JOptionPane.showMessageDialog(this, "No se ha seleccionado una competencia", "Error",
+					JOptionPane.WARNING_MESSAGE);
+			return;
+		}
 
 		try
 		{

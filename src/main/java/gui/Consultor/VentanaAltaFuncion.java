@@ -326,7 +326,7 @@ public class VentanaAltaFuncion extends JDialog
 		eliminarButton.addActionListener(e -> {
 			int irow = table.getSelectedRow();
 			if (-1 != irow)
-				((DefaultTableModel) table.getModel()).removeRow(irow); // TODO
+				((DefaultTableModel) table.getModel()).removeRow(irow);
 		});
 		panelBotonesTabla.add(eliminarButton);
 
@@ -339,6 +339,13 @@ public class VentanaAltaFuncion extends JDialog
 	{
 		if (!validarCampos())
 		{
+			if (empresaCbx.getSelectedItem() == null)
+			{
+				JOptionPane.showMessageDialog(this, "No se ha seleccionado una funcion", "Error",
+						JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+
 			JOptionPane.showMessageDialog(this, "Campos inválidos", "Error de validación", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -367,7 +374,8 @@ public class VentanaAltaFuncion extends JDialog
 			dispose();
 		} catch (SQLException e)
 		{
-			JOptionPane.showMessageDialog(this, "Ya existe una funcion con ese código.", "Error de validación", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Ya existe una funcion con ese código.", "Error de validación",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
