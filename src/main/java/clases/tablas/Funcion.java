@@ -88,8 +88,10 @@ public class Funcion
 	{
 		this.descripcion = descripcion;
 	}
-	
-	public void addCompetencia(PuntajeNecesario p)
+
+	public void addCompetencia(PuntajeNecesario p) // En el diagrama de clases figura tambien se pasa el puntaje como
+													// parametro, es innecesario ya que el puntaje necesario esta en la
+													// clase PuntajeNecesario
 	{
 		puntajeNecesarioPorCompetencia.add(p);
 	}
