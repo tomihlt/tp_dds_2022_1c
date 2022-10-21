@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.OpcionDeRespuesta;
+import clases.entidades.OpcionDeRespuesta;
 
 public interface OpcionDeRespuestaDAO extends CRUD<OpcionDeRespuesta>
 {

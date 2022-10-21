@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.BloqueDAO;
-import clases.tablas.Bloque;
+import clases.entidades.Bloque;
 
 public class PostgresBloque implements BloqueDAO
 {

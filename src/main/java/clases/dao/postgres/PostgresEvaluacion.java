@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.EvaluacionDAO;
-import clases.tablas.Evaluacion;
+import clases.entidades.Evaluacion;
 
 public class PostgresEvaluacion implements EvaluacionDAO
 {

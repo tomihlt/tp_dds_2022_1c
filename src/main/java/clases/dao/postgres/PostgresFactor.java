@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.FactorDAO;
-import clases.tablas.Factor;
+import clases.entidades.Factor;
 
 public class PostgresFactor implements FactorDAO
 {

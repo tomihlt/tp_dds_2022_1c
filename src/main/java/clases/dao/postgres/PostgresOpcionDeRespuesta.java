@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.OpcionDeRespuestaDAO;
-import clases.tablas.OpcionDeRespuesta;
+import clases.entidades.OpcionDeRespuesta;
 
 public class PostgresOpcionDeRespuesta implements OpcionDeRespuestaDAO
 {

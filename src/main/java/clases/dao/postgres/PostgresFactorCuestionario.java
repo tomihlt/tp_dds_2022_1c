@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.FactorCuestionarioDAO;
-import clases.tablas.FactorCuestionario;
+import clases.entidades.FactorCuestionario;
 
 public class PostgresFactorCuestionario implements FactorCuestionarioDAO
 {

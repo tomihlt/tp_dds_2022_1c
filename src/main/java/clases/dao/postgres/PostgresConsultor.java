@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.ConsultorDAO;
-import clases.tablas.Consultor;
+import clases.entidades.Consultor;
 
 public class PostgresConsultor implements ConsultorDAO
 {

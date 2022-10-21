@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.Bloque;
+import clases.entidades.Bloque;
 
 public interface BloqueDAO extends CRUD<Bloque>
 {

@@ -8,8 +8,8 @@ import java.util.List;
 
 import clases.dao.DBConnection;
 import clases.dao.interfaces.FuncionDAO;
-import clases.tablas.Funcion;
-import clases.tablas.PuntajeNecesario;
+import clases.entidades.Funcion;
+import clases.entidades.PuntajeNecesario;
 
 public class PostgresFuncion implements FuncionDAO
 {

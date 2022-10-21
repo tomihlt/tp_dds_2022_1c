@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.Factor;
+import clases.entidades.Factor;
 
 public interface FactorDAO extends CRUD<Factor>
 {

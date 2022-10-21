@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 
 import clases.dao.interfaces.EmpresaDAO;
 import clases.dao.postgres.PostgresEmpresa;
-import clases.tablas.Empresa;
+import clases.entidades.Empresa;
 import gui.Main;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;

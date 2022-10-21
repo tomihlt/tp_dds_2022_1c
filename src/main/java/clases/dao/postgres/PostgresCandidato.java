@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.CandidatoDAO;
-import clases.tablas.Candidato;
+import clases.entidades.Candidato;
 
 public class PostgresCandidato implements CandidatoDAO
 {

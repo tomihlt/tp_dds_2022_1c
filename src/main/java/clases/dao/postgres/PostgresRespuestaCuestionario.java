@@ -3,7 +3,7 @@ package clases.dao.postgres;
 import java.util.List;
 
 import clases.dao.interfaces.RespuestaCuestionarioDAO;
-import clases.tablas.RespuestaCuestionario;
+import clases.entidades.RespuestaCuestionario;
 
 public class PostgresRespuestaCuestionario implements RespuestaCuestionarioDAO
 {

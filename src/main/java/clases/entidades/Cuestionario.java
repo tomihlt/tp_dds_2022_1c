@@ -1,4 +1,4 @@
-package clases.tablas;
+package clases.entidades;
 
 import java.time.Instant;
 import java.time.LocalDate;

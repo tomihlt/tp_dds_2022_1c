@@ -1,41 +1,44 @@
-package clases.tablas;
+package clases.entidades;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class Factor
+public class FactorCuestionario
 {
 	private Integer id;
 	private String nombre;
 	private String descripcion;
 	private Integer codigo;
 	private Integer nroOrden;
-	private Competencia competencia;
-	private List<Pregunta> preguntas;
+	private Integer puntajeObtenido;
+	private CompetenciaCuestionario competencia;
+	private PreguntaCuestionario pregunta; // TODO
 
-	public Factor()
-	{
-		preguntas = new ArrayList<Pregunta>();
-	}
-
-	public Competencia getCompetencia()
+	public CompetenciaCuestionario getCompetencia()
 	{
 		return competencia;
 	}
 
-	public void setCompetencia(Competencia competencia)
+	public Integer getPuntajeObtenido()
+	{
+		return puntajeObtenido;
+	}
+
+	public void setPuntajeObtenido(Integer puntajeObtenido)
+	{
+		this.puntajeObtenido = puntajeObtenido;
+	}
+
+	public void setCompetencia(CompetenciaCuestionario competencia)
 	{
 		this.competencia = competencia;
 	}
 
-	public List<Pregunta> getPreguntas()
+	public PreguntaCuestionario getPregunta()
 	{
-		return preguntas;
+		return pregunta;
 	}
 
-	public void setPreguntas(List<Pregunta> preguntas)
+	public void setPregunta(PreguntaCuestionario pregunta)
 	{
-		this.preguntas = preguntas;
+		this.pregunta = pregunta;
 	}
 
 	public Integer getId()

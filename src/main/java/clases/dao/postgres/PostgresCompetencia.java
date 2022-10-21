@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 import clases.dao.DBConnection;
 import clases.dao.interfaces.CompetenciaDAO;
-import clases.tablas.Competencia;
+import clases.entidades.Competencia;
 
 public class PostgresCompetencia implements CompetenciaDAO
 {

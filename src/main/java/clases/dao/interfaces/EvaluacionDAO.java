@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.Evaluacion;
+import clases.entidades.Evaluacion;
 
 public interface EvaluacionDAO extends CRUD<Evaluacion>
 {

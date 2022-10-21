@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.Funcion;
+import clases.entidades.Funcion;
 
 public interface FuncionDAO extends CRUD<Funcion>
 {

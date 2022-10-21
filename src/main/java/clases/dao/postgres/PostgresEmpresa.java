@@ -9,7 +9,7 @@ import java.util.List;
 
 import clases.dao.DBConnection;
 import clases.dao.interfaces.EmpresaDAO;
-import clases.tablas.Empresa;
+import clases.entidades.Empresa;
 
 public class PostgresEmpresa implements EmpresaDAO
 {

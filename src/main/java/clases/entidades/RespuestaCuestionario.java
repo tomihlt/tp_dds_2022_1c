@@ -1,4 +1,4 @@
-package clases.tablas;
+package clases.entidades;
 
 public class RespuestaCuestionario
 {

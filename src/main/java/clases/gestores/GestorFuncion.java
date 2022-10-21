@@ -16,10 +16,10 @@ import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
 import clases.dto.FuncionCndeDTO;
-import clases.tablas.Competencia;
-import clases.tablas.Empresa;
-import clases.tablas.Funcion;
-import clases.tablas.PuntajeNecesario;
+import clases.entidades.Competencia;
+import clases.entidades.Empresa;
+import clases.entidades.Funcion;
+import clases.entidades.PuntajeNecesario;
 
 public class GestorFuncion
 {

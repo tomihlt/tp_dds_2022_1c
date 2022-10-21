@@ -7,7 +7,7 @@ import java.util.List;
 import clases.dao.interfaces.CompetenciaDAO;
 import clases.dao.postgres.PostgresCompetencia;
 import clases.dto.CompetenciaBasicaDTO;
-import clases.tablas.Competencia;
+import clases.entidades.Competencia;
 
 public class GestorCompetencia
 {

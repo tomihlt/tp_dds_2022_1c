@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.CompetenciaCuestionario;
+import clases.entidades.CompetenciaCuestionario;
 
 public interface CompetenciaCuestionarioDAO extends CRUD<CompetenciaCuestionario>
 {

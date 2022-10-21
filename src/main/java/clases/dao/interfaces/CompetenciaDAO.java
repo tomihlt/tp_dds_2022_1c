@@ -3,7 +3,7 @@ package clases.dao.interfaces;
 import java.sql.SQLException;
 import java.util.List;
 
-import clases.tablas.Competencia;
+import clases.entidades.Competencia;
 
 public interface CompetenciaDAO extends CRUD<Competencia>
 {

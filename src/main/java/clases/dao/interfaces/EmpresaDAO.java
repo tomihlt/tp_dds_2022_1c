@@ -2,7 +2,7 @@ package clases.dao.interfaces;
 
 import java.sql.SQLException;
 
-import clases.tablas.Empresa;
+import clases.entidades.Empresa;
 
 public interface EmpresaDAO extends CRUD<Empresa>
 {

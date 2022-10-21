@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import clases.dao.interfaces.CRUD;
 import clases.dao.interfaces.CompetenciaDAO;
 import clases.dao.postgres.PostgresCompetencia;
-import clases.tablas.Competencia;
+import clases.entidades.Competencia;
 
 import java.awt.Component;
 import javax.swing.Box;

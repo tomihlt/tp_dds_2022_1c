@@ -32,9 +32,9 @@ import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
 import clases.dto.FuncionCndeDTO;
+import clases.entidades.Empresa;
 import clases.gestores.GestorCompetencia;
 import clases.gestores.GestorFuncion;
-import clases.tablas.Empresa;
 
 import javax.swing.ListSelectionModel;
 import java.awt.event.KeyAdapter;

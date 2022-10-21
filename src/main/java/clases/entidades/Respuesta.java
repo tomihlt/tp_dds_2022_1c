@@ -1,17 +1,17 @@
-package clases.tablas;
+package clases.entidades;
 
-public class Pregunta
+public class Respuesta
 {
 	private Integer id;
 	private String nombre;
 	private String descripcion;
-	private Factor factor;
+	private Integer ordenVisualizacion;
 	private Ponderacion ponderacion;
 	private OpcionDeRespuesta opcionDeRespuesta;
 
-	public Factor getFactor()
+	public OpcionDeRespuesta getOpcionDeRespuesta()
 	{
-		return factor;
+		return opcionDeRespuesta;
 	}
 
 	public Ponderacion getPonderacion()
@@ -22,16 +22,6 @@ public class Pregunta
 	public void setPonderacion(Ponderacion ponderacion)
 	{
 		this.ponderacion = ponderacion;
-	}
-
-	public void setFactor(Factor factor)
-	{
-		this.factor = factor;
-	}
-
-	public OpcionDeRespuesta getOpcionDeRespuesta()
-	{
-		return opcionDeRespuesta;
 	}
 
 	public void setOpcionDeRespuesta(OpcionDeRespuesta opcionDeRespuesta)
@@ -67,6 +57,16 @@ public class Pregunta
 	public void setDescripcion(String descripcion)
 	{
 		this.descripcion = descripcion;
+	}
+
+	public Integer getOrdenVisualizacion()
+	{
+		return ordenVisualizacion;
+	}
+
+	public void setOrdenVisualizacion(Integer ordenVisualizacion)
+	{
+		this.ordenVisualizacion = ordenVisualizacion;
 	}
 
 }

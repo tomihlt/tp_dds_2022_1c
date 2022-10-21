@@ -1,6 +1,6 @@
 package clases.dao.interfaces;
 
-import clases.tablas.Pregunta;
+import clases.entidades.Pregunta;
 
 public interface PreguntaDAO extends CRUD<Pregunta>
 {
