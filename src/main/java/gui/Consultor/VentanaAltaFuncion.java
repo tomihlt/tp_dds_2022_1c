@@ -341,7 +341,7 @@ public class VentanaAltaFuncion extends JDialog
 		{
 			if (empresaCbx.getSelectedItem() == null)
 			{
-				JOptionPane.showMessageDialog(this, "No se ha seleccionado una funcion", "Error",
+				JOptionPane.showMessageDialog(this, "No se ha seleccionado una empresa", "Error",
 						JOptionPane.WARNING_MESSAGE);
 				return;
 			}
