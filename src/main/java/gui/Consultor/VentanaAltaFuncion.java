@@ -9,8 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import gui.Main;
-import gui.tableRenderersAndModels.CompetenciaPonderacionCellRenderer;
-import gui.tableRenderersAndModels.CompetenciaPonderacionTableModel;
+import gui.tableRenderersYTableModels.CompetenciaPonderacionCellRenderer;
+import gui.tableRenderersYTableModels.CompetenciaPonderacionTableModel;
 
 import java.awt.Component;
 import java.awt.Cursor;

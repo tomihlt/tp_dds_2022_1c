@@ -1,4 +1,4 @@
-package gui.tableRenderersAndModels;
+package gui.tableRenderersYTableModels;
 
 import java.awt.Color;
 import java.awt.Component;

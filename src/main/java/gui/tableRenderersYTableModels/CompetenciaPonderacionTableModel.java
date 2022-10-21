@@ -1,4 +1,4 @@
-package gui.tableRenderersAndModels;
+package gui.tableRenderersYTableModels;
 
 import javax.swing.table.DefaultTableModel;
 
