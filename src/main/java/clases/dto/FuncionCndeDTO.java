@@ -2,6 +2,7 @@ package clases.dto;
 
 public class FuncionCndeDTO
 {
+	private Integer id;
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
@@ -47,4 +48,20 @@ public class FuncionCndeDTO
 		this.empresa = empresa;
 	}
 
+	public Integer getId()
+	{
+		return id;
+	}
+
+	public void setId(Integer id)
+	{
+		this.id = id;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return nombre;
+	}
+	
 }

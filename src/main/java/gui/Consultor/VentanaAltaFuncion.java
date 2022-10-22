@@ -75,7 +75,7 @@ public class VentanaAltaFuncion extends JDialog
 	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
 	private JTextField nombreFuncionTxt;
-	private JComboBox<String> empresaCbx;
+	private JComboBox<EmpresaDTO> empresaCbx;
 	private JLabel lblNewLabel_5;
 	private Component verticalStrut_1;
 	private JPanel panelTablaDecompetencias;
@@ -245,7 +245,7 @@ public class VentanaAltaFuncion extends JDialog
 		gbc_lblNewLabel_4.gridy = 3;
 		panelCargaDeDatosBasicos.add(lblNewLabel_4, gbc_lblNewLabel_4);
 
-		empresaCbx = new JComboBox<String>();
+		empresaCbx = new JComboBox<EmpresaDTO>();
 		GridBagConstraints gbc_empresaCbx = new GridBagConstraints();
 		gbc_empresaCbx.insets = new Insets(0, 0, 5, 5);
 		gbc_empresaCbx.fill = GridBagConstraints.HORIZONTAL;
@@ -397,12 +397,12 @@ public class VentanaAltaFuncion extends JDialog
 	{
 		GestorFuncion gestor = new GestorFuncion();
 		List<EmpresaDTO> empresas = gestor.getAllEmpresas();
-		empresas.forEach(e -> agregarElementoEmpresaCbx(e.getNombre()));
+		empresas.forEach(e -> agregarElementoEmpresaCbx(e));
 	}
 
-	public void agregarElementoEmpresaCbx(String str)
+	public void agregarElementoEmpresaCbx(EmpresaDTO e)
 	{
-		empresaCbx.addItem(str);
+		empresaCbx.addItem(e);
 	}
 
 	public void agregarCompetenciaTabla(CompetenciaPuntajeNombreDTO comp) throws Exception
@@ -412,6 +412,7 @@ public class VentanaAltaFuncion extends JDialog
 		else
 			((CompetenciaPonderacionTableModel) table.getModel()).addRow(new Object[]
 			{ comp.getNombre(), comp.getPonderacion() });
+
 	}
 
 	private Boolean existeComp(String nombre)

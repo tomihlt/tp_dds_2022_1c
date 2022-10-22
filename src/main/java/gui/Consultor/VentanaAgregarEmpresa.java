@@ -11,7 +11,9 @@ import javax.swing.border.EmptyBorder;
 
 import clases.dao.interfaces.EmpresaDAO;
 import clases.dao.postgres.PostgresEmpresa;
+import clases.dto.EmpresaDTO;
 import clases.entidades.Empresa;
+import clases.gestores.GestorFuncion;
 import gui.Main;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
@@ -153,12 +155,27 @@ public class VentanaAgregarEmpresa extends JDialog
 			return;
 		}
 
-		EmpresaDAO dao = new PostgresEmpresa();
-		Empresa e = new Empresa();
-		e.setNombre(nombreTxt.getText());
+//		EmpresaDAO dao = new PostgresEmpresa();
+//		Empresa e = new Empresa();
+//		e.setNombre(nombreTxt.getText());
+//		try
+//		{													Esto lo hace el GestorFuncion
+//			dao.add(e);
+//			dispose();
+//		} catch (SQLException e1)
+//		{
+//			JOptionPane.showInternalMessageDialog(this, "No se pudo agregar la empresa a la BDD", "Error BDD",
+//					JOptionPane.ERROR_MESSAGE);
+//			e1.printStackTrace();
+//		}
+
+		GestorFuncion gest = new GestorFuncion();
+		EmpresaDTO e = new EmpresaDTO();
+		e.setNombre(nombreTxt.getText().toString());
 		try
 		{
-			dao.add(e);
+			gest.addEmpresa(e);
+			((VentanaAltaFuncion) invocador).agregarElementoEmpresaCbx(e);
 			dispose();
 		} catch (SQLException e1)
 		{
@@ -166,8 +183,6 @@ public class VentanaAgregarEmpresa extends JDialog
 					JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 		}
-		((VentanaAltaFuncion) invocador).agregarElementoEmpresaCbx(e.getNombre());
-		dispose();
 
 	}
 

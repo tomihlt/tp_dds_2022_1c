@@ -35,7 +35,7 @@ public class VentanaAgregarCompetencia extends JDialog
 	private List<CompetenciaBasicaDTO> competencias;
 	private final JPanel contentPanel = new JPanel();
 	private JSpinner ponderacionTxt;
-	private JComboBox<String> competenciaCbx;
+	private JComboBox<CompetenciaBasicaDTO> competenciaCbx;
 
 	/**
 	 * Launch the application.
@@ -96,7 +96,7 @@ public class VentanaAgregarCompetencia extends JDialog
 		gbc_lblNewLabel_2.gridy = 1;
 		contentPanel.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		competenciaCbx = new JComboBox<String>();
+		competenciaCbx = new JComboBox<CompetenciaBasicaDTO>();
 		GridBagConstraints gbc_competenciaCbx = new GridBagConstraints();
 		gbc_competenciaCbx.insets = new Insets(0, 0, 5, 5);
 		gbc_competenciaCbx.fill = GridBagConstraints.HORIZONTAL;
@@ -105,7 +105,7 @@ public class VentanaAgregarCompetencia extends JDialog
 		contentPanel.add(competenciaCbx, gbc_competenciaCbx);
 		for (CompetenciaBasicaDTO c : competencias)
 		{
-			competenciaCbx.addItem(c.getNombre());
+			competenciaCbx.addItem(c);
 		}
 
 		JLabel lblNewLabel_4 = new JLabel("");

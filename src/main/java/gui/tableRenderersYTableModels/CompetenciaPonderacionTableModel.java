@@ -2,6 +2,8 @@ package gui.tableRenderersYTableModels;
 
 import javax.swing.table.DefaultTableModel;
 
+import clases.dto.CompetenciaBasicaDTO;
+
 /*
  * Este modelo de tabla se usa en:
  * VentanaAltaFuncion
@@ -30,7 +32,7 @@ public class CompetenciaPonderacionTableModel extends DefaultTableModel
 	public Class<?> getColumnClass(int columnIndex)
 	{
 		if(columnIndex == 0)
-			return String.class;
+			return CompetenciaBasicaDTO.class;
 		else
 			return Integer.class;
 	}

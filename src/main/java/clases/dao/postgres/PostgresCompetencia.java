@@ -58,8 +58,8 @@ public class PostgresCompetencia implements CompetenciaDAO
 	{
 		List<Competencia> resultados = new ArrayList<Competencia>();
 
-		try (PreparedStatement pstm = conn
-				.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado from dds.competencia WHERE eliminado = false"))
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT id,nombre,codigo,descripcion,eliminado from dds.competencia WHERE eliminado = false"))
 		{
 			ResultSet rs = pstm.executeQuery();
 			Competencia c;
@@ -85,8 +85,8 @@ public class PostgresCompetencia implements CompetenciaDAO
 	public List<Competencia> findByName(List<String> names) throws SQLException
 	{
 		List<Competencia> result = new ArrayList<Competencia>();
-		
-		for(String nombre : names)
+
+		for (String nombre : names)
 		{
 			try
 			{
@@ -96,7 +96,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 				throw e;
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -110,7 +110,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 		{
 			pstm.setString(1, name);
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 			{
 				c.setId(rs.getInt(1));
 				c.setNombre(rs.getString(2));
@@ -118,14 +118,14 @@ public class PostgresCompetencia implements CompetenciaDAO
 				c.setEliminado(rs.getBoolean(4));
 				c.setDescripcion(rs.getString(5));
 			}
-			
+
 		} catch (SQLException e)
 		{
 			throw e;
 		}
-		
+
 		return c;
-		
+
 	}
 
 }

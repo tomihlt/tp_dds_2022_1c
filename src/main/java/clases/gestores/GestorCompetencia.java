@@ -25,6 +25,7 @@ public class GestorCompetencia
 			{
 				comp = new CompetenciaBasicaDTO();
 				comp.setNombre(c.getNombre());
+				comp.setId(c.getId());
 				comps.add(comp);
 			}
 			

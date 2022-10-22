@@ -23,6 +23,7 @@ public class PostgresFuncion implements FuncionDAO
 				"INSERT INTO dds.funcion (id_empresa,nombre,codigo,descripcion,eliminado) VALUES (?,?,?,?,?)",
 				PreparedStatement.RETURN_GENERATED_KEYS))
 		{
+			conn.setAutoCommit(false);
 			pstm.setInt(1, t.getEmpresa().getId());
 			pstm.setString(2, t.getNombre());
 			pstm.setInt(3, t.getCodigo());
@@ -30,24 +31,29 @@ public class PostgresFuncion implements FuncionDAO
 			pstm.setBoolean(5, t.getEliminado());
 			pstm.executeUpdate();
 			ResultSet rs = pstm.getGeneratedKeys();
-			if(rs.next())
+			if (rs.next())
 				t.setId(rs.getInt(1));
-			
-			addCompetencia(t.getPuntajeNecesarioPorCompetencia());
-			
+
+			addPuntajeCompetencia(t.getPuntajeNecesarioPorCompetencia());
+			conn.commit();
 		} catch (SQLException e)
 		{
+			conn.rollback();
 			throw e;
+		} finally
+		{
+			conn.setAutoCommit(true);
 		}
 	}
 
-	private void addCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia) throws SQLException
+	private void addPuntajeCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia) throws SQLException
 	{
-		try(PreparedStatement pstm = conn.prepareStatement("INSERT INTO dds.funcion_competencias (funcion,competencia,puntaje_necesario) VALUES (?,?,?)"))
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"INSERT INTO dds.funcion_competencias (funcion,competencia,puntaje_necesario) VALUES (?,?,?)"))
 		{
-			for(PuntajeNecesario p : puntajeNecesarioPorCompetencia)
+			for (PuntajeNecesario p : puntajeNecesarioPorCompetencia)
 			{
-				pstm.setInt(1,p.getFuncion().getId());
+				pstm.setInt(1, p.getFuncion().getId());
 				pstm.setInt(2, p.getCompetencia().getId());
 				pstm.setInt(3, p.getPuntaje());
 				pstm.executeUpdate();

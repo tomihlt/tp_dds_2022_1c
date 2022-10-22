@@ -43,6 +43,7 @@ public class GestorFuncion
 		{
 			EmpresaDTO aux = new EmpresaDTO();
 			aux.setNombre(e.getNombre());
+			aux.setId(e.getId());
 			empresas.add(aux);
 		}
 
@@ -84,6 +85,20 @@ public class GestorFuncion
 		} catch (SQLException e)
 		{
 			throw e;
+		}
+	}
+
+	public void addEmpresa(EmpresaDTO e) throws SQLException
+	{
+		EmpresaDAO empDao = new PostgresEmpresa();
+		Empresa emp = new Empresa();
+		emp.setNombre(e.getNombre());
+		try
+		{
+			empDao.add(emp);
+		} catch (SQLException e1)
+		{
+			throw e1;
 		}
 	}
 
