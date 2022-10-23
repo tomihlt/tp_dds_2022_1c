@@ -32,7 +32,6 @@ import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
 import clases.dto.FuncionCndeDTO;
-import clases.entidades.Empresa;
 import clases.gestores.GestorCompetencia;
 import clases.gestores.GestorFuncion;
 
@@ -47,8 +46,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingConstants;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaAltaFuncion extends JDialog
 {
@@ -358,7 +355,7 @@ public class VentanaAltaFuncion extends JDialog
 		funcionSinCompetencias.setCodigo(Integer.parseInt(codigoTxt.getText()));
 		funcionSinCompetencias.setDescripcion(descripcionTxt.getText());
 		funcionSinCompetencias.setEmpresa(((EmpresaDTO)empresaCbx.getSelectedItem()));
-
+		
 		CompetenciaPuntajeNombreDTO c;
 		for (int i = 0; i < table.getRowCount(); i++)
 		{

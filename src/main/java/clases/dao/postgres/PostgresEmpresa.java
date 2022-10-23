@@ -44,8 +44,9 @@ public class PostgresEmpresa implements EmpresaDAO
 	public Empresa find(Integer id) throws SQLException
 	{
 		Empresa empresa = new Empresa();
-		try (PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa"))
+		try (PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa WHERE id = ?"))
 		{
+			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
 			if (rs.next())
 			{

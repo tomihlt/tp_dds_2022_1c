@@ -3,7 +3,6 @@ package clases.gestores;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
@@ -61,7 +60,7 @@ public class GestorFuncion
 		
 		Empresa empresaFuncion = null;
 		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
-
+		
 		empresaFuncion = eDao.find(funcionSinCompetencias.getEmpresa().getId()); // Aca puede dar SQLException
 
 		for (CompetenciaPuntajeNombreDTO c : competenciasDeLaFuncion)
