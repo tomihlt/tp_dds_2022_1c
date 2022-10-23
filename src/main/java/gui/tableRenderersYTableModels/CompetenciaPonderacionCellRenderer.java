@@ -7,6 +7,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import clases.dto.CompetenciaBasicaDTO;
+
 public class CompetenciaPonderacionCellRenderer extends DefaultTableCellRenderer
 {
 

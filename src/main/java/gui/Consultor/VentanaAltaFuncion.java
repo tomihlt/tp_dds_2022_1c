@@ -406,20 +406,24 @@ public class VentanaAltaFuncion extends JDialog
 	}
 
 	public void agregarCompetenciaTabla(CompetenciaPuntajeNombreDTO comp) throws Exception
-	{
-		if (existeComp(comp.getNombre()))
-			throw new Exception("Ya existe esa competencia para la función");
-		else
-			((CompetenciaPonderacionTableModel) table.getModel()).addRow(new Object[]
-			{ comp.getNombre(), comp.getPonderacion() });
-
+	{	
+		
+		if(existeComp(comp))
+			throw new Exception("Esta competencia ya esta en la tabla");
+		
+		CompetenciaBasicaDTO competenciaParaInsertar = new CompetenciaBasicaDTO();
+		competenciaParaInsertar.setId(comp.getId());
+		competenciaParaInsertar.setNombre(comp.getNombre());
+		
+		CompetenciaPonderacionTableModel model = (CompetenciaPonderacionTableModel) table.getModel();
+		model.addRow(new Object[] {competenciaParaInsertar,comp.getPonderacion()});
+			
 	}
 
-	private Boolean existeComp(String nombre)
+	private Boolean existeComp(CompetenciaPuntajeNombreDTO comp)
 	{
-
 		for (int i = 0; i < table.getRowCount(); i++)
-			if (((String) table.getValueAt(i, 0)).equals(nombre))
+			if (((CompetenciaBasicaDTO) table.getValueAt(i, 0)).getId().equals(comp.getId()))
 				return true;
 
 		return false;

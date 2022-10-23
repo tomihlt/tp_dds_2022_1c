@@ -13,7 +13,7 @@ public class CompetenciaPonderacionTableModel extends DefaultTableModel
 {
 	private String[] titulos;
 	private Object[][] datos;
-	
+
 	public CompetenciaPonderacionTableModel(Object[][] datos, String[] titulos)
 	{
 		super();
@@ -21,7 +21,7 @@ public class CompetenciaPonderacionTableModel extends DefaultTableModel
 		this.datos = datos;
 		setDataVector(datos, titulos);
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int column)
 	{
@@ -31,10 +31,10 @@ public class CompetenciaPonderacionTableModel extends DefaultTableModel
 	@Override
 	public Class<?> getColumnClass(int columnIndex)
 	{
-		if(columnIndex == 0)
+		if (columnIndex == 0)
 			return CompetenciaBasicaDTO.class;
 		else
 			return Integer.class;
 	}
-	
+
 }

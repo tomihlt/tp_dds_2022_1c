@@ -161,7 +161,8 @@ public class VentanaAgregarCompetencia extends JDialog
 	private void agregarCompetencia()
 	{
 		CompetenciaPuntajeNombreDTO comp = new CompetenciaPuntajeNombreDTO();
-		comp.setNombre((String) competenciaCbx.getSelectedItem());
+		comp.setNombre(((CompetenciaBasicaDTO) competenciaCbx.getSelectedItem()).getNombre());
+		comp.setId(((CompetenciaBasicaDTO) competenciaCbx.getSelectedItem()).getId());
 		comp.setPonderacion((Integer) ponderacionTxt.getValue());
 
 		if (competenciaCbx.getSelectedItem() == null)
@@ -177,9 +178,10 @@ public class VentanaAgregarCompetencia extends JDialog
 			dispose();
 		} catch (Exception e)
 		{
-			JOptionPane.showMessageDialog(this, "Esta competencia ya se encuentra actualmente", "Error",
+			JOptionPane.showMessageDialog(this, "Esta competencia ya ha sido cargada", "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
+
 	}
 
 }
