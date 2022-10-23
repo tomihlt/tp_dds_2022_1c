@@ -50,22 +50,24 @@ public class GestorFuncion
 		return empresas;
 	}
 
-	public void guardarFuncion(FuncionCndeDTO f, List<CompetenciaPuntajeNombreDTO> lc) throws SQLException
+	public void guardarFuncion(FuncionCndeDTO funcionSinCompetencias,
+			List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion) throws SQLException
 	{
 		Funcion funcion = new Funcion();
-		List<String> nombresCompentecias = lc.stream().map( c -> c.getNombre()).collect(Collectors.toList());
-		CompetenciaDAO cDao = new PostgresCompetencia();		
+		List<String> nombresCompetencias = competenciasDeLaFuncion.stream().map(c -> c.getNombre())
+				.collect(Collectors.toList());
+		CompetenciaDAO cDao = new PostgresCompetencia();
 		try
 		{
-			List<Competencia> listaDeCompetencias = cDao.findByName(nombresCompentecias);
+			List<Competencia> listaDeCompetencias = cDao.findByName(nombresCompetencias);
 			PuntajeNecesario p = null;
-			for(Competencia c : listaDeCompetencias)
+			for (Competencia c : listaDeCompetencias)
 			{
 				p = new PuntajeNecesario();
 				p.setFuncion(funcion);
-				for(CompetenciaPuntajeNombreDTO d : lc)
+				for (CompetenciaPuntajeNombreDTO d : competenciasDeLaFuncion)
 				{
-					if(d.getNombre().equals(c.getNombre()))
+					if (d.getNombre().equals(c.getNombre()))
 					{
 						p.setCompetencia(c);
 						p.setPuntaje(d.getPonderacion());
@@ -73,12 +75,12 @@ public class GestorFuncion
 					}
 				}
 			}
-			funcion.setNombre(f.getNombre());
-			funcion.setCodigo(f.getCodigo());
-			funcion.setDescripcion(f.getDescripcion());
+			funcion.setNombre(funcionSinCompetencias.getNombre());
+			funcion.setCodigo(funcionSinCompetencias.getCodigo());
+			funcion.setDescripcion(funcionSinCompetencias.getDescripcion());
 			funcion.setEliminado(false);
 			EmpresaDAO eDao = new PostgresEmpresa();
-			Empresa e = eDao.findByName(f.getEmpresa());
+			Empresa e = eDao.findByName(funcionSinCompetencias.getEmpresa());
 			funcion.setEmpresa(e);
 			FuncionDAO fDao = new PostgresFuncion();
 			fDao.add(funcion);

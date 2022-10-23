@@ -6,7 +6,7 @@ public class FuncionCndeDTO
 	private String nombre;
 	private Integer codigo;
 	private String descripcion;
-	private String empresa;
+	private EmpresaDTO empresa;
 
 	public String getNombre()
 	{
@@ -38,12 +38,12 @@ public class FuncionCndeDTO
 		this.descripcion = descripcion;
 	}
 
-	public String getEmpresa()
+	public EmpresaDTO getEmpresa()
 	{
 		return empresa;
 	}
 
-	public void setEmpresa(String empresa)
+	public void setEmpresa(EmpresaDTO empresa)
 	{
 		this.empresa = empresa;
 	}

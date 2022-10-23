@@ -351,26 +351,29 @@ public class VentanaAltaFuncion extends JDialog
 		}
 
 		GestorFuncion gestor = new GestorFuncion();
-		FuncionCndeDTO f = new FuncionCndeDTO();
-		List<CompetenciaPuntajeNombreDTO> lc = new ArrayList<CompetenciaPuntajeNombreDTO>();
+		FuncionCndeDTO funcionSinCompetencias = new FuncionCndeDTO();
+		List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion = new ArrayList<CompetenciaPuntajeNombreDTO>();
 
-		f.setNombre(nombreFuncionTxt.getText());
-		f.setCodigo(Integer.parseInt(codigoTxt.getText()));
-		f.setDescripcion(descripcionTxt.getText());
-		f.setEmpresa((String) empresaCbx.getSelectedItem());
+		funcionSinCompetencias.setNombre(nombreFuncionTxt.getText());
+		funcionSinCompetencias.setCodigo(Integer.parseInt(codigoTxt.getText()));
+		funcionSinCompetencias.setDescripcion(descripcionTxt.getText());
+		funcionSinCompetencias.setEmpresa(((EmpresaDTO)empresaCbx.getSelectedItem()));
 
-		CompetenciaPuntajeNombreDTO c = new CompetenciaPuntajeNombreDTO();
+		CompetenciaPuntajeNombreDTO c;
 		for (int i = 0; i < table.getRowCount(); i++)
 		{
 			c = new CompetenciaPuntajeNombreDTO();
-			c.setNombre((String) table.getModel().getValueAt(i, 0));
+			c.setId(((CompetenciaBasicaDTO) table.getModel().getValueAt(i, 0)).getId());
+			c.setNombre(((CompetenciaBasicaDTO) table.getModel().getValueAt(i, 0)).getNombre());
 			c.setPonderacion((Integer) table.getModel().getValueAt(i, 1));
-			lc.add(c);
+			competenciasDeLaFuncion.add(c);
 		}
+		
+		
 
 		try
 		{
-			gestor.guardarFuncion(f, lc);
+			gestor.guardarFuncion(funcionSinCompetencias, competenciasDeLaFuncion);
 			dispose();
 		} catch (SQLException e)
 		{
