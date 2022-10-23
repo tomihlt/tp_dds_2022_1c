@@ -1,5 +1,6 @@
 package clases.dao.postgres;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import clases.dao.interfaces.RespuestaDAO;
@@ -31,6 +32,13 @@ public class PostgresRespuesta implements RespuestaDAO
 
 	@Override
 	public List<Respuesta> getAll()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Respuesta> find(List<Integer> id) throws SQLException
 	{
 		// TODO Auto-generated method stub
 		return null;

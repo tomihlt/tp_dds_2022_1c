@@ -85,4 +85,11 @@ public class PostgresFuncion implements FuncionDAO
 		return null;
 	}
 
+	@Override
+	public List<Funcion> find(List<Integer> id) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

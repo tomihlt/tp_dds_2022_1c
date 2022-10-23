@@ -41,10 +41,22 @@ public class PostgresEmpresa implements EmpresaDAO
 	}
 
 	@Override
-	public Empresa find(Integer id)
+	public Empresa find(Integer id) throws SQLException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Empresa empresa = new Empresa();
+		try (PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa"))
+		{
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next())
+			{
+				empresa.setId(rs.getInt(1));
+				empresa.setNombre(rs.getString(2));
+			}
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+		return empresa;
 	}
 
 	@Override
@@ -54,7 +66,7 @@ public class PostgresEmpresa implements EmpresaDAO
 		try (PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa"))
 		{
 			ResultSet rs = pstm.executeQuery();
-			while(rs.next())
+			while (rs.next())
 			{
 				Empresa e = new Empresa();
 				e.setId(rs.getInt(1));
@@ -65,7 +77,7 @@ public class PostgresEmpresa implements EmpresaDAO
 		{
 			throw e;
 		}
-		
+
 		return results;
 	}
 
@@ -73,11 +85,11 @@ public class PostgresEmpresa implements EmpresaDAO
 	public Empresa findByName(String name) throws SQLException
 	{
 		Empresa emp = new Empresa();
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa WHERE nombre = ?"))
+		try (PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre FROM dds.empresa WHERE nombre = ?"))
 		{
 			pstm.setString(1, name);
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 			{
 				emp.setId(rs.getInt(1));
 				emp.setNombre(rs.getString(2));
@@ -86,8 +98,27 @@ public class PostgresEmpresa implements EmpresaDAO
 		{
 			throw e;
 		}
-		
+
 		return emp;
+	}
+
+	@Override
+	public List<Empresa> find(List<Integer> id) throws SQLException
+	{
+		List<Empresa> empresas = new ArrayList<Empresa>();
+
+		try
+		{
+
+			for (Integer i : id)
+				empresas.add(find(i));
+
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+
+		return empresas;
 	}
 
 }

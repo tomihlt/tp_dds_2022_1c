@@ -47,10 +47,29 @@ public class PostgresCompetencia implements CompetenciaDAO
 	}
 
 	@Override
-	public Competencia find(Integer id)
+	public Competencia find(Integer id) throws SQLException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Competencia comp = new Competencia();
+
+		try (PreparedStatement pstm = conn
+				.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado FROM dds.competencia WHERE id = ?"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				comp.setId(rs.getInt(1));
+				comp.setNombre(rs.getString(2));
+				comp.setCodigo(rs.getInt(3));
+				comp.setDescripcion(rs.getString(4));
+				comp.setEliminado(rs.getBoolean(5));
+			}
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+		
+		return comp;
 	}
 
 	@Override
@@ -59,7 +78,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 		List<Competencia> resultados = new ArrayList<Competencia>();
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT id,nombre,codigo,descripcion,eliminado from dds.competencia WHERE eliminado = false"))
+				"SELECT id,nombre,codigo,descripcion,eliminado FROM dds.competencia WHERE eliminado = false"))
 		{
 			ResultSet rs = pstm.executeQuery();
 			Competencia c;
@@ -126,6 +145,25 @@ public class PostgresCompetencia implements CompetenciaDAO
 
 		return c;
 
+	}
+
+	@Override
+	public List<Competencia> find(List<Integer> id) throws SQLException
+	{
+		List<Competencia> comp = new ArrayList<Competencia>();
+		
+		try
+		{
+			for(Integer i : id)
+			{
+				comp.add(find(i));
+			}
+		}catch(SQLException e)
+		{
+			throw e;
+		}
+		
+		return comp;
 	}
 
 }

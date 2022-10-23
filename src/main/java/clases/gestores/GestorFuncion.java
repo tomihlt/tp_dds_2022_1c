@@ -54,40 +54,36 @@ public class GestorFuncion
 			List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion) throws SQLException
 	{
 		Funcion funcion = new Funcion();
-		List<String> nombresCompetencias = competenciasDeLaFuncion.stream().map(c -> c.getNombre())
-				.collect(Collectors.toList());
+
+		EmpresaDAO eDao = new PostgresEmpresa();
 		CompetenciaDAO cDao = new PostgresCompetencia();
-		try
+		FuncionDAO fDao = new PostgresFuncion();
+		
+		Empresa empresaFuncion = null;
+		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
+
+		empresaFuncion = eDao.find(funcionSinCompetencias.getEmpresa().getId()); // Aca puede dar SQLException
+
+		for (CompetenciaPuntajeNombreDTO c : competenciasDeLaFuncion)
 		{
-			List<Competencia> listaDeCompetencias = cDao.findByName(nombresCompetencias);
-			PuntajeNecesario p = null;
-			for (Competencia c : listaDeCompetencias)
-			{
-				p = new PuntajeNecesario();
-				p.setFuncion(funcion);
-				for (CompetenciaPuntajeNombreDTO d : competenciasDeLaFuncion)
-				{
-					if (d.getNombre().equals(c.getNombre()))
-					{
-						p.setCompetencia(c);
-						p.setPuntaje(d.getPonderacion());
-						funcion.addCompetencia(p);
-					}
-				}
-			}
-			funcion.setNombre(funcionSinCompetencias.getNombre());
-			funcion.setCodigo(funcionSinCompetencias.getCodigo());
-			funcion.setDescripcion(funcionSinCompetencias.getDescripcion());
-			funcion.setEliminado(false);
-			EmpresaDAO eDao = new PostgresEmpresa();
-			Empresa e = eDao.findByName(funcionSinCompetencias.getEmpresa());
-			funcion.setEmpresa(e);
-			FuncionDAO fDao = new PostgresFuncion();
-			fDao.add(funcion);
-		} catch (SQLException e)
-		{
-			throw e;
+			PuntajeNecesario puntaje = new PuntajeNecesario();
+			Competencia t_Competencia = cDao.find(c.getId());
+			
+			puntaje.setFuncion(funcion);
+			puntaje.setCompetencia(t_Competencia);
+			puntaje.setPuntaje(c.getPonderacion());
+			puntajes.add(puntaje);
 		}
+
+		funcion.setCodigo(funcionSinCompetencias.getCodigo());
+		funcion.setDescripcion(funcionSinCompetencias.getDescripcion());
+		funcion.setEliminado(false);
+		funcion.setEmpresa(empresaFuncion);
+		funcion.setNombre(funcionSinCompetencias.getNombre());
+		funcion.setPuntajeNecesarioPorCompetencia(puntajes);
+
+		fDao.add(funcion); // Aca se puede dar un SQLException, que se le hace un throw
+
 	}
 
 	public void addEmpresa(EmpresaDTO e) throws SQLException

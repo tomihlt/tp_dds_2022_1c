@@ -9,7 +9,9 @@ public interface CRUD<T>
 
 	public void remove(T t);
 
-	public T find(Integer id);
+	public T find(Integer id) throws SQLException;
+	
+	public List<T> find(List<Integer> id) throws SQLException;
 
 	public List<T> getAll() throws SQLException;
 }
