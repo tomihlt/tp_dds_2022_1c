@@ -118,11 +118,7 @@ public class VentanaAltaCompetencia extends JDialog
 			{
 				int key = e.getKeyChar();
 
-				boolean mayusculas = key >= 65 && key <= 90;
-				boolean minusculas = key >= 97 && key <= 122;
-				boolean espacio = key == 32;
-
-				if (minusculas || mayusculas || espacio)
+				if (key < 48 || key > 57)
 				{
 					e.consume();
 				}
