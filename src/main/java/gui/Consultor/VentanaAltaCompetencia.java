@@ -215,7 +215,7 @@ public class VentanaAltaCompetencia extends JDialog
 			CompetenciaDAO dao = new PostgresCompetencia();
 			try
 			{
-				dao.add(comp);
+				dao.save(comp);
 				dispose();
 			} catch (SQLException e)
 			{

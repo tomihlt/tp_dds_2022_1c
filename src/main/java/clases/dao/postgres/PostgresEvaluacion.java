@@ -10,7 +10,7 @@ public class PostgresEvaluacion implements EvaluacionDAO
 {
 
 	@Override
-	public void add(Evaluacion t)
+	public void save(Evaluacion t)
 	{
 		// TODO Auto-generated method stub
 		

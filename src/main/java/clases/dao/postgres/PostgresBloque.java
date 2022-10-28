@@ -10,7 +10,7 @@ public class PostgresBloque implements BloqueDAO
 {
 
 	@Override
-	public void add(Bloque t)
+	public void save(Bloque t)
 	{
 		// TODO Auto-generated method stub
 

@@ -19,7 +19,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 	private Connection conn = DBConnection.get();
 
 	@Override
-	public void add(Competencia t) throws SQLException
+	public void save(Competencia t) throws SQLException
 	{
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.competencia (nombre,codigo,descripcion,eliminado) VALUES (?,?,?,?)",

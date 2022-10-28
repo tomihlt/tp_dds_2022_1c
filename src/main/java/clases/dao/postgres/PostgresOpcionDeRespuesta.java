@@ -10,7 +10,7 @@ public class PostgresOpcionDeRespuesta implements OpcionDeRespuestaDAO
 {
 
 	@Override
-	public void add(OpcionDeRespuesta t)
+	public void save(OpcionDeRespuesta t)
 	{
 		// TODO Auto-generated method stub
 

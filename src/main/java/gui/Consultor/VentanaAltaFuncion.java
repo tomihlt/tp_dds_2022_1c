@@ -123,7 +123,7 @@ public class VentanaAltaFuncion extends JDialog
 		panelBotones.add(cancelarButton);
 
 		aceptarButton = new JButton("Aceptar");
-		aceptarButton.addActionListener(e -> crearFuncion());
+		aceptarButton.addActionListener(e -> nuevaFuncion());
 		panelBotones.add(aceptarButton);
 
 		panelDeContenido = new JPanel();
@@ -328,19 +328,11 @@ public class VentanaAltaFuncion extends JDialog
 		cargarCompetencias();
 	}
 
-	private void crearFuncion()
+	private Boolean crearFuncion()
 	{
 		if (!validarCampos())
 		{
-			if (empresaCbx.getSelectedItem() == null)
-			{
-				JOptionPane.showMessageDialog(this, "No se ha seleccionado una empresa", "Error",
-						JOptionPane.WARNING_MESSAGE);
-				return;
-			}
-
-			JOptionPane.showMessageDialog(this, "Campos inválidos", "Error de validación", JOptionPane.ERROR_MESSAGE);
-			return;
+			return false;
 		}
 
 		GestorFuncion gestor = new GestorFuncion();
@@ -350,8 +342,8 @@ public class VentanaAltaFuncion extends JDialog
 		funcionSinCompetencias.setNombre(nombreFuncionTxt.getText());
 		funcionSinCompetencias.setCodigo(Integer.parseInt(codigoTxt.getText()));
 		funcionSinCompetencias.setDescripcion(descripcionTxt.getText());
-		funcionSinCompetencias.setEmpresa(((EmpresaDTO)empresaCbx.getSelectedItem()));
-		
+		funcionSinCompetencias.setEmpresa(((EmpresaDTO) empresaCbx.getSelectedItem()));
+
 		CompetenciaPuntajeNombreDTO c;
 		for (int i = 0; i < table.getRowCount(); i++)
 		{
@@ -361,26 +353,107 @@ public class VentanaAltaFuncion extends JDialog
 			c.setPonderacion((Integer) table.getModel().getValueAt(i, 1));
 			competenciasDeLaFuncion.add(c);
 		}
-		
-		
 
 		try
 		{
 			gestor.guardarFuncion(funcionSinCompetencias, competenciasDeLaFuncion);
-			dispose();
+			return true;
 		} catch (SQLException e)
 		{
 			JOptionPane.showMessageDialog(this, "Ya existe una funcion con ese código.", "Error de validación",
 					JOptionPane.ERROR_MESSAGE);
+			return false;
 		}
 
 	}
 
+	private void nuevaFuncion()
+	{
+		if (crearFuncion())
+		{
+			int opcion = JOptionPane.showConfirmDialog(this, "Función creada correctamente \n¿Desea cargar otra?",
+					"Funcion creada.", JOptionPane.YES_NO_OPTION);
+//			System.out.println(opcion);
+			if(opcion == 1)
+				dispose();
+			else
+			{
+				blanquearCampos();
+			}
+		}
+	}
+
+	private void blanquearCampos()
+	{
+		blanquearCodigo();
+		blanquearDescripcion();
+		blanquearNombre();
+		blanquearCompetencias();
+	}
+
+	private void blanquearCompetencias()
+	{
+		CompetenciaPonderacionTableModel model = ((CompetenciaPonderacionTableModel)table.getModel());
+		for(int i = 0 ; i < model.getRowCount() ; i++)
+		{
+			model.removeRow(i);
+		}
+	}
+
+	private void blanquearNombre()
+	{
+		nombreFuncionTxt.setText("");
+	}
+
+	private void blanquearDescripcion()
+	{
+		descripcionTxt.setText("");
+	}
+	
+
+	private void blanquearCodigo()
+	{
+		codigoTxt.setText("");
+	}
+
 	private Boolean validarCampos()
 	{
-		return !(codigoTxt.getText().isBlank() || codigoTxt.getText().isEmpty() || nombreFuncionTxt.getText().isEmpty()
-				|| nombreFuncionTxt.getText().length() > 200 || nombreFuncionTxt.getText().isBlank()
-				|| descripcionTxt.getText().isEmpty() || descripcionTxt.getText().length() > 500);
+		return codigoTxtValido() && nombreFuncionTxtValido() && descripcionTxtValido();
+	}
+
+	public boolean descripcionTxtValido()
+	{
+		if (descripcionTxt.getText().isEmpty() || descripcionTxt.getText().length() > 500)
+		{
+			JOptionPane.showMessageDialog(this, "Debe introducir una descripción (no debe superar los 500 caracteres).",
+					"Error de validación", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else
+			return true;
+	}
+
+	public boolean nombreFuncionTxtValido()
+	{
+		if (nombreFuncionTxt.getText().isEmpty() || nombreFuncionTxt.getText().length() > 200
+				|| nombreFuncionTxt.getText().isBlank())
+		{
+			JOptionPane.showMessageDialog(this,
+					"Debe introducir un nombre para la función (no debe superar los 200 caracteres).",
+					"Error de validación", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else
+			return true;
+	}
+
+	public Boolean codigoTxtValido()
+	{
+		if (codigoTxt.getText().isBlank() || codigoTxt.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(this, "Debe introducir un código.", "Error de validación",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else
+			return true;
 	}
 
 	private void cargarCompetencias()
@@ -392,8 +465,17 @@ public class VentanaAltaFuncion extends JDialog
 	private void cargarEmpresas()
 	{
 		GestorFuncion gestor = new GestorFuncion();
-		List<EmpresaDTO> empresas = gestor.getAllEmpresas();
-		empresas.forEach(e -> agregarElementoEmpresaCbx(e));
+		List<EmpresaDTO> empresas;
+		try
+		{
+			empresas = gestor.getAllEmpresas();
+			empresas.forEach(e -> agregarElementoEmpresaCbx(e));
+		} catch (SQLException e1)
+		{
+			JOptionPane.showMessageDialog(null, "Error al obtener las empresas de la bdd", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e1.printStackTrace();
+		}
 	}
 
 	public void agregarElementoEmpresaCbx(EmpresaDTO e)
@@ -402,18 +484,19 @@ public class VentanaAltaFuncion extends JDialog
 	}
 
 	public void agregarCompetenciaTabla(CompetenciaPuntajeNombreDTO comp) throws Exception
-	{	
-		
-		if(existeComp(comp))
+	{
+
+		if (existeComp(comp))
 			throw new Exception("Esta competencia ya esta en la tabla");
-		
+
 		CompetenciaBasicaDTO competenciaParaInsertar = new CompetenciaBasicaDTO();
 		competenciaParaInsertar.setId(comp.getId());
 		competenciaParaInsertar.setNombre(comp.getNombre());
-		
+
 		CompetenciaPonderacionTableModel model = (CompetenciaPonderacionTableModel) table.getModel();
-		model.addRow(new Object[] {competenciaParaInsertar,comp.getPonderacion()});
-			
+		model.addRow(new Object[]
+		{ competenciaParaInsertar, comp.getPonderacion() });
+
 	}
 
 	private Boolean existeComp(CompetenciaPuntajeNombreDTO comp)

@@ -10,7 +10,7 @@ public class PostgresCandidato implements CandidatoDAO
 {
 
 	@Override
-	public void add(Candidato t)
+	public void save(Candidato t)
 	{
 		// TODO Auto-generated method stub
 

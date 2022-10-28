@@ -23,7 +23,7 @@ import clases.entidades.PuntajeNecesario;
 public class GestorFuncion
 {
 
-	public List<EmpresaDTO> getAllEmpresas()
+	public List<EmpresaDTO> getAllEmpresas() throws SQLException
 	{
 		List<EmpresaDTO> empresas = new ArrayList<EmpresaDTO>();
 
@@ -34,9 +34,10 @@ public class GestorFuncion
 			emps = dao.getAll();
 		} catch (SQLException e1)
 		{
-			JOptionPane.showMessageDialog(null, "Error al obtener las empresas de la bdd", "Error",
-					JOptionPane.ERROR_MESSAGE);
-			e1.printStackTrace();
+//			JOptionPane.showMessageDialog(null, "Error al obtener las empresas de la bdd", "Error",
+//					JOptionPane.ERROR_MESSAGE);
+//			e1.printStackTrace();
+			throw e1;
 		}
 		for (Empresa e : emps)
 		{
@@ -81,7 +82,7 @@ public class GestorFuncion
 		funcion.setNombre(funcionSinCompetencias.getNombre());
 		funcion.setPuntajeNecesarioPorCompetencia(puntajes);
 
-		fDao.add(funcion); // Aca se puede dar un SQLException, que se le hace un throw
+		fDao.save(funcion); // Aca se puede dar un SQLException, que se le hace un throw
 
 	}
 
@@ -92,7 +93,7 @@ public class GestorFuncion
 		emp.setNombre(e.getNombre());
 		try
 		{
-			empDao.add(emp);
+			empDao.save(emp);
 		} catch (SQLException e1)
 		{
 			throw e1;

@@ -10,7 +10,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 {
 
 	@Override
-	public void add(Cuestionario t)
+	public void save(Cuestionario t)
 	{
 		// TODO Auto-generated method stub
 

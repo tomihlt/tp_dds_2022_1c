@@ -10,7 +10,7 @@ public class PostgresCompetenciaCuestionario implements CompetenciaCuestionarioD
 {
 
 	@Override
-	public void add(CompetenciaCuestionario t)
+	public void save(CompetenciaCuestionario t)
 	{
 		// TODO Auto-generated method stub
 

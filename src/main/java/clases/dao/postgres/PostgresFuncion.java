@@ -17,7 +17,7 @@ public class PostgresFuncion implements FuncionDAO
 	private Connection conn = DBConnection.get();
 
 	@Override
-	public void add(Funcion t) throws SQLException
+	public void save(Funcion t) throws SQLException
 	{
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.funcion (id_empresa,nombre,codigo,descripcion,eliminado) VALUES (?,?,?,?,?)",

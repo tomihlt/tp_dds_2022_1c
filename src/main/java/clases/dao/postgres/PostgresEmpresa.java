@@ -17,7 +17,7 @@ public class PostgresEmpresa implements EmpresaDAO
 	private Connection conn = DBConnection.get();
 
 	@Override
-	public void add(Empresa t) throws SQLException
+	public void save(Empresa t) throws SQLException
 	{
 		try (PreparedStatement pstm = conn.prepareStatement("INSERT INTO dds.empresa (nombre) VALUES (?)",
 				PreparedStatement.RETURN_GENERATED_KEYS))

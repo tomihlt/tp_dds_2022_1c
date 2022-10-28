@@ -10,7 +10,7 @@ public class PostgresConsultor implements ConsultorDAO
 {
 
 	@Override
-	public void add(Consultor t)
+	public void save(Consultor t)
 	{
 		// TODO Auto-generated method stub
 

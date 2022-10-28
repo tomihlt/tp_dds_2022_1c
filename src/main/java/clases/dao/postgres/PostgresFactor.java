@@ -10,7 +10,7 @@ public class PostgresFactor implements FactorDAO
 {
 
 	@Override
-	public void add(Factor t)
+	public void save(Factor t)
 	{
 		// TODO Auto-generated method stub
 

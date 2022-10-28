@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface CRUD<T>
 {
-	public void add(T t) throws SQLException;
+	public void save(T t) throws SQLException;
 
 	public void remove(T t);
 

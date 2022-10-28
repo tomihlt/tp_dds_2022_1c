@@ -10,7 +10,7 @@ public class PostgresPregunta implements PreguntaDAO
 {
 
 	@Override
-	public void add(Pregunta t)
+	public void save(Pregunta t)
 	{
 		// TODO Auto-generated method stub
 
