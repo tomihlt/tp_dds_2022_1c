@@ -389,6 +389,12 @@ public class VentanaAltaFuncion extends JDialog
 		blanquearDescripcion();
 		blanquearNombre();
 		blanquearCompetencias();
+		blanquearEmpresa();
+	}
+
+	private void blanquearEmpresa()
+	{
+		empresaCbx.setSelectedIndex(0);
 	}
 
 	private void blanquearCompetencias()
