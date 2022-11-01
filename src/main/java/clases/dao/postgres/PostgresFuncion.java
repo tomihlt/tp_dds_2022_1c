@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.List;
 
 import clases.dao.DBConnection;
@@ -90,6 +91,22 @@ public class PostgresFuncion implements FuncionDAO
 	{
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Funcion findByFilters()
+	{
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT id,id_empresa,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE id = ?"))
+		{
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next())
+				System.out.println(rs.getInt(1));
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return new Funcion();
 	}
 
 }

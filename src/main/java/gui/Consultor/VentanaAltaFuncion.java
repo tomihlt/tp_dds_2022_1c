@@ -357,13 +357,14 @@ public class VentanaAltaFuncion extends JDialog
 		try
 		{
 			gestor.guardarFuncion(funcionSinCompetencias, competenciasDeLaFuncion);
-			return true;
 		} catch (SQLException e)
 		{
 			JOptionPane.showMessageDialog(this, "Ya existe una funcion con ese código.", "Error de validación",
 					JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
+		
+		return true;
 
 	}
 

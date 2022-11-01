@@ -21,8 +21,14 @@ import java.awt.FlowLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import clases.dao.interfaces.FuncionDAO;
+import clases.dao.postgres.PostgresFuncion;
+
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 public class PanelFunciones extends JPanel
@@ -170,6 +176,19 @@ public class PanelFunciones extends JPanel
 		panelBuscador.add(lblNewLabel_2, gbc_lblNewLabel_2);
 		
 		codigoTxt = new JTextField();
+		codigoTxt.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+				int key = e.getKeyChar();
+
+				if (key < 48 || key > 57)
+				{
+					e.consume();
+				}
+			}
+		});
 		codigoTxt.setColumns(10);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -249,6 +268,7 @@ public class PanelFunciones extends JPanel
 		panelBuscador.add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		buscarButton = new JButton("Buscar");
+		buscarButton.addActionListener(e -> buscarFunciones());
 		GridBagConstraints gbc_buscarButton = new GridBagConstraints();
 		gbc_buscarButton.fill = GridBagConstraints.VERTICAL;
 		gbc_buscarButton.insets = new Insets(0, 0, 5, 5);
@@ -280,6 +300,15 @@ public class PanelFunciones extends JPanel
 		verticalStrut_4 = Box.createVerticalStrut(20);
 		panelNorte.add(verticalStrut_4, BorderLayout.NORTH);
 
+	}
+
+	private void buscarFunciones()
+	{
+		String codigo = codigoTxt.getText();
+		String nombre = nombreFuncionTxt.getText();
+		String empresa = nombreEmpresaTxt.getText();
+		FuncionDAO fDao = new PostgresFuncion();
+		fDao.findByFilters();
 	}
 
 }
