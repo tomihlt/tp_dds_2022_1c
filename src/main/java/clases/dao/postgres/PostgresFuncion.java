@@ -107,7 +107,7 @@ public class PostgresFuncion implements FuncionDAO
 		String q_start = " AND(";
 		String q_end1 = ") ORDER BY f.codigo;";
 		String q_end2 = " ORDER BY f.codigo;";
-		String q_or_condition = " OR ";
+		String q_and = " AND ";
 
 		if (codigo != null || nombre != null || empresa != null)
 			query += q_start;
@@ -120,14 +120,14 @@ public class PostgresFuncion implements FuncionDAO
 		if (nombre != null)
 		{
 			if(cod)
-				query += q_or_condition;
+				query += q_and;
 			query += "f.nombre = ?";
 			nom = true;
 		}
 		if (empresa != null)
 		{
 			if(cod || nom)
-				query += q_or_condition;
+				query += q_and;
 			query += "e.nombre = ?";
 			emp = true;
 		}
