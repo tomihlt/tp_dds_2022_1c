@@ -105,8 +105,8 @@ public class PostgresFuncion implements FuncionDAO
 
 		String query = "SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado FROM dds.funcion as f, dds.empresa as e WHERE f.id_empresa = e.id AND f.eliminado = false";
 		String q_start = " AND(";
-		String q_end1 = ");";
-		String q_end2 = ";";
+		String q_end1 = ") ORDER BY f.codigo;";
+		String q_end2 = " ORDER BY f.codigo;";
 		String q_or_condition = " OR ";
 
 		if (codigo != null || nombre != null || empresa != null)
@@ -119,12 +119,16 @@ public class PostgresFuncion implements FuncionDAO
 		}
 		if (nombre != null)
 		{
-			query += q_or_condition + "f.nombre = ?";
+			if(cod)
+				query += q_or_condition;
+			query += "f.nombre = ?";
 			nom = true;
 		}
 		if (empresa != null)
 		{
-			query += q_or_condition + "e.nombre = ?";
+			if(cod || nom)
+				query += q_or_condition;
+			query += "e.nombre = ?";
 			emp = true;
 		}
 
@@ -135,13 +139,24 @@ public class PostgresFuncion implements FuncionDAO
 
 		try (PreparedStatement pstm = conn.prepareStatement(query))
 		{
+			// Codigo
 			if (cod)
 				pstm.setInt(1, codigo);
-			if (nom)
+			
+			// Nombre
+			if(cod && nom)
 				pstm.setString(2, nombre);
-			if (emp)
+			else if(nom)
+				pstm.setString(1, nombre);
+			
+			// Empresa
+			if(cod && nom && emp)
 				pstm.setString(3, empresa);
-
+			else if(emp && (cod || nom))
+				pstm.setString(2, empresa);
+			else if(emp)
+				pstm.setString(1, empresa);
+			
 			ResultSet rs = pstm.executeQuery();
 			Funcion funcion = null;
 			while (rs.next())
