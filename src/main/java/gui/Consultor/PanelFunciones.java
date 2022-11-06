@@ -9,6 +9,8 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import gui.Main;
+import gui.tableRenderersYTableModels.EstandarCellRenderer;
+import gui.tableRenderersYTableModels.TablaFuncionesPanelTableModel;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,12 +26,16 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.dao.interfaces.FuncionDAO;
 import clases.dao.postgres.PostgresFuncion;
+import clases.dto.FuncionDTO;
+import clases.entidades.Funcion;
+import clases.gestores.GestorFuncion;
 
 import javax.swing.ListSelectionModel;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 public class PanelFunciones extends JPanel
 {
@@ -85,7 +91,7 @@ public class PanelFunciones extends JPanel
 		
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new DefaultTableModel(
+		table.setModel(new TablaFuncionesPanelTableModel(
 			new Object[][] {
 			},
 			new String[] {
@@ -93,6 +99,8 @@ public class PanelFunciones extends JPanel
 			}
 		));
 		table.getTableHeader().setReorderingAllowed(false);
+		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
+		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
 		scrollPane.setViewportView(table);
 		
 		horizontalStrut_2 = Box.createHorizontalStrut(20);
@@ -268,7 +276,9 @@ public class PanelFunciones extends JPanel
 		panelBuscador.add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		buscarButton = new JButton("Buscar");
-		buscarButton.addActionListener(e -> buscarFunciones());
+		buscarButton.addActionListener(e -> {
+			limpiarTabla();
+			buscarFunciones();});
 		GridBagConstraints gbc_buscarButton = new GridBagConstraints();
 		gbc_buscarButton.fill = GridBagConstraints.VERTICAL;
 		gbc_buscarButton.insets = new Insets(0, 0, 5, 5);
@@ -302,13 +312,57 @@ public class PanelFunciones extends JPanel
 
 	}
 
+	private void limpiarTabla()
+	{
+//		TablaFuncionesPanelTableModel model = ((TablaFuncionesPanelTableModel) table.getModel());
+//		
+//		for(int i = 0 ; i < model.getRowCount() ; i++)
+//		{
+//			model.removeRow(i);
+//		}
+		
+		table.setModel(new TablaFuncionesPanelTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Código", "Nombre de la función", "Nombre de la empresa"
+				}
+			));
+		
+	}
+
 	private void buscarFunciones()
 	{
-		String codigo = codigoTxt.getText();
-		String nombre = nombreFuncionTxt.getText();
-		String empresa = nombreEmpresaTxt.getText();
-		FuncionDAO fDao = new PostgresFuncion();
-		fDao.findByFilters();
+		Integer codigo = null;
+		String nombre = null;
+		String empresa = null;
+		
+		if(!codigoTxt.getText().isEmpty())
+			codigo = Integer.parseInt(codigoTxt.getText());
+		if(!(nombreEmpresaTxt.getText().isBlank() || nombreEmpresaTxt.getText().isEmpty()))
+			empresa = nombreEmpresaTxt.getText();
+		if(!(nombreFuncionTxt.getText().isBlank() || nombreFuncionTxt.getText().isEmpty()))
+			nombre = nombreFuncionTxt.getText();
+		
+		GestorFuncion gestor = new GestorFuncion();
+		
+		try
+		{
+			List<FuncionDTO> funciones = gestor.buscarFuncionesConEmpresa(codigo,nombre,empresa);
+			funciones.forEach(f -> agregarElementoTabla(f));
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	public void agregarElementoTabla(FuncionDTO f)
+	{
+		TablaFuncionesPanelTableModel model = (TablaFuncionesPanelTableModel) table.getModel();
+		
+		Object[] row = new Object[] {f.getCodigo(), f.getNombre(), f.getEmpresa()};
+		
+		model.addRow(row);
 	}
 
 }

@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import gui.Main;
-import gui.tableRenderersYTableModels.CompetenciaPonderacionCellRenderer;
+import gui.tableRenderersYTableModels.EstandarCellRenderer;
 import gui.tableRenderersYTableModels.CompetenciaPonderacionTableModel;
 
 import java.awt.Component;
@@ -298,8 +298,8 @@ public class VentanaAltaFuncion extends JDialog
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setModel(new CompetenciaPonderacionTableModel(new Object[][] {}, new String[]
 		{ "Competencia", "Ponderación" }));
-		table.setDefaultRenderer(Object.class, new CompetenciaPonderacionCellRenderer());
-		table.setDefaultRenderer(Integer.class, new CompetenciaPonderacionCellRenderer());
+		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
+		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
 		scrollPane.setViewportView(table);
 
 		panelBotonesTabla = new JPanel();
@@ -400,11 +400,8 @@ public class VentanaAltaFuncion extends JDialog
 
 	private void blanquearCompetencias()
 	{
-		CompetenciaPonderacionTableModel model = ((CompetenciaPonderacionTableModel)table.getModel());
-		for(int i = 0 ; i < model.getRowCount() ; i++)
-		{
-			model.removeRow(i);
-		}
+		table.setModel(new CompetenciaPonderacionTableModel(new Object[][] {}, new String[]
+				{ "Competencia", "Ponderación" }));
 	}
 
 	private void blanquearNombre()

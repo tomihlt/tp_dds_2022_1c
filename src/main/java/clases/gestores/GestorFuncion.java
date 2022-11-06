@@ -15,6 +15,7 @@ import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
 import clases.dto.FuncionCndeDTO;
+import clases.dto.FuncionDTO;
 import clases.entidades.Competencia;
 import clases.entidades.Empresa;
 import clases.entidades.Funcion;
@@ -58,17 +59,17 @@ public class GestorFuncion
 		EmpresaDAO eDao = new PostgresEmpresa();
 		CompetenciaDAO cDao = new PostgresCompetencia();
 		FuncionDAO fDao = new PostgresFuncion();
-		
+
 		Empresa empresaFuncion = null;
 		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
-		
+
 		empresaFuncion = eDao.find(funcionSinCompetencias.getEmpresa().getId()); // Aca puede dar SQLException
 
 		for (CompetenciaPuntajeNombreDTO c : competenciasDeLaFuncion)
 		{
 			PuntajeNecesario puntaje = new PuntajeNecesario();
 			Competencia t_Competencia = cDao.find(c.getId());
-			
+
 			puntaje.setFuncion(funcion);
 			puntaje.setCompetencia(t_Competencia);
 			puntaje.setPuntaje(c.getPonderacion());
@@ -98,6 +99,51 @@ public class GestorFuncion
 		{
 			throw e1;
 		}
+	}
+
+	public List<FuncionDTO> buscarFuncionesConEmpresa(Integer codigo, String nombre, String empresa) throws SQLException
+	{
+		FuncionDAO fDao = new PostgresFuncion();
+		try
+		{
+			List<Funcion> funciones = fDao.findByFilters(codigo, nombre, empresa);
+			funciones.forEach(f -> {
+				try
+				{
+					fDao.setEmpresa(f);
+				} catch (SQLException e)
+				{
+					e.printStackTrace();
+				}
+			});
+			
+			List<FuncionDTO> funcionesDto = new ArrayList<FuncionDTO>();
+			FuncionDTO funcion = null;
+			EmpresaDTO e = null;
+			
+			for(Funcion f : funciones)
+			{
+				funcion = new FuncionDTO();
+				e = new EmpresaDTO();
+				
+				e.setId(f.getEmpresa().getId());
+				e.setNombre(f.getEmpresa().getNombre());
+				
+				funcion.setId(f.getId());
+				funcion.setCodigo(f.getCodigo());
+				funcion.setNombre(f.getNombre());
+				funcion.setEmpresa(e);
+				
+				funcionesDto.add(funcion);
+				
+			}
+			
+			return funcionesDto;
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+
 	}
 
 }

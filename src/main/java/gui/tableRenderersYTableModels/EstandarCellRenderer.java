@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import clases.dto.CompetenciaBasicaDTO;
 
-public class CompetenciaPonderacionCellRenderer extends DefaultTableCellRenderer
+public class EstandarCellRenderer extends DefaultTableCellRenderer
 {
 
 	@Override

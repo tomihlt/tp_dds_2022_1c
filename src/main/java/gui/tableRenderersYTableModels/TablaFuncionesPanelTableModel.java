@@ -5,37 +5,35 @@ import javax.swing.table.DefaultTableModel;
 import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.EmpresaDTO;
 
-/*
- * Este modelo de tabla se usa en:
- * VentanaAltaFuncion
- */
-
-public class CompetenciaPonderacionTableModel extends DefaultTableModel
+public class TablaFuncionesPanelTableModel extends DefaultTableModel
 {
+	
 	private String[] titulos;
 	private Object[][] datos;
-
-	public CompetenciaPonderacionTableModel(Object[][] datos, String[] titulos)
+	
+	public TablaFuncionesPanelTableModel(Object[][] datos, String[] titulos)
 	{
 		super();
 		this.titulos = titulos;
 		this.datos = datos;
 		setDataVector(datos, titulos);
 	}
-
+	
 	@Override
 	public boolean isCellEditable(int row, int column)
 	{
 		return false;
 	}
-
+	
 	@Override
 	public Class<?> getColumnClass(int columnIndex)
 	{
 		if (columnIndex == 0)
-			return CompetenciaBasicaDTO.class;
-		else
 			return Integer.class;
+		else if(columnIndex == 1)
+			return String.class;
+		else
+			return EmpresaDTO.class;
 	}
-
+	
 }
