@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -44,6 +45,8 @@ import clases.gestores.GestorFuncion;
 import gui.Main;
 import gui.tableRenderersYTableModels.CompetenciaPonderacionTableModel;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaModificarFuncion extends JDialog
 {
@@ -126,6 +129,7 @@ public class VentanaModificarFuncion extends JDialog
 		panelBotones.add(cancelarButton);
 
 		aceptarButton = new JButton("Aceptar");
+		aceptarButton.addActionListener(e -> actualizarFuncion());
 		panelBotones.add(aceptarButton);
 
 		panelDeContenido = new JPanel();
@@ -311,6 +315,95 @@ public class VentanaModificarFuncion extends JDialog
 		setDatosFuncion(this.funcion);
 	}
 	
+	private void actualizarFuncion()
+	{
+		if (crearFuncion())
+		{
+			JOptionPane.showMessageDialog(this, "Función actualizada correctamente",
+					"Funcion actualizada.", JOptionPane.INFORMATION_MESSAGE);
+			dispose();
+		}
+	}
+	
+	private Boolean crearFuncion()
+	{
+		if (!validarCampos())
+		{
+			return false;
+		}
+
+		GestorFuncion gestor = new GestorFuncion();
+		FuncionCndeDTO funcionSinCompetencias = new FuncionCndeDTO();
+		List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion = new ArrayList<CompetenciaPuntajeNombreDTO>();
+
+		funcionSinCompetencias.setNombre(nombreFuncionTxt.getText());
+		funcionSinCompetencias.setCodigo(Integer.parseInt(codigoTxt.getText()));
+		funcionSinCompetencias.setDescripcion(descripcionTxt.getText());
+		funcionSinCompetencias.setEmpresa(((EmpresaDTO) empresaCbx.getSelectedItem()));
+
+		CompetenciaPuntajeNombreDTO c;
+		for (int i = 0; i < table.getRowCount(); i++)
+		{
+			c = new CompetenciaPuntajeNombreDTO();
+			c.setId(((CompetenciaBasicaDTO) table.getModel().getValueAt(i, 0)).getId());
+			c.setNombre(((CompetenciaBasicaDTO) table.getModel().getValueAt(i, 0)).getNombre());
+			c.setPonderacion((Integer) table.getModel().getValueAt(i, 1));
+			competenciasDeLaFuncion.add(c);
+		}
+
+		try
+		{
+			gestor.actualizarFuncion(funcionSinCompetencias, competenciasDeLaFuncion);
+		} catch (SQLException e)
+		{
+			JOptionPane.showMessageDialog(this, "No se pudo actualizar la funcion.", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		return true;
+	}
+
+	private Boolean validarCampos()
+	{
+		return codigoTxtValido() && nombreFuncionTxtValido() && descripcionTxtValido();
+	}
+
+	public boolean descripcionTxtValido()
+	{
+		if (descripcionTxt.getText().isEmpty() || descripcionTxt.getText().length() > 500)
+		{
+			JOptionPane.showMessageDialog(this, "Debe introducir una descripción (no debe superar los 500 caracteres).",
+					"Error de validación", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else
+			return true;
+	}
+
+	public boolean nombreFuncionTxtValido()
+	{
+		if (nombreFuncionTxt.getText().isEmpty() || nombreFuncionTxt.getText().length() > 200
+				|| nombreFuncionTxt.getText().isBlank())
+		{
+			JOptionPane.showMessageDialog(this,
+					"Debe introducir un nombre para la función (no debe superar los 200 caracteres).",
+					"Error de validación", JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else
+			return true;
+	}
+
+	public Boolean codigoTxtValido()
+	{
+		if (codigoTxt.getText().isBlank() || codigoTxt.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(this, "Debe introducir un código.", "Error de validación",
+					JOptionPane.ERROR_MESSAGE);
+			return false;
+		} else
+			return true;
+	}
+
 	private void setDatosFuncion(FuncionDTO f)
 	{
 		GestorFuncion gestor = new GestorFuncion();

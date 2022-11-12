@@ -17,5 +17,11 @@ public interface FuncionDAO extends CRUD<Funcion>
 	public Funcion findByCodigo(Integer codigo) throws SQLException;
 	
 	public List<PuntajeNecesario> findPuntajes(Funcion f) throws SQLException; // La instancia tiene los atributos de las relaciones
+	
+	public void updateFuncionConPuntajesYEmpresa(Funcion f) throws SQLException;
+	
+	public void updateEmpresa(Funcion f) throws SQLException;
+	
+	public void removePuntajes(Funcion f) throws SQLException;
 
 }

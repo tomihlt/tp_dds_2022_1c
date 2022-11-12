@@ -248,12 +248,13 @@ public class PostgresFuncion implements FuncionDAO
 	public void update(Funcion t) throws SQLException
 	{
 		try (PreparedStatement pstm = conn
-				.prepareStatement("UPDATE dds.funcion SET codigo = ?, descripcion = ?, eliminado = ? WHERE id = ?;"))
+				.prepareStatement("UPDATE dds.funcion SET codigo = ?, descripcion = ?, eliminado = ?, nombre = ? WHERE id = ?;"))
 		{
 			pstm.setInt(1, t.getCodigo());
 			pstm.setString(2, t.getDescripcion());
 			pstm.setBoolean(3, t.getEliminado());
-			pstm.setInt(4, t.getId());
+			pstm.setString(4, t.getNombre());
+			pstm.setInt(5, t.getId());
 			pstm.executeUpdate();
 		}
 	}
@@ -292,6 +293,50 @@ public class PostgresFuncion implements FuncionDAO
 		}
 		
 		return puntajes;
+	}
+
+	@Override
+	public void updateFuncionConPuntajesYEmpresa(Funcion f) throws SQLException
+	{
+		conn.setAutoCommit(false);
+		
+		try 
+		{
+		update(f);
+		updateEmpresa(f);
+		removePuntajes(f);
+		addPuntajeCompetencia(f.getPuntajeNecesarioPorCompetencia());
+		}catch(SQLException e)
+		{
+			conn.rollback();
+			conn.setAutoCommit(true);
+			throw e;
+		}
+		
+		conn.commit();
+		conn.setAutoCommit(true);
+		
+	}
+	
+	@Override
+	public void updateEmpresa(Funcion f) throws SQLException
+	{
+		try(PreparedStatement pstm = conn.prepareStatement("UPDATE dds.funcion SET id_empresa = ? WHERE id = ?;"))
+		{
+			pstm.setInt(1, f.getEmpresa().getId());
+			pstm.setInt(2, f.getId());
+			pstm.executeUpdate();
+		}
+	}
+	
+	@Override
+	public void removePuntajes(Funcion f) throws SQLException
+	{
+		try(PreparedStatement pstm = conn.prepareStatement("DELETE FROM dds.funcion_competencias WHERE funcion = ?;"))
+		{
+			pstm.setInt(1, f.getId());
+			pstm.executeUpdate();
+		}
 	}
 
 }

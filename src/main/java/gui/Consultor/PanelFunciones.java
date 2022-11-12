@@ -399,7 +399,7 @@ public class PanelFunciones extends JPanel
 		}
 	}
 
-	private void limpiarTabla()
+	public void limpiarTabla()
 	{
 //		TablaFuncionesPanelTableModel model = ((TablaFuncionesPanelTableModel) table.getModel());
 //		
@@ -413,7 +413,7 @@ public class PanelFunciones extends JPanel
 
 	}
 
-	private void buscarFunciones()
+	public void buscarFunciones()
 	{
 		Integer codigo = null;
 		String nombre = null;

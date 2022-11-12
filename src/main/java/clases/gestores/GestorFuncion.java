@@ -232,4 +232,43 @@ public class GestorFuncion
 		return puntajesDto;
 	}
 
+	public void actualizarFuncion(FuncionCndeDTO funcionSinCompetencias,
+			List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion) throws SQLException
+	{
+		FuncionDAO fDao = new PostgresFuncion();
+		Funcion f;
+		
+		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo());
+		
+		f.setCodigo(funcionSinCompetencias.getCodigo());
+		f.setDescripcion(funcionSinCompetencias.getDescripcion());
+		f.setNombre(funcionSinCompetencias.getNombre());
+		f.setEliminado(false);
+		
+		CompetenciaDAO cDao = new PostgresCompetencia();
+		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
+		Competencia comp = null;
+		PuntajeNecesario p = null;
+		
+		for(CompetenciaPuntajeNombreDTO c : competenciasDeLaFuncion)
+		{
+			comp = cDao.find(c.getId());
+			p = new PuntajeNecesario();
+			p.setFuncion(f);
+			p.setCompetencia(comp);
+			p.setPuntaje(c.getPonderacion());
+			puntajes.add(p);
+		}
+		
+		f.setPuntajeNecesarioPorCompetencia(puntajes);
+		
+		EmpresaDAO eDao = new PostgresEmpresa();
+		Empresa e = eDao.find(funcionSinCompetencias.getEmpresa().getId());
+		f.setEmpresa(e);
+		
+		fDao.updateFuncionConPuntajesYEmpresa(f);
+		
+		
+	}
+
 }
