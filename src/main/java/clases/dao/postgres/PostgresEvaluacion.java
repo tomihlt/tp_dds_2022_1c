@@ -67,7 +67,7 @@ public class PostgresEvaluacion implements EvaluacionDAO
 			{
 				evaluacion = new Evaluacion();
 				evaluacion.setId(rs.getInt(1));
-				evaluacion.setFecha(rs.getDate(3).toLocalDate());
+				evaluacion.setFecha(rs.getDate(2).toLocalDate());
 				evaluaciones.add(evaluacion);
 			}
 		}catch(SQLException e)
