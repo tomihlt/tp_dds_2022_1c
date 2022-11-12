@@ -199,4 +199,39 @@ public class PostgresFuncion implements FuncionDAO
 		}
 	}
 
+	@Override
+	public Funcion findByCodigo(Integer codigo) throws SQLException
+	{
+		Funcion f = new Funcion();
+		
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE codigo = ?;"))
+		{
+			pstm.setInt(1, codigo);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setCodigo(rs.getInt(3));
+				f.setDescripcion(rs.getString(4));
+				f.setEliminado(rs.getBoolean(5));
+			}
+		}
+		
+		return f;
+	}
+
+	@Override
+	public void update(Funcion t) throws SQLException
+	{
+		try(PreparedStatement pstm = conn.prepareStatement("UPDATE dds.funcion SET codigo = ?, descripcion = ?, eliminado = ? WHERE id = ?;"))
+		{
+			pstm.setInt(1, t.getCodigo());
+			pstm.setString(2, t.getDescripcion());
+			pstm.setBoolean(3, t.getEliminado());
+			pstm.setInt(4, t.getId());
+			pstm.executeUpdate();
+		}
+	}
+
 }

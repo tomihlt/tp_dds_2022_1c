@@ -44,4 +44,11 @@ public class PostgresBloque implements BloqueDAO
 		return null;
 	}
 
+	@Override
+	public void update(Bloque t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

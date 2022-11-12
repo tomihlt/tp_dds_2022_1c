@@ -14,4 +14,7 @@ public interface CRUD<T>
 	public List<T> find(List<Integer> id) throws SQLException;
 
 	public List<T> getAll() throws SQLException;
+	
+	public void update(T t) throws SQLException;
+	
 }

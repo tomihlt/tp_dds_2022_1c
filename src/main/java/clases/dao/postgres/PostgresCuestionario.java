@@ -44,4 +44,11 @@ public class PostgresCuestionario implements CuestionarioDAO
 		return null;
 	}
 
+	@Override
+	public void update(Cuestionario t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

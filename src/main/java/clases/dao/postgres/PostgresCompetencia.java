@@ -166,4 +166,11 @@ public class PostgresCompetencia implements CompetenciaDAO
 		return comp;
 	}
 
+	@Override
+	public void update(Competencia t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

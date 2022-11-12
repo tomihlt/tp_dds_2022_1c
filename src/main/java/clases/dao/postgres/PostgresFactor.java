@@ -44,4 +44,11 @@ public class PostgresFactor implements FactorDAO
 		return null;
 	}
 
+	@Override
+	public void update(Factor t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

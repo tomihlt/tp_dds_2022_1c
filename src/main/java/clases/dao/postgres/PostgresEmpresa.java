@@ -122,4 +122,11 @@ public class PostgresEmpresa implements EmpresaDAO
 		return empresas;
 	}
 
+	@Override
+	public void update(Empresa t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -8,16 +8,20 @@ import javax.swing.JOptionPane;
 
 import clases.dao.interfaces.CompetenciaDAO;
 import clases.dao.interfaces.EmpresaDAO;
+import clases.dao.interfaces.EvaluacionDAO;
 import clases.dao.interfaces.FuncionDAO;
 import clases.dao.postgres.PostgresCompetencia;
 import clases.dao.postgres.PostgresEmpresa;
+import clases.dao.postgres.PostgresEvaluacion;
 import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
+import clases.dto.FuncionBasicaDTO;
 import clases.dto.FuncionCndeDTO;
 import clases.dto.FuncionDTO;
 import clases.entidades.Competencia;
 import clases.entidades.Empresa;
+import clases.entidades.Evaluacion;
 import clases.entidades.Funcion;
 import clases.entidades.PuntajeNecesario;
 
@@ -116,29 +120,55 @@ public class GestorFuncion
 					e.printStackTrace();
 				}
 			});
-			
+
 			List<FuncionDTO> funcionesDto = new ArrayList<FuncionDTO>();
 			FuncionDTO funcion = null;
 			EmpresaDTO e = null;
-			
-			for(Funcion f : funciones)
+
+			for (Funcion f : funciones)
 			{
 				funcion = new FuncionDTO();
 				e = new EmpresaDTO();
-				
+
 				e.setId(f.getEmpresa().getId());
 				e.setNombre(f.getEmpresa().getNombre());
-				
+
 				funcion.setId(f.getId());
 				funcion.setCodigo(f.getCodigo());
 				funcion.setNombre(f.getNombre());
 				funcion.setEmpresa(e);
-				
+
 				funcionesDto.add(funcion);
-				
+
 			}
-			
+
 			return funcionesDto;
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+
+	}
+
+	public Boolean eliminarFuncion(FuncionBasicaDTO funcion) throws SQLException
+	{
+
+		FuncionDAO fDao = new PostgresFuncion();
+		EvaluacionDAO eDao = new PostgresEvaluacion();
+
+		try
+		{
+			Funcion f = fDao.findByCodigo(funcion.getCodigo());
+			List<Evaluacion> evaluaciones = eDao.findEvaluacionesByFuncion(f);
+			
+			if (!evaluaciones.isEmpty())
+				return false;
+			
+			f.setEliminado(true);
+			fDao.update(f);
+			
+			return true;
+			
 		} catch (SQLException e)
 		{
 			throw e;

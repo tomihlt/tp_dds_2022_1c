@@ -44,4 +44,11 @@ public class PostgresCandidato implements CandidatoDAO
 		return null;
 	}
 
+	@Override
+	public void update(Candidato t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

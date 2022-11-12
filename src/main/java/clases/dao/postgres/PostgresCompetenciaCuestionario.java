@@ -44,4 +44,11 @@ public class PostgresCompetenciaCuestionario implements CompetenciaCuestionarioD
 		return null;
 	}
 
+	@Override
+	public void update(CompetenciaCuestionario t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

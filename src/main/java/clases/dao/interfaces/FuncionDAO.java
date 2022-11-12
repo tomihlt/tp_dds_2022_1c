@@ -12,4 +12,6 @@ public interface FuncionDAO extends CRUD<Funcion>
 
 	public void setEmpresa(Funcion f) throws SQLException;
 
+	public Funcion findByCodigo(Integer codigo) throws SQLException;
+
 }

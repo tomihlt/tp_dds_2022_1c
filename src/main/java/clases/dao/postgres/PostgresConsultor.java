@@ -44,4 +44,11 @@ public class PostgresConsultor implements ConsultorDAO
 		return null;
 	}
 
+	@Override
+	public void update(Consultor t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

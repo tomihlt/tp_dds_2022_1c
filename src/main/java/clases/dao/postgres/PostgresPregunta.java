@@ -44,4 +44,11 @@ public class PostgresPregunta implements PreguntaDAO
 		return null;
 	}
 
+	@Override
+	public void update(Pregunta t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

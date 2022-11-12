@@ -44,4 +44,11 @@ public class PostgresOpcionDeRespuesta implements OpcionDeRespuestaDAO
 		return null;
 	}
 
+	@Override
+	public void update(OpcionDeRespuesta t) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }
