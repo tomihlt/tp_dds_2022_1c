@@ -121,14 +121,14 @@ public class PostgresFuncion implements FuncionDAO
 		{
 			if(cod)
 				query += q_and;
-			query += "f.nombre = ?";
+			query += "upper(f.nombre) = upper(?)";
 			nom = true;
 		}
 		if (empresa != null)
 		{
 			if(cod || nom)
 				query += q_and;
-			query += "e.nombre = ?";
+			query += "upper(e.nombre) = upper(?)";
 			emp = true;
 		}
 
