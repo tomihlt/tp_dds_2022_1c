@@ -30,7 +30,9 @@ import clases.dao.interfaces.FuncionDAO;
 import clases.dao.postgres.PostgresFuncion;
 import clases.dto.EmpresaDTO;
 import clases.dto.FuncionBasicaDTO;
+import clases.dto.FuncionCndeDTO;
 import clases.dto.FuncionDTO;
+import clases.dto.FuncionIdCodigoDTO;
 import clases.entidades.Funcion;
 import clases.gestores.GestorFuncion;
 
@@ -125,6 +127,7 @@ public class PanelFunciones extends JPanel
 		panelDeBotones.add(horizontalStrut);
 
 		modificarButton = new JButton("Modificar");
+		modificarButton.addActionListener(e -> modificarEmpresa());
 		panelDeBotones.add(modificarButton);
 
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
@@ -318,6 +321,31 @@ public class PanelFunciones extends JPanel
 		panelNorte.add(verticalStrut_4, BorderLayout.NORTH);
 
 	}
+	
+	private void modificarEmpresa()
+	{
+		TablaFuncionesPanelTableModel model = (TablaFuncionesPanelTableModel) table.getModel();
+		int fila = table.getSelectedRow();
+
+		if (fila == -1)
+		{
+			JOptionPane.showMessageDialog(this, "Debe seleccionar una función", "Error", JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+
+		FuncionIdCodigoDTO icf = (FuncionIdCodigoDTO) model.getValueAt(fila, 0);
+		String nombre = (String) model.getValueAt(fila, 1);
+		EmpresaDTO empresa = (EmpresaDTO) model.getValueAt(fila, 2);
+		
+		FuncionDTO funcion = new FuncionDTO();
+		funcion.setId(icf.getId());
+		funcion.setCodigo(icf.getCodigo());
+		funcion.setNombre(nombre);
+		funcion.setEmpresa(empresa);
+		
+		VentanaModificarFuncion ventana = new VentanaModificarFuncion(wWindow, this, funcion);
+		ventana.setVisible(true);
+	}
 
 	private void eliminarFuncion()
 	{
@@ -413,9 +441,13 @@ public class PanelFunciones extends JPanel
 	public void agregarElementoTabla(FuncionDTO f)
 	{
 		TablaFuncionesPanelTableModel model = (TablaFuncionesPanelTableModel) table.getModel();
-
+		
+		FuncionIdCodigoDTO aux = new FuncionIdCodigoDTO();
+		aux.setId(f.getId());
+		aux.setCodigo(f.getCodigo());
+		
 		Object[] row = new Object[]
-		{ f.getCodigo(), f.getNombre(), f.getEmpresa() };
+		{ aux, f.getNombre(), f.getEmpresa() };
 
 		model.addRow(row);
 	}

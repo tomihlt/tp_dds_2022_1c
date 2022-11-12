@@ -4,6 +4,7 @@ import javax.swing.table.DefaultTableModel;
 
 import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.EmpresaDTO;
+import clases.dto.FuncionIdCodigoDTO;
 
 public class TablaFuncionesPanelTableModel extends DefaultTableModel
 {
@@ -29,7 +30,7 @@ public class TablaFuncionesPanelTableModel extends DefaultTableModel
 	public Class<?> getColumnClass(int columnIndex)
 	{
 		if (columnIndex == 0)
-			return Integer.class;
+			return FuncionIdCodigoDTO.class;
 		else if(columnIndex == 1)
 			return String.class;
 		else

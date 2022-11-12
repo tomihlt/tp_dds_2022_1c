@@ -176,4 +176,60 @@ public class GestorFuncion
 
 	}
 
+	public FuncionCndeDTO buscarFuncion(FuncionDTO f) throws SQLException
+	{
+		FuncionCndeDTO func = new FuncionCndeDTO();
+		FuncionDAO fDao = new PostgresFuncion();
+		
+		try
+		{			
+			Funcion fAux = fDao.find(f.getId());
+			EmpresaDAO eDao = new PostgresEmpresa();
+			Empresa e = eDao.find(f.getEmpresa().getId());
+			fAux.setEmpresa(e);
+			
+			func.setId(fAux.getId());
+			func.setDescripcion(fAux.getDescripcion());
+			func.setCodigo(fAux.getCodigo());
+			func.setNombre(fAux.getNombre());
+			
+			EmpresaDTO emp = new EmpresaDTO();
+			emp.setId(e.getId());
+			emp.setNombre(e.getNombre());
+			
+			func.setEmpresa(emp);
+			
+		} catch (SQLException e)
+		{
+			throw e;
+		}		
+		
+		return func;
+	}
+
+	public List<CompetenciaPuntajeNombreDTO> buscarPuntajes(FuncionDTO f) throws SQLException
+	{
+		List<CompetenciaPuntajeNombreDTO> puntajesDto = new ArrayList<CompetenciaPuntajeNombreDTO>();
+		
+		FuncionDAO fDao = new PostgresFuncion();
+		Funcion func;
+		try
+		{
+			func = fDao.find(f.getId());
+			List<PuntajeNecesario> puntajes = fDao.findPuntajes(func);
+			puntajes.forEach(p -> {
+				CompetenciaPuntajeNombreDTO aux = new CompetenciaPuntajeNombreDTO();
+				aux.setId(p.getCompetencia().getId());
+				aux.setNombre(p.getCompetencia().getNombre());
+				aux.setPonderacion(p.getPuntaje());
+				puntajesDto.add(aux);
+			});
+		} catch (SQLException e)
+		{
+			throw e;
+		}
+		
+		return puntajesDto;
+	}
+
 }
