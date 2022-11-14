@@ -158,7 +158,7 @@ public class GestorFuncion
 
 		try
 		{
-			Funcion f = fDao.findByCodigo(funcion.getCodigo());
+			Funcion f = fDao.find(funcion.getId());
 			List<Evaluacion> evaluaciones = eDao.findEvaluacionesByFuncion(f);
 			
 			if (!evaluaciones.isEmpty())

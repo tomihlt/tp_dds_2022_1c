@@ -174,7 +174,10 @@ public class VentanaAgregarCompetencia extends JDialog
 
 		try
 		{
-			((VentanaModificarFuncion) invocador).agregarCompetenciaTabla(comp);
+			if(invocador instanceof VentanaModificarFuncion)
+				((VentanaModificarFuncion) invocador).agregarCompetenciaTabla(comp);
+			else if(invocador instanceof VentanaAltaFuncion)
+				((VentanaAltaFuncion) invocador).agregarCompetenciaTabla(comp);				
 			dispose();
 		} catch (Exception e)
 		{

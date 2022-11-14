@@ -358,7 +358,8 @@ public class PanelFunciones extends JPanel
 			return;
 		}
 
-		Integer codigo = (Integer) model.getValueAt(fila, 0);
+		Integer codigo = ((FuncionIdCodigoDTO) model.getValueAt(fila, 0)).getCodigo();
+		Integer id = ((FuncionIdCodigoDTO) model.getValueAt(fila, 0)).getId();
 		String nombre = (String) model.getValueAt(fila, 1);
 		EmpresaDTO empresa = (EmpresaDTO) model.getValueAt(fila, 2);
 
@@ -366,6 +367,7 @@ public class PanelFunciones extends JPanel
 		funcion.setCodigo(codigo);
 		funcion.setNombre(nombre);
 		funcion.setEmpresa(empresa.getNombre());
+		funcion.setId(id);
 
 		GestorFuncion gestor = new GestorFuncion();
 		try
@@ -391,7 +393,7 @@ public class PanelFunciones extends JPanel
 		TablaFuncionesPanelTableModel model = ((TablaFuncionesPanelTableModel) table.getModel());
 		for(int i = 0 ; i < model.getRowCount() ; i++)
 		{
-			if(((Integer)model.getValueAt(i, 0)).equals(funcion.getCodigo()))
+			if(((FuncionIdCodigoDTO)model.getValueAt(i, 0)).getId().equals(funcion.getId()))
 			{
 				model.removeRow(i);
 				break;
