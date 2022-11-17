@@ -24,6 +24,16 @@ public class PostgresFuncion implements FuncionDAO
 	@Override
 	public void save(Funcion t) throws SQLException
 	{
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT nombre FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
+		{
+			pstm.setInt(1, t.getCodigo());
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				throw new SQLException("Ya hay una funcion con ese código");
+			}
+		}
+		
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.funcion (id_empresa,nombre,codigo,descripcion,eliminado) VALUES (?,?,?,?,?)",
 				PreparedStatement.RETURN_GENERATED_KEYS))

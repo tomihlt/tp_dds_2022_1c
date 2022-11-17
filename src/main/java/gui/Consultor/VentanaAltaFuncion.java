@@ -361,6 +361,7 @@ public class VentanaAltaFuncion extends JDialog
 		{
 			JOptionPane.showMessageDialog(this, "Ya existe una funcion con ese código.", "Error de validación",
 					JOptionPane.ERROR_MESSAGE);
+//			e.printStackTrace();
 			return false;
 		}
 		

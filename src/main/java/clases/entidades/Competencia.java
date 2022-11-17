@@ -12,18 +12,18 @@ public class Competencia
 	private Integer codigo;
 	private String descripcion;
 	private Boolean eliminado;
-	private PuntajeNecesario puntajesNecesarios;
+//	private PuntajeNecesario puntajesNecesarios;
 	private List<Factor> factores;
 
-	public PuntajeNecesario getPuntajesNecesarios()
-	{
-		return puntajesNecesarios;
-	}
-
-	public void setPuntajesNecesarios(PuntajeNecesario puntajesNecesarios)
-	{
-		this.puntajesNecesarios = puntajesNecesarios;
-	}
+//	public PuntajeNecesario getPuntajesNecesarios()
+//	{
+//		return puntajesNecesarios;
+//	}
+//
+//	public void setPuntajesNecesarios(PuntajeNecesario puntajesNecesarios)
+//	{
+//		this.puntajesNecesarios = puntajesNecesarios;
+//	}
 
 	public Competencia()
 	{
