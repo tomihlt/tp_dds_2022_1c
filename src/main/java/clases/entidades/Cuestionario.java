@@ -23,21 +23,10 @@ public class Cuestionario
 	private Integer puntajeObtenido;
 	private Candidato candidato;
 	private List<Bloque> bloques;
-	private Evaluacion evaluacion;
 
 	public Cuestionario()
 	{
 		bloques = new ArrayList<Bloque>();
-	}
-
-	public Evaluacion getEvaluacion()
-	{
-		return evaluacion;
-	}
-
-	public void setEvaluacion(Evaluacion evaluacion)
-	{
-		this.evaluacion = evaluacion;
 	}
 
 	public Candidato getCandidato()
