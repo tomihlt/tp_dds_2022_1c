@@ -131,63 +131,29 @@ public class PostgresFuncion implements FuncionDAO
 	{
 		List<Funcion> funciones = new ArrayList<Funcion>();
 
-		Boolean cod = false;
-		Boolean nom = false;
-		Boolean emp = false;
+		String query = "SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado FROM dds.funcion as f, dds.empresa as e WHERE f.id_empresa = e.id AND f.eliminado = false AND f.nombre ILIKE ? AND e.nombre ILIKE ?";
 
-		String query = "SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado FROM dds.funcion as f, dds.empresa as e WHERE f.id_empresa = e.id AND f.eliminado = false";
-		String q_start = " AND(";
-		String q_end1 = ") ORDER BY f.codigo;";
-		String q_end2 = " ORDER BY f.codigo;";
-		String q_and = " AND ";
-
-		if (codigo != null || nombre != null || empresa != null)
-			query += q_start;
-
-		if (codigo != null)
-		{
-			query += "f.codigo = ?";
-			cod = true;
-		}
-		if (nombre != null)
-		{
-			if (cod)
-				query += q_and;
-			query += "upper(f.nombre) = upper(?)";
-			nom = true;
-		}
-		if (empresa != null)
-		{
-			if (cod || nom)
-				query += q_and;
-			query += "upper(e.nombre) = upper(?)";
-			emp = true;
-		}
-
-		if (codigo != null || nombre != null || empresa != null)
-			query += q_end1;
+		if(codigo != null)
+			query += "AND f.codigo = ? ORDER BY f.codigo;";
 		else
-			query += q_end2;
+			query += " ORDER BY f.codigo;";
 
 		try (PreparedStatement pstm = conn.prepareStatement(query))
 		{
-			// Codigo
-			if (cod)
-				pstm.setInt(1, codigo);
-
-			// Nombre
-			if (cod && nom)
-				pstm.setString(2, nombre);
-			else if (nom)
-				pstm.setString(1, nombre);
-
-			// Empresa
-			if (cod && nom && emp)
-				pstm.setString(3, empresa);
-			else if (emp && (cod || nom))
-				pstm.setString(2, empresa);
-			else if (emp)
-				pstm.setString(1, empresa);
+			
+			if(nombre == null)
+				pstm.setString(1, "%");
+			else
+				pstm.setString(1, "%"+nombre+"%");
+			
+			if(empresa == null)
+				pstm.setString(2, "%");
+			else
+				pstm.setString(2, "%"+empresa+"%");
+			
+			if(codigo != null)
+				pstm.setInt(3, codigo);
+				
 
 			ResultSet rs = pstm.executeQuery();
 			Funcion funcion = null;
