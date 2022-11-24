@@ -11,6 +11,9 @@ import javax.swing.JTabbedPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.event.ChangeListener;
+
+import clases.dto.ConsultorDTO;
+
 import javax.swing.event.ChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -19,6 +22,7 @@ public class MenuPrincipal extends JPanel
 {
 	private Integer lastSelectedTab;
 	private Main wWindow;
+	private ConsultorDTO consultor;
 	private JPanel currentMenu;
 	private JTabbedPane tabbedPane;
 	private JPanel inicioTab;
@@ -36,16 +40,17 @@ public class MenuPrincipal extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public MenuPrincipal(Main wWindow)
+	public MenuPrincipal(Main wWindow,ConsultorDTO consultor)
 	{
 		this.wWindow = wWindow;
+		this.consultor = consultor;
 		setLayout(new BorderLayout(0, 0));
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		
 		inicioTab = new JPanel();
-		tabbedPane.addTab("Inicio", null, new PanelUsuario(wWindow), null);
+		tabbedPane.addTab("Inicio", null, new PanelUsuario(wWindow,consultor), null);
 		
 		gestionarCandidatosTab = new JPanel();
 		tabbedPane.addTab("Gestionar candidatos", null, gestionarCandidatosTab, null);
@@ -57,7 +62,10 @@ public class MenuPrincipal extends JPanel
 		tabbedPane.addTab("Gestionar competencias", null, new PanelCompetencias(wWindow), null);
 		
 		panel = new JPanel();
-		tabbedPane.addTab("Gestionar factores", null, panel, null);
+		tabbedPane.addTab("Gestionar factores", null, new PanelFactores(wWindow), null);
+		
+		//Pestaña opcion de respuesta
+		tabbedPane.addTab("Gestionar Opciones de respuesta", null, new PanelOpcionDeRespuesta(wWindow), null);
 		
 		panel_6 = new JPanel();
 		tabbedPane.addTab("Orden de méritos", null, panel_6, null);

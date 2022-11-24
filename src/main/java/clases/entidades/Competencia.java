@@ -12,7 +12,6 @@ public class Competencia
 	private Integer codigo;
 	private String descripcion;
 	private Boolean eliminado;
-//	private PuntajeNecesario puntajesNecesarios;
 	private List<Factor> factores;
 
 //	public PuntajeNecesario getPuntajesNecesarios()

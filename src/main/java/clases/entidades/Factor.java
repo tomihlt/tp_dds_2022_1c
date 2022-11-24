@@ -10,22 +10,11 @@ public class Factor
 	private String descripcion;
 	private Integer codigo;
 	private Integer nroOrden;
-	private Competencia competencia;
 	private List<Pregunta> preguntas;
 
 	public Factor()
 	{
 		preguntas = new ArrayList<Pregunta>();
-	}
-
-	public Competencia getCompetencia()
-	{
-		return competencia;
-	}
-
-	public void setCompetencia(Competencia competencia)
-	{
-		this.competencia = competencia;
 	}
 
 	public List<Pregunta> getPreguntas()
