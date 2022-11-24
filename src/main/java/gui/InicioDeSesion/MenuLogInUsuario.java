@@ -246,7 +246,7 @@ public class MenuLogInUsuario extends JPanel
 
 		try
 		{
-			ConsultorDTO consultor = gestor.findByNombreUsuario(usuario);
+			ConsultorDTO consultor = gestor.findConsultorByNombreUsuario(usuario);
 
 			if (consultor == null)
 			{
@@ -267,6 +267,7 @@ public class MenuLogInUsuario extends JPanel
 		{
 			JOptionPane.showMessageDialog(this, "Excepcion en la linea 231 del login.", "Error",
 					JOptionPane.ERROR_MESSAGE);
+			return;
 		}
 
 	}

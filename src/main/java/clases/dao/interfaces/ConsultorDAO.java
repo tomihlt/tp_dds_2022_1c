@@ -6,5 +6,5 @@ import clases.entidades.Consultor;
 
 public interface ConsultorDAO extends CRUD<Consultor>
 {
-	public Consultor findByNombreUsuario(String nombre) throws SQLException;
+	public Consultor findConsultorByNombreUsuario(String nombre) throws SQLException;
 }

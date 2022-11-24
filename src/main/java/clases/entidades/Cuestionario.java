@@ -2,6 +2,7 @@ package clases.entidades;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +12,14 @@ public class Cuestionario
 {
 	private Integer id;
 	private EstadoCuestionario estado;
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
+	private LocalDateTime fechaInicio;
+	private LocalDateTime fechaFin;
 	private Integer cantidadAccessosMaxima;
 	private Integer cantidadAccesos;
-	private LocalDate ultimoIngreso;
-	private LocalDate fechaLimite;
-	private Instant tiempoEmpleado;
-	private Instant tiempoMaximo;
+	private LocalDateTime ultimoIngreso;
+	private LocalDateTime fechaLimite;
+	private Long tiempoEmpleado;
+	private Long tiempoMaximo;
 	private String clave;
 	private Integer puntajeObtenido;
 	private Candidato candidato;
@@ -27,26 +28,6 @@ public class Cuestionario
 	public Cuestionario()
 	{
 		bloques = new ArrayList<Bloque>();
-	}
-
-	public Candidato getCandidato()
-	{
-		return candidato;
-	}
-
-	public void setCandidato(Candidato candidato)
-	{
-		this.candidato = candidato;
-	}
-
-	public List<Bloque> getBloques()
-	{
-		return bloques;
-	}
-
-	public void setBloques(List<Bloque> bloques)
-	{
-		this.bloques = bloques;
 	}
 
 	public Integer getId()
@@ -69,22 +50,22 @@ public class Cuestionario
 		this.estado = estado;
 	}
 
-	public LocalDate getFechaInicio()
+	public LocalDateTime getFechaInicio()
 	{
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(LocalDate fechaInicio)
+	public void setFechaInicio(LocalDateTime fechaInicio)
 	{
 		this.fechaInicio = fechaInicio;
 	}
 
-	public LocalDate getFechaFin()
+	public LocalDateTime getFechaFin()
 	{
 		return fechaFin;
 	}
 
-	public void setFechaFin(LocalDate fechaFin)
+	public void setFechaFin(LocalDateTime fechaFin)
 	{
 		this.fechaFin = fechaFin;
 	}
@@ -109,42 +90,42 @@ public class Cuestionario
 		this.cantidadAccesos = cantidadAccesos;
 	}
 
-	public LocalDate getUltimoIngreso()
+	public LocalDateTime getUltimoIngreso()
 	{
 		return ultimoIngreso;
 	}
 
-	public void setUltimoIngreso(LocalDate ultimoIngreso)
+	public void setUltimoIngreso(LocalDateTime ultimoIngreso)
 	{
 		this.ultimoIngreso = ultimoIngreso;
 	}
 
-	public LocalDate getFechaLimite()
+	public LocalDateTime getFechaLimite()
 	{
 		return fechaLimite;
 	}
 
-	public void setFechaLimite(LocalDate fechaLimite)
+	public void setFechaLimite(LocalDateTime fechaLimite)
 	{
 		this.fechaLimite = fechaLimite;
 	}
 
-	public Instant getTiempoEmpleado()
+	public Long getTiempoEmpleado()
 	{
 		return tiempoEmpleado;
 	}
 
-	public void setTiempoEmpleado(Instant tiempoEmpleado)
+	public void setTiempoEmpleado(Long tiempoEmpleado)
 	{
 		this.tiempoEmpleado = tiempoEmpleado;
 	}
 
-	public Instant getTiempoMaximo()
+	public Long getTiempoMaximo()
 	{
 		return tiempoMaximo;
 	}
 
-	public void setTiempoMaximo(Instant tiempoMaximo)
+	public void setTiempoMaximo(Long tiempoMaximo)
 	{
 		this.tiempoMaximo = tiempoMaximo;
 	}
@@ -167,6 +148,26 @@ public class Cuestionario
 	public void setPuntajeObtenido(Integer puntajeObtenido)
 	{
 		this.puntajeObtenido = puntajeObtenido;
+	}
+
+	public Candidato getCandidato()
+	{
+		return candidato;
+	}
+
+	public void setCandidato(Candidato candidato)
+	{
+		this.candidato = candidato;
+	}
+
+	public List<Bloque> getBloques()
+	{
+		return bloques;
+	}
+
+	public void setBloques(List<Bloque> bloques)
+	{
+		this.bloques = bloques;
 	}
 
 }

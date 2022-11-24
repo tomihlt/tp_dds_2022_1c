@@ -58,7 +58,7 @@ public class PostgresConsultor implements ConsultorDAO
 	}
 
 	@Override
-	public Consultor findByNombreUsuario(String nombre) throws SQLException
+	public Consultor findConsultorByNombreUsuario(String nombre) throws SQLException
 	{
 		Consultor consultor = null;
 
