@@ -64,7 +64,7 @@ public class PostgresCandidato implements CandidatoDAO
 		Candidato candidato = null;
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT u.id, u.nombre, u.apellido, c.numero_candidato, c.nacionalidad, c.eliminado, c.email, c.fecha_nacimiento, c.dni, c.tipo_dni FROM dds.candidato c, dds.usuario u WHERE u.id = c.id AND u.dni = ? AND c.eliminado = false;"))
+				"SELECT u.id, u.nombre, u.apellido, c.numero_candidato, c.nacionalidad, c.eliminado, c.email, c.fecha_nacimiento, c.dni, c.tipo_dni FROM dds.candidato c, dds.usuario u WHERE u.id = c.id AND u.id = ? AND c.eliminado = false;"))
 		{
 			pstm.setInt(1, dni);
 			ResultSet rs = pstm.executeQuery();

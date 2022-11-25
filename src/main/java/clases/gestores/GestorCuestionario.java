@@ -19,6 +19,18 @@ public class GestorCuestionario
 		
 		cuestionario = cDao.findByIdCandidato(candidato.getId());
 		
+		if(cuestionario == null)
+			return null;
+		
+		estado = new CuestionarioDTO();
+		estado.setId(cuestionario.getId());
+		estado.setFechaFin(cuestionario.getFechaFin());
+		estado.setEstado(cuestionario.getEstado());
+		estado.setTiempoEmpleado(cuestionario.getTiempoEmpleado());
+		estado.setCantidadAccesos(cuestionario.getCantidadAccesos());
+		estado.setCantidadAccesosMaxima(cuestionario.getCantidadAccessosMaxima());
+		estado.setClave(cuestionario.getClave());
+		
 		return estado;
 		
 	}

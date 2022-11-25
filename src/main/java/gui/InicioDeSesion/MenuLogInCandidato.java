@@ -22,6 +22,7 @@ import javax.swing.DefaultComboBoxModel;
 
 import clases.dto.CandidatoDTO;
 import clases.dto.CuestionarioDTO;
+import clases.enums.EstadoCuestionario;
 import clases.enums.TipoDNI;
 import clases.gestores.GestorCuestionario;
 import clases.gestores.GestorUsuario;
@@ -33,6 +34,7 @@ import javax.swing.Box;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 public class MenuLogInCandidato extends JPanel
 {
@@ -271,16 +273,25 @@ public class MenuLogInCandidato extends JPanel
 		try
 		{
 			CandidatoDTO candidato = gestor.findCandidatoByDni(Integer.parseInt(documentoTxt.getText()));
-
+			
+			if(candidato == null)
+			{
+				JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos.", "Error.",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
 			if (!cuestionarioAccesbile(candidato))
 				return;
 
 		} catch (SQLException e)
 		{
-			JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos", "Error.",
+			JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos o no tiene un cuestionario.", "Error.",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
+
+		// Aca va el inicio de la lógica del Caso de uso 26 - Completar cuestionario
 
 	}
 
@@ -292,6 +303,30 @@ public class MenuLogInCandidato extends JPanel
 		try
 		{
 			cuestionario = gestor.findByCandidato(candidato);
+
+			if (cuestionario == null)
+			{
+				JOptionPane.showMessageDialog(this, "Ustedes no posee un cuestionario.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			} else if (!cuestionario.getClave().equals(pwTxt.getPassword().toString()))
+			{
+				JOptionPane.showMessageDialog(this, "La contraseña del cuestionario es incorrecta.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			} else if (cuestionario.getFechaFin().isAfter(LocalDateTime.now()))
+			{
+				JOptionPane.showMessageDialog(this, "La fecha para completar el cuestionario expiró.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				// TODO actualizar info en la base de datos
+				return false;
+			} else if (cuestionario.getCantidadAccesosMaxima() <= cuestionario.getCantidadAccesos())
+			{
+				JOptionPane.showMessageDialog(this, "Ya no le quedan más intentos.", "Error",
+						JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+
 		} catch (SQLException e)
 		{
 			JOptionPane.showMessageDialog(this, "No se pudo obtener el cuestionario.", "Error",
@@ -299,7 +334,7 @@ public class MenuLogInCandidato extends JPanel
 			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	private Boolean camposValidos()

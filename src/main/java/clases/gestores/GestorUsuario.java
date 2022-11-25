@@ -48,6 +48,8 @@ public class GestorUsuario
 		CandidatoDAO cDao = new PostgresCandidato();
 
 		candidato = cDao.findCandidatoByDni(dni);
+		if(candidato == null)
+			return candidatoDto;
 		
 		candidatoDto = new CandidatoDTO();
 		candidatoDto.setApellido(candidato.getApellido());
