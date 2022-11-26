@@ -273,7 +273,6 @@ public class MenuLogInCandidato extends JPanel
 		try
 		{
 			CandidatoDTO candidato = gestor.findCandidatoByDni(Integer.parseInt(documentoTxt.getText()));
-			
 			if(candidato == null)
 			{
 				JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos.", "Error.",
@@ -306,7 +305,7 @@ public class MenuLogInCandidato extends JPanel
 
 			if (cuestionario == null)
 			{
-				JOptionPane.showMessageDialog(this, "Ustedes no posee un cuestionario.", "Error",
+				JOptionPane.showMessageDialog(this, "Usted no posee un cuestionario.", "Error",
 						JOptionPane.ERROR_MESSAGE);
 				return false;
 			} else if (!cuestionario.getClave().equals(pwTxt.getPassword().toString()))

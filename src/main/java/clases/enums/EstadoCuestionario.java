@@ -2,5 +2,5 @@ package clases.enums;
 
 public enum EstadoCuestionario
 {
-Activo,SinContestar,EnProceso, Completo 
+Activo,SinContestar,EnProceso,Completo 
 }
