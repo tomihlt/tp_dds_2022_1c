@@ -1,4 +1,4 @@
-package gui.Consultor;
+package gui.Consultor.GestionarFunciones;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

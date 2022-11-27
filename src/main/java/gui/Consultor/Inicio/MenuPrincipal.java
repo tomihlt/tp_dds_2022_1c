@@ -1,8 +1,12 @@
-package gui.Consultor;
+package gui.Consultor.Inicio;
 
 import javax.swing.JPanel;
 
 import gui.Main;
+import gui.Consultor.GestionarCompetencias.PanelCompetencias;
+import gui.Consultor.GestionarFactores.PanelFactores;
+import gui.Consultor.GestionarFunciones.PanelFunciones;
+import gui.Consultor.GestionarOpcionDeRespuesta.PanelOpcionDeRespuesta;
 
 import java.awt.BorderLayout;
 import java.awt.Point;

@@ -1,4 +1,4 @@
-package gui.Consultor;
+package gui.Consultor.GestionarFunciones;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import gui.Main;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

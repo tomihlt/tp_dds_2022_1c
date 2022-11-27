@@ -1,4 +1,4 @@
-package gui.Consultor;
+package gui.Consultor.GestionarFactores;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,9 +7,12 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,10 +24,10 @@ import javax.swing.border.LineBorder;
 import gui.Main;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
 import gui.tableRenderersYTableModels.TablaFactoresPanelTableModel;
+import gui.tableRenderersYTableModels.TablaFuncionesPanelTableModel;
 
-public class PanelOpcionDeRespuesta extends JPanel
+public class PanelFactores extends JPanel
 {
-	
 	private Main wWindow;
 	private JPanel panelDeDatos;
 	private JPanel panelDeBotones;
@@ -46,6 +49,8 @@ public class PanelOpcionDeRespuesta extends JPanel
 	private JLabel lblNewLabel_4;
 	private JTextField nombreFuncionTxt;
 	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_6;
+	private JTextField nombreEmpresaTxt;
 	private JLabel lblNewLabel_7;
 	private Component verticalStrut_1;
 	private JButton buscarButton;
@@ -54,8 +59,10 @@ public class PanelOpcionDeRespuesta extends JPanel
 	private Component horizontalStrut_4;
 	private Component horizontalStrut_5;
 	private Component verticalStrut_4;
-	
-	public PanelOpcionDeRespuesta(Main wWindow)
+	/**
+	 * Create the panel.
+	 */
+	public PanelFactores(Main wWindow)
 	{
 		this.wWindow = wWindow;
 		setLayout(new BorderLayout(0, 0));
@@ -70,7 +77,7 @@ public class PanelOpcionDeRespuesta extends JPanel
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new TablaFactoresPanelTableModel(new Object[][] {}, new String[]
-		{ "Nombre", "Descripción" }));
+		{ "Código", "Nombre del factor", "Nombre de la competencia" }));
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
 		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
@@ -102,10 +109,6 @@ public class PanelOpcionDeRespuesta extends JPanel
 		panelDeBotones.add(horizontalStrut_1);
 
 		nuevoButton = new JButton("Nuevo");
-		nuevoButton.addActionListener(e -> {
-			VentanaAltaOpcionDeRespuesta ventana = new VentanaAltaOpcionDeRespuesta(this.wWindow, this);
-			ventana.setVisible(true);
-		});
 		panelDeBotones.add(nuevoButton);
 
 		panelNorte = new JPanel();
@@ -151,7 +154,7 @@ public class PanelOpcionDeRespuesta extends JPanel
 		gbc_lblNewLabel_1.gridy = 2;
 		panelBuscador.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		lblNewLabel_4 = new JLabel("Nombre de la opción");
+		lblNewLabel_4 = new JLabel("Nombre de la función");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.fill = GridBagConstraints.VERTICAL;
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -178,6 +181,24 @@ public class PanelOpcionDeRespuesta extends JPanel
 		gbc_lblNewLabel_5.gridy = 2;
 		panelBuscador.add(lblNewLabel_5, gbc_lblNewLabel_5);
 
+		lblNewLabel_6 = new JLabel("Nombre de la empresa");
+		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+		gbc_lblNewLabel_6.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_6.gridx = 7;
+		gbc_lblNewLabel_6.gridy = 2;
+		panelBuscador.add(lblNewLabel_6, gbc_lblNewLabel_6);
+
+		nombreEmpresaTxt = new JTextField();
+		nombreEmpresaTxt.setColumns(10);
+		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
+		gbc_textField_2.fill = GridBagConstraints.BOTH;
+		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_2.gridx = 8;
+		gbc_textField_2.gridy = 2;
+		panelBuscador.add(nombreEmpresaTxt, gbc_textField_2);
+
 		lblNewLabel_7 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
 		gbc_lblNewLabel_7.weightx = 0.5;
@@ -195,7 +216,6 @@ public class PanelOpcionDeRespuesta extends JPanel
 		panelBuscador.add(verticalStrut_1, gbc_verticalStrut_1);
 		
 		buscarButton = new JButton("Buscar");
-
 		GridBagConstraints gbc_buscarButton = new GridBagConstraints();
 		gbc_buscarButton.gridwidth = 11;
 		gbc_buscarButton.fill = GridBagConstraints.VERTICAL;
@@ -227,6 +247,12 @@ public class PanelOpcionDeRespuesta extends JPanel
 
 		verticalStrut_4 = Box.createVerticalStrut(20);
 		panelNorte.add(verticalStrut_4, BorderLayout.NORTH);
+	}
+	
+	private void limpiarTabla()
+	{
+		table.setModel(new TablaFuncionesPanelTableModel(new Object[][] {}, new String[]
+				{ "Código", "Nombre del factor", "Nombre de la competencia" }));
 	}
 
 }

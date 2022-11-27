@@ -1,4 +1,4 @@
-package gui.Consultor;
+package gui.Consultor.Inicio;
 
 import javax.swing.JPanel;
 

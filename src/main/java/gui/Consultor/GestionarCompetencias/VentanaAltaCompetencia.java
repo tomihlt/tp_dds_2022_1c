@@ -1,4 +1,4 @@
-package gui.Consultor;
+package gui.Consultor.GestionarCompetencias;
 
 import javax.swing.JDialog;
 import javax.swing.JPanel;

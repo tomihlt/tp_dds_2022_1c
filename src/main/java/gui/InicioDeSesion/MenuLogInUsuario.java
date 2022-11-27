@@ -13,8 +13,8 @@ import java.awt.Insets;
 import javax.swing.JTextField;
 
 import gui.Main;
-import gui.Consultor.MenuPrincipal;
-import gui.Consultor.PanelUsuario;
+import gui.Consultor.Inicio.MenuPrincipal;
+import gui.Consultor.Inicio.PanelUsuario;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
