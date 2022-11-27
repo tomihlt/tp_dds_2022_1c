@@ -11,6 +11,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import gui.tableRenderersYTableModels.CandidatosAEvaluarTableModel;
+import gui.tableRenderersYTableModels.EstandarCellRenderer;
+
 import javax.swing.ListSelectionModel;
 
 public class CandidatosTab extends JPanel
@@ -48,6 +50,8 @@ public class CandidatosTab extends JPanel
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new CandidatosAEvaluarTableModel(new Object[][] {}, new String[]
 		{ "Apellido", "Nombre", "Número de candidato" }));
+		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
+		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
 		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane.setViewportView(table);
 	}

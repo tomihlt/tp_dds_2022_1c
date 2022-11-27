@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
 import gui.tableRenderersYTableModels.CandidatosAEvaluarTableModel;
+import gui.tableRenderersYTableModels.EstandarCellRenderer;
 
 public class CandidatosAEvaluarTab extends JPanel
 {
@@ -50,6 +51,8 @@ public class CandidatosAEvaluarTab extends JPanel
 				"Apellido", "Nombre", "Número de candidato"
 			}
 		));
+		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
+		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
 		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane.setViewportView(table);
 	}

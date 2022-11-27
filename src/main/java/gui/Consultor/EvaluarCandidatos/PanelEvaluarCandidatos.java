@@ -27,7 +27,7 @@ public class PanelEvaluarCandidatos extends JPanel
 	{
 		this.wWindow = wWindow;
 		initialize();
-		setCurrentMenu(new PantallaElegirCandidatos(wWindow));
+		setCurrentMenu(new PantallaElegirCandidatos(wWindow,this));
 	}
 
 	private void initialize()

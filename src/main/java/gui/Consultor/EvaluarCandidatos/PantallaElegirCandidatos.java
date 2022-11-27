@@ -20,6 +20,8 @@ import javax.swing.border.LineBorder;
 
 import gui.Main;
 import javax.swing.JTabbedPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PantallaElegirCandidatos extends JPanel
 {
@@ -30,6 +32,7 @@ public class PantallaElegirCandidatos extends JPanel
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("unused")
 	private Main wWindow;
+	private PanelEvaluarCandidatos panel;
 	private JPanel panelDeDatos;
 	private JPanel panelDeBotones;
 	private JPanel panelNorte;
@@ -71,9 +74,10 @@ public class PantallaElegirCandidatos extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public PantallaElegirCandidatos(Main wWindow)
+	public PantallaElegirCandidatos(Main wWindow, PanelEvaluarCandidatos panel)
 	{
 		this.wWindow = wWindow;
+		this.panel = panel;
 		initialize();
 	}
 	
@@ -107,6 +111,7 @@ public class PantallaElegirCandidatos extends JPanel
 		panelDeBotones.add(lblNewLabel_9);
 		
 		siguienteButton = new JButton("Siguiente");
+		siguienteButton.addActionListener(e -> siguiente());
 		panelDeBotones.add(siguienteButton);
 		
 		horizontalStrut = Box.createHorizontalStrut(20);
@@ -287,6 +292,12 @@ public class PantallaElegirCandidatos extends JPanel
 
 		verticalStrut_4 = Box.createVerticalStrut(20);
 		panelNorte.add(verticalStrut_4, BorderLayout.NORTH);
+	}
+
+	private void siguiente()
+	{
+		PantallaSeleccionarFuncion pantallaSiguiente = new PantallaSeleccionarFuncion(wWindow,panel,this);
+		panel.setCurrentMenu(pantallaSiguiente);
 	}
 
 }
