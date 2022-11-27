@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 
 import gui.Main;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
-import gui.tableRenderersYTableModels.TablaFuncionesPanelTableModel;
+import gui.tableRenderersYTableModels.FuncionesPanelTableModel;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -99,7 +99,7 @@ public class PanelFunciones extends JPanel
 
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new TablaFuncionesPanelTableModel(new Object[][] {}, new String[]
+		table.setModel(new FuncionesPanelTableModel(new Object[][] {}, new String[]
 		{ "Código", "Nombre de la función", "Nombre de la empresa" }));
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
@@ -324,7 +324,7 @@ public class PanelFunciones extends JPanel
 	
 	private void modificarEmpresa()
 	{
-		TablaFuncionesPanelTableModel model = (TablaFuncionesPanelTableModel) table.getModel();
+		FuncionesPanelTableModel model = (FuncionesPanelTableModel) table.getModel();
 		int fila = table.getSelectedRow();
 
 		if (fila == -1)
@@ -349,7 +349,7 @@ public class PanelFunciones extends JPanel
 
 	private void eliminarFuncion()
 	{
-		TablaFuncionesPanelTableModel model = (TablaFuncionesPanelTableModel) table.getModel();
+		FuncionesPanelTableModel model = (FuncionesPanelTableModel) table.getModel();
 		int fila = table.getSelectedRow();
 
 		if (fila == -1)
@@ -390,7 +390,7 @@ public class PanelFunciones extends JPanel
 
 	private void eliminarFuncionTabla(FuncionBasicaDTO funcion)
 	{
-		TablaFuncionesPanelTableModel model = ((TablaFuncionesPanelTableModel) table.getModel());
+		FuncionesPanelTableModel model = ((FuncionesPanelTableModel) table.getModel());
 		for(int i = 0 ; i < model.getRowCount() ; i++)
 		{
 			if(((FuncionIdCodigoDTO)model.getValueAt(i, 0)).getId().equals(funcion.getId()))
@@ -410,7 +410,7 @@ public class PanelFunciones extends JPanel
 //			model.removeRow(i);
 //		}
 
-		table.setModel(new TablaFuncionesPanelTableModel(new Object[][] {}, new String[]
+		table.setModel(new FuncionesPanelTableModel(new Object[][] {}, new String[]
 		{ "Código", "Nombre de la función", "Nombre de la empresa" }));
 
 	}
@@ -442,7 +442,7 @@ public class PanelFunciones extends JPanel
 
 	public void agregarElementoTabla(FuncionDTO f)
 	{
-		TablaFuncionesPanelTableModel model = (TablaFuncionesPanelTableModel) table.getModel();
+		FuncionesPanelTableModel model = (FuncionesPanelTableModel) table.getModel();
 		
 		FuncionIdCodigoDTO aux = new FuncionIdCodigoDTO();
 		aux.setId(f.getId());

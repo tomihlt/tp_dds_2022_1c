@@ -2,17 +2,18 @@ package gui.tableRenderersYTableModels;
 
 import javax.swing.table.DefaultTableModel;
 
-import clases.dto.CompetenciaBasicaDTO;
-import clases.dto.EmpresaDTO;
-import clases.dto.FuncionIdCodigoDTO;
+import clases.dto.CandidatoIdNumeroDTO;
 
-public class TablaFuncionesPanelTableModel extends DefaultTableModel
+public class CandidatosAEvaluarTableModel extends DefaultTableModel
 {
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[] titulos;
 	private Object[][] datos;
 	
-	public TablaFuncionesPanelTableModel(Object[][] datos, String[] titulos)
+	public CandidatosAEvaluarTableModel(Object[][] datos, String[] titulos)
 	{
 		super();
 		this.titulos = titulos;
@@ -30,11 +31,10 @@ public class TablaFuncionesPanelTableModel extends DefaultTableModel
 	public Class<?> getColumnClass(int columnIndex)
 	{
 		if (columnIndex == 0)
-			return FuncionIdCodigoDTO.class;
+			return String.class;
 		else if(columnIndex == 1)
 			return String.class;
 		else
-			return EmpresaDTO.class;
+			return CandidatoIdNumeroDTO.class;
 	}
-	
 }

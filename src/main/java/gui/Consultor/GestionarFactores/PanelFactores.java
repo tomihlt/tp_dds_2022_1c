@@ -23,8 +23,8 @@ import javax.swing.border.LineBorder;
 
 import gui.Main;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
-import gui.tableRenderersYTableModels.TablaFactoresPanelTableModel;
-import gui.tableRenderersYTableModels.TablaFuncionesPanelTableModel;
+import gui.tableRenderersYTableModels.FactoresPanelTableModel;
+import gui.tableRenderersYTableModels.FuncionesPanelTableModel;
 
 public class PanelFactores extends JPanel
 {
@@ -76,7 +76,7 @@ public class PanelFactores extends JPanel
 
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new TablaFactoresPanelTableModel(new Object[][] {}, new String[]
+		table.setModel(new FactoresPanelTableModel(new Object[][] {}, new String[]
 		{ "Código", "Nombre del factor", "Nombre de la competencia" }));
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
@@ -251,7 +251,7 @@ public class PanelFactores extends JPanel
 	
 	private void limpiarTabla()
 	{
-		table.setModel(new TablaFuncionesPanelTableModel(new Object[][] {}, new String[]
+		table.setModel(new FuncionesPanelTableModel(new Object[][] {}, new String[]
 				{ "Código", "Nombre del factor", "Nombre de la competencia" }));
 	}
 

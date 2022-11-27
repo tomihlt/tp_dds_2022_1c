@@ -1,4 +1,4 @@
-package gui.Consultor.GestionarOpcionDeRespuesta;
+package gui.Consultor.EvaluarCandidatos;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -7,9 +7,12 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -19,33 +22,31 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
 import gui.Main;
+import gui.Consultor.GestionarFunciones.VentanaAltaFuncion;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
-import gui.tableRenderersYTableModels.FactoresPanelTableModel;
+import gui.tableRenderersYTableModels.FuncionesPanelTableModel;
+import javax.swing.BoxLayout;
+import javax.swing.JTabbedPane;
 
-public class PanelOpcionDeRespuesta extends JPanel
+public class PanelEvaluarCandidatos extends JPanel
 {
-	
+
 	private Main wWindow;
 	private JPanel panelDeDatos;
 	private JPanel panelDeBotones;
-	private JButton eliminarButton;
-	private JButton modificarButton;
-	private JButton nuevoButton;
-	private Component horizontalStrut;
-	private Component horizontalStrut_1;
-	private JScrollPane scrollPane;
-	private JTable table;
-	private Component horizontalStrut_2;
-	private Component horizontalStrut_3;
-	private Component verticalStrut_3;
 	private JPanel panelNorte;
 	private JPanel panelBuscador;
 	private JLabel lblNewLabel;
 	private Component verticalStrut;
 	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JTextField apellidoTxt;
+	private JLabel lblNewLabel_3;
 	private JLabel lblNewLabel_4;
-	private JTextField nombreFuncionTxt;
+	private JTextField nombreTxt;
 	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_6;
+	private JTextField numeroTxt;
 	private JLabel lblNewLabel_7;
 	private Component verticalStrut_1;
 	private JButton buscarButton;
@@ -54,8 +55,18 @@ public class PanelOpcionDeRespuesta extends JPanel
 	private Component horizontalStrut_4;
 	private Component horizontalStrut_5;
 	private Component verticalStrut_4;
-	
-	public PanelOpcionDeRespuesta(Main wWindow)
+	private JLabel lblNewLabel_9;
+	private JButton siguienteButton;
+	private Component horizontalStrut;
+	private JTabbedPane agregarEliminarPane;
+	private Component horizontalStrut_1;
+	private Component horizontalStrut_2;
+	private Component verticalStrut_3;
+
+	/**
+	 * Create the panel.
+	 */
+	public PanelEvaluarCandidatos(Main wWindow)
 	{
 		this.wWindow = wWindow;
 		setLayout(new BorderLayout(0, 0));
@@ -63,50 +74,33 @@ public class PanelOpcionDeRespuesta extends JPanel
 		panelDeDatos = new JPanel();
 		add(panelDeDatos, BorderLayout.CENTER);
 		panelDeDatos.setLayout(new BorderLayout(0, 0));
-
-		scrollPane = new JScrollPane();
-		panelDeDatos.add(scrollPane, BorderLayout.CENTER);
-
-		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new FactoresPanelTableModel(new Object[][] {}, new String[]
-		{ "Nombre", "Descripción" }));
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
-		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
-		scrollPane.setViewportView(table);
-
+		
+		agregarEliminarPane = new JTabbedPane(JTabbedPane.TOP);
+		agregarEliminarPane.addTab("Candidatos", null, new JPanel(), null);
+		agregarEliminarPane.addTab("Candidatos a evaluar", null, new JPanel(), null);
+		panelDeDatos.add(agregarEliminarPane, BorderLayout.CENTER);
+		
+		horizontalStrut_1 = Box.createHorizontalStrut(20);
+		panelDeDatos.add(horizontalStrut_1, BorderLayout.WEST);
+		
 		horizontalStrut_2 = Box.createHorizontalStrut(20);
-		panelDeDatos.add(horizontalStrut_2, BorderLayout.WEST);
-
-		horizontalStrut_3 = Box.createHorizontalStrut(20);
-		panelDeDatos.add(horizontalStrut_3, BorderLayout.EAST);
-
+		panelDeDatos.add(horizontalStrut_2, BorderLayout.EAST);
+		
 		verticalStrut_3 = Box.createVerticalStrut(20);
 		panelDeDatos.add(verticalStrut_3, BorderLayout.NORTH);
 
 		panelDeBotones = new JPanel();
 		add(panelDeBotones, BorderLayout.SOUTH);
-		panelDeBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 20));
-
-		eliminarButton = new JButton("Eliminar");
-		panelDeBotones.add(eliminarButton);
-
+		panelDeBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		lblNewLabel_9 = new JLabel("1/3");
+		panelDeBotones.add(lblNewLabel_9);
+		
+		siguienteButton = new JButton("Siguiente");
+		panelDeBotones.add(siguienteButton);
+		
 		horizontalStrut = Box.createHorizontalStrut(20);
 		panelDeBotones.add(horizontalStrut);
-
-		modificarButton = new JButton("Modificar");
-		panelDeBotones.add(modificarButton);
-
-		horizontalStrut_1 = Box.createHorizontalStrut(20);
-		panelDeBotones.add(horizontalStrut_1);
-
-		nuevoButton = new JButton("Nuevo");
-		nuevoButton.addActionListener(e -> {
-			VentanaAltaOpcionDeRespuesta ventana = new VentanaAltaOpcionDeRespuesta(this.wWindow, this);
-			ventana.setVisible(true);
-		});
-		panelDeBotones.add(nuevoButton);
 
 		panelNorte = new JPanel();
 		add(panelNorte, BorderLayout.NORTH);
@@ -151,7 +145,34 @@ public class PanelOpcionDeRespuesta extends JPanel
 		gbc_lblNewLabel_1.gridy = 2;
 		panelBuscador.add(lblNewLabel_1, gbc_lblNewLabel_1);
 
-		lblNewLabel_4 = new JLabel("Nombre de la opción");
+		lblNewLabel_2 = new JLabel("Apellido");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 1;
+		gbc_lblNewLabel_2.gridy = 2;
+		panelBuscador.add(lblNewLabel_2, gbc_lblNewLabel_2);
+
+		apellidoTxt = new JTextField();
+		apellidoTxt.setColumns(10);
+		GridBagConstraints gbc_apellidoTxt = new GridBagConstraints();
+		gbc_apellidoTxt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_apellidoTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_apellidoTxt.gridx = 2;
+		gbc_apellidoTxt.gridy = 2;
+		panelBuscador.add(apellidoTxt, gbc_apellidoTxt);
+
+		lblNewLabel_3 = new JLabel("");
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.weightx = 0.1;
+		gbc_lblNewLabel_3.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.gridx = 3;
+		gbc_lblNewLabel_3.gridy = 2;
+		panelBuscador.add(lblNewLabel_3, gbc_lblNewLabel_3);
+
+		lblNewLabel_4 = new JLabel("Nombre");
 		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
 		gbc_lblNewLabel_4.fill = GridBagConstraints.VERTICAL;
 		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
@@ -160,14 +181,14 @@ public class PanelOpcionDeRespuesta extends JPanel
 		gbc_lblNewLabel_4.gridy = 2;
 		panelBuscador.add(lblNewLabel_4, gbc_lblNewLabel_4);
 
-		nombreFuncionTxt = new JTextField();
-		nombreFuncionTxt.setColumns(10);
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.BOTH;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 5;
-		gbc_textField_1.gridy = 2;
-		panelBuscador.add(nombreFuncionTxt, gbc_textField_1);
+		nombreTxt = new JTextField();
+		nombreTxt.setColumns(10);
+		GridBagConstraints gbc_nombreTxt = new GridBagConstraints();
+		gbc_nombreTxt.fill = GridBagConstraints.BOTH;
+		gbc_nombreTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_nombreTxt.gridx = 5;
+		gbc_nombreTxt.gridy = 2;
+		panelBuscador.add(nombreTxt, gbc_nombreTxt);
 
 		lblNewLabel_5 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
@@ -177,6 +198,37 @@ public class PanelOpcionDeRespuesta extends JPanel
 		gbc_lblNewLabel_5.gridx = 6;
 		gbc_lblNewLabel_5.gridy = 2;
 		panelBuscador.add(lblNewLabel_5, gbc_lblNewLabel_5);
+
+		lblNewLabel_6 = new JLabel("Número de candidato");
+		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
+		gbc_lblNewLabel_6.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_6.gridx = 7;
+		gbc_lblNewLabel_6.gridy = 2;
+		panelBuscador.add(lblNewLabel_6, gbc_lblNewLabel_6);
+
+		numeroTxt = new JTextField();
+		numeroTxt.addKeyListener(new KeyAdapter()
+		{
+			@Override
+			public void keyTyped(KeyEvent e)
+			{
+				int key = e.getKeyChar();
+
+				if (key < 48 || key > 57)
+				{
+					e.consume();
+				}
+			}
+		});
+		numeroTxt.setColumns(10);
+		GridBagConstraints gbc_numeroTxt = new GridBagConstraints();
+		gbc_numeroTxt.fill = GridBagConstraints.BOTH;
+		gbc_numeroTxt.insets = new Insets(0, 0, 5, 5);
+		gbc_numeroTxt.gridx = 8;
+		gbc_numeroTxt.gridy = 2;
+		panelBuscador.add(numeroTxt, gbc_numeroTxt);
 
 		lblNewLabel_7 = new JLabel("");
 		GridBagConstraints gbc_lblNewLabel_7 = new GridBagConstraints();
@@ -193,14 +245,12 @@ public class PanelOpcionDeRespuesta extends JPanel
 		gbc_verticalStrut_1.gridx = 5;
 		gbc_verticalStrut_1.gridy = 3;
 		panelBuscador.add(verticalStrut_1, gbc_verticalStrut_1);
-		
-		buscarButton = new JButton("Buscar");
 
+		buscarButton = new JButton("Buscar");
 		GridBagConstraints gbc_buscarButton = new GridBagConstraints();
-		gbc_buscarButton.gridwidth = 11;
 		gbc_buscarButton.fill = GridBagConstraints.VERTICAL;
 		gbc_buscarButton.insets = new Insets(0, 0, 5, 5);
-		gbc_buscarButton.gridx = 0;
+		gbc_buscarButton.gridx = 5;
 		gbc_buscarButton.gridy = 4;
 		panelBuscador.add(buscarButton, gbc_buscarButton);
 

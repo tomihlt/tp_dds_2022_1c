@@ -3,6 +3,7 @@ package gui.Consultor.Inicio;
 import javax.swing.JPanel;
 
 import gui.Main;
+import gui.Consultor.EvaluarCandidatos.PanelEvaluarCandidatos;
 import gui.Consultor.GestionarCompetencias.PanelCompetencias;
 import gui.Consultor.GestionarFactores.PanelFactores;
 import gui.Consultor.GestionarFunciones.PanelFunciones;
@@ -81,7 +82,7 @@ public class MenuPrincipal extends JPanel
 		tabbedPane.addTab("Gestionar funciones", null, new PanelFunciones(wWindow), null);
 		
 		panel_3 = new JPanel();
-		tabbedPane.addTab("Evaluar candidatos", null, panel_3, null);
+		tabbedPane.addTab("Evaluar candidatos", null, new PanelEvaluarCandidatos(wWindow), null);
 		
 		panel_4 = new JPanel();
 		tabbedPane.addTab("Exportar resultados", null, panel_4, null);
