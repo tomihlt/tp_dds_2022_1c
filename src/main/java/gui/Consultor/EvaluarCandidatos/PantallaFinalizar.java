@@ -1,0 +1,161 @@
+package gui.Consultor.EvaluarCandidatos;
+
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.FlowLayout;
+import javax.swing.JButton;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import gui.Main;
+
+public class PantallaFinalizar extends JPanel
+{
+	private Main wWindow;
+	private PantallaSeleccionarFuncion anterior;
+	private JPanel panelSuperior;
+	private JLabel lblNewLabel;
+	private JLabel infoLabel;
+	private JLabel lblNewLabel_1;
+	private JPanel panelDeBotones;
+	private Component horizontalStrut;
+	private JButton cancelarButton;
+	private JLabel lblNewLabel_2;
+	private JButton anteriorButton;
+	private JLabel lblNewLabel_3;
+	private JButton finalizarButton;
+	private Component horizontalStrut_1;
+	private JPanel panelDeDatos;
+	private JScrollPane scrollPane;
+	private JTable table;
+
+	/**
+	 * Create the panel.
+	 */
+	public PantallaFinalizar(Main wWindow, PantallaSeleccionarFuncion anterior)
+	{
+		this.wWindow = wWindow;
+		this.anterior = anterior;
+		initialize();
+	}
+	private void initialize() {
+		setLayout(new BorderLayout(0, 0));
+		
+		panelSuperior = new JPanel();
+		add(panelSuperior, BorderLayout.NORTH);
+		GridBagLayout gbl_panelSuperior = new GridBagLayout();
+		gbl_panelSuperior.columnWidths = new int[]{0, 0, 0, 0};
+		gbl_panelSuperior.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_panelSuperior.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelSuperior.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelSuperior.setLayout(gbl_panelSuperior);
+		
+		lblNewLabel = new JLabel("");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.weightx = 0.5;
+		gbc_lblNewLabel.weighty = 0.5;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 0;
+		panelSuperior.add(lblNewLabel, gbc_lblNewLabel);
+		
+		lblNewLabel_1 = new JLabel("");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.weighty = 0.5;
+		gbc_lblNewLabel_1.weightx = 0.5;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 0);
+		gbc_lblNewLabel_1.gridx = 2;
+		gbc_lblNewLabel_1.gridy = 2;
+		panelSuperior.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		infoLabel = new JLabel("Resumen de candidatos a evaluar para la función FUNCION en la empresa EMPRESA.");
+		GridBagConstraints gbc_infoLabel = new GridBagConstraints();
+		gbc_infoLabel.gridx = 1;
+		gbc_infoLabel.gridy = 1;
+		panelSuperior.add(infoLabel, gbc_infoLabel);
+		
+		panelDeBotones = new JPanel();
+		add(panelDeBotones, BorderLayout.SOUTH);
+		GridBagLayout gbl_panelDeBotones = new GridBagLayout();
+		gbl_panelDeBotones.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelDeBotones.rowHeights = new int[]{0, 0, 0};
+		gbl_panelDeBotones.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelDeBotones.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panelDeBotones.setLayout(gbl_panelDeBotones);
+		
+		horizontalStrut = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalStrut.gridx = 0;
+		gbc_horizontalStrut.gridy = 0;
+		panelDeBotones.add(horizontalStrut, gbc_horizontalStrut);
+		
+		cancelarButton = new JButton("Cancelar");
+		GridBagConstraints gbc_cancelarButton = new GridBagConstraints();
+		gbc_cancelarButton.insets = new Insets(0, 0, 5, 5);
+		gbc_cancelarButton.gridx = 1;
+		gbc_cancelarButton.gridy = 0;
+		panelDeBotones.add(cancelarButton, gbc_cancelarButton);
+		
+		lblNewLabel_2 = new JLabel("");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.weightx = 0.5;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 2;
+		gbc_lblNewLabel_2.gridy = 0;
+		panelDeBotones.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		anteriorButton = new JButton("Anterior");
+		GridBagConstraints gbc_anteriorButton = new GridBagConstraints();
+		gbc_anteriorButton.insets = new Insets(0, 0, 5, 5);
+		gbc_anteriorButton.gridx = 3;
+		gbc_anteriorButton.gridy = 0;
+		panelDeBotones.add(anteriorButton, gbc_anteriorButton);
+		
+		lblNewLabel_3 = new JLabel("2/3");
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.gridx = 4;
+		gbc_lblNewLabel_3.gridy = 0;
+		panelDeBotones.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		
+		finalizarButton = new JButton("Finalizar");
+		GridBagConstraints gbc_finalizarButton = new GridBagConstraints();
+		gbc_finalizarButton.insets = new Insets(0, 0, 5, 5);
+		gbc_finalizarButton.gridx = 5;
+		gbc_finalizarButton.gridy = 0;
+		panelDeBotones.add(finalizarButton, gbc_finalizarButton);
+		
+		horizontalStrut_1 = Box.createHorizontalStrut(20);
+		GridBagConstraints gbc_horizontalStrut_1 = new GridBagConstraints();
+		gbc_horizontalStrut_1.insets = new Insets(0, 0, 5, 0);
+		gbc_horizontalStrut_1.gridx = 6;
+		gbc_horizontalStrut_1.gridy = 0;
+		panelDeBotones.add(horizontalStrut_1, gbc_horizontalStrut_1);
+		
+		panelDeDatos = new JPanel();
+		add(panelDeDatos, BorderLayout.CENTER);
+		panelDeDatos.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		panelDeDatos.add(scrollPane, BorderLayout.CENTER);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Apellido", "Nombre", "Tipo de documento", "Número de documento", "Clave de ingreso"
+			}
+		));
+		scrollPane.setViewportView(table);
+	}
+
+}
