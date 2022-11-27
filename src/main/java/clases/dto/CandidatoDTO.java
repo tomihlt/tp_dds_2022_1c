@@ -9,7 +9,7 @@ public class CandidatoDTO
 	private Integer id;
 	private String apellido;
 	private String nombre;
-	private Integer NumeroCandidato;
+	private Integer numeroCandidato;
 	private String nacionalidad;
 	private Boolean eliminado;
 	private String email;
@@ -29,12 +29,12 @@ public class CandidatoDTO
 
 	public Integer getNumeroCandidato()
 	{
-		return NumeroCandidato;
+		return numeroCandidato;
 	}
 
 	public void setNumeroCandidato(Integer nro_candidato)
 	{
-		this.NumeroCandidato = nro_candidato;
+		this.numeroCandidato = nro_candidato;
 	}
 
 	public String getApellido()

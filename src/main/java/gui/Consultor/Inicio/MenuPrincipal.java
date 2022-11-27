@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 
 import gui.Main;
 import gui.Consultor.EvaluarCandidatos.PanelEvaluarCandidatos;
+import gui.Consultor.EvaluarCandidatos.PantallaElegirCandidatos;
 import gui.Consultor.GestionarCompetencias.PanelCompetencias;
 import gui.Consultor.GestionarFactores.PanelFactores;
 import gui.Consultor.GestionarFunciones.PanelFunciones;
