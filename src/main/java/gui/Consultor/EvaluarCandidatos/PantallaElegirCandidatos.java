@@ -10,6 +10,7 @@ import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Box;
@@ -360,18 +361,55 @@ public class PantallaElegirCandidatos extends JPanel
 
 	private void siguiente()
 	{
+
+		if (!candidatosAEvaluarValidos())
+			return;
+
 		PantallaSeleccionarFuncion pantallaSiguiente = new PantallaSeleccionarFuncion(wWindow, panel, this);
 		panel.setCurrentMenu(pantallaSiguiente);
 	}
 
-	public void repintar()
+	private Boolean candidatosAEvaluarValidos()
 	{
-		tablaA.repaint();
-		tablaA.revalidate();
-		repaint();
-		revalidate();
-		wWindow.repaint();
-		wWindow.revalidate();
+
+		List<CandidatoBasicoDTO> candidatos = panelB.obtenerCandidatos();
+		List<CandidatoBasicoDTO> candidatosNoEvaluables = new ArrayList<CandidatoBasicoDTO>();
+
+		for (CandidatoBasicoDTO c : candidatos)
+		{
+			try
+			{
+				if (tieneCuestionario(c))
+					candidatosNoEvaluables.add(c);
+			} catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+
+		if (candidatosNoEvaluables.isEmpty())
+			return true;
+		else
+		{
+			mostrarCandidatosNoEvaluables(candidatosNoEvaluables);
+			return false;
+		}
+	}
+
+	private void mostrarCandidatosNoEvaluables(List<CandidatoBasicoDTO> candidatosNoEvaluables)
+	{
+		String mensaje = "No se puede seguir con la siguiente etapa debido a que los siguientes candidatos ya poseen un cuestionario: \n";
+		for (CandidatoBasicoDTO c : candidatosNoEvaluables)
+			mensaje += c.getNombre() + " " + c.getApellido() + "\n";
+		JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private Boolean tieneCuestionario(CandidatoBasicoDTO c) throws SQLException
+	{
+		GestorUsuario gestor = new GestorUsuario();
+
+		return gestor.tieneCuestionario(c);
+
 	}
 
 }

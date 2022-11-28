@@ -90,4 +90,11 @@ public class GestorUsuario
 		return resultado;
 	}
 
+	public Boolean tieneCuestionario(CandidatoBasicoDTO c) throws SQLException
+	{
+		CandidatoDAO cDao = new PostgresCandidato();
+		
+		return cDao.tieneCuestionarioById(c.getId());
+	}
+
 }

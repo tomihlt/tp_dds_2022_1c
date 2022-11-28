@@ -15,6 +15,8 @@ import clases.dto.CandidatoBasicoDTO;
 import gui.tableRenderersYTableModels.CandidatosAEvaluarTableModel;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CandidatosAEvaluarTab extends JPanel
@@ -100,6 +102,18 @@ public class CandidatosAEvaluarTab extends JPanel
 				return true;
 
 		return false;
+	}
+
+	protected List<CandidatoBasicoDTO> obtenerCandidatos()
+	{
+		List<CandidatoBasicoDTO> candidatos = new ArrayList<CandidatoBasicoDTO>();
+		
+		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) table.getModel();
+		
+		for(int i = 0 ; i < model.getRowCount() ; i++)
+			candidatos.add((CandidatoBasicoDTO)model.getValueAt(i, 2));
+		
+		return candidatos;
 	}
 
 }

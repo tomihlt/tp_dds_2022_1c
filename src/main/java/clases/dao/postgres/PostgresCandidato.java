@@ -96,49 +96,48 @@ public class PostgresCandidato implements CandidatoDAO
 
 	private TipoDNI tipoDeDniDelCandidato(String string)
 	{
-		if(string == "DNI")
+		if (string == "DNI")
 			return TipoDNI.DNI;
-		else if(string == "LE")
+		else if (string == "LE")
 			return TipoDNI.LE;
-		else if(string == "LC")
+		else if (string == "LC")
 			return TipoDNI.LC;
 		else
 			return TipoDNI.PP;
 	}
 
 	@Override
-	public List<Candidato> findByFilters(String apellido, String nombre, Integer numeroDeCandidato)
-			throws SQLException
+	public List<Candidato> findByFilters(String apellido, String nombre, Integer numeroDeCandidato) throws SQLException
 	{
 		List<Candidato> candidatos = new ArrayList<Candidato>();
-		
+
 		String query = "SELECT c.id,c.numero_candidato,c.nacionalidad,c.eliminado,c.email,c.fecha_nacimiento,c.dni,c.tipo_dni, u.apellido, u.nombre FROM dds.candidato c, dds.usuario u WHERE eliminado = false AND u.id = c.id AND u.apellido ILIKE ? AND u.nombre ILIKE ?";
-		
-		if(numeroDeCandidato != null)
+
+		if (numeroDeCandidato != null)
 			query += " AND numero_candidato = ? ORDER BY numero_candidato;";
 		else
 			query += " ORDER BY numero_candidato";
-		
-		try(PreparedStatement pstm = conn.prepareStatement(query))
+
+		try (PreparedStatement pstm = conn.prepareStatement(query))
 		{
-			if(apellido != null)
+			if (apellido != null)
 				pstm.setString(1, apellido + "%");
 			else
 				pstm.setString(1, "%");
-			
-			if(nombre != null)
+
+			if (nombre != null)
 				pstm.setString(2, nombre + "%");
 			else
 				pstm.setString(2, "%");
-			
-			if(numeroDeCandidato != null)
+
+			if (numeroDeCandidato != null)
 				pstm.setInt(3, numeroDeCandidato);
-			
+
 			ResultSet rs = pstm.executeQuery();
-			
+
 			Candidato c = null;
-			
-			while(rs.next())
+
+			while (rs.next())
 			{
 				c = new Candidato();
 				c.setId(rs.getInt(1));
@@ -154,8 +153,23 @@ public class PostgresCandidato implements CandidatoDAO
 				candidatos.add(c);
 			}
 		}
-		
+
 		return candidatos;
+	}
+
+	@Override
+	public Boolean tieneCuestionarioById(Integer id) throws SQLException
+	{
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT c.id FROM dds.cuestionario c, dds.candidato cand WHERE c.id_candidato = cand.id AND cand.id = ?;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+				return true;
+			else
+				return false;
+		}
 	}
 
 }

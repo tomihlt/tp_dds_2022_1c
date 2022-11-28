@@ -11,4 +11,6 @@ public interface CandidatoDAO extends CRUD<Candidato>
 	public Candidato findCandidatoByDni(Integer dni) throws SQLException;
 	
 	public List<Candidato> findByFilters(String apellido, String nombre, Integer numeroDeCandidato) throws SQLException;
+	
+	public Boolean tieneCuestionarioById(Integer id) throws SQLException;
 }
