@@ -19,6 +19,7 @@ import clases.dto.EmpresaDTO;
 import clases.dto.FuncionBasicaDTO;
 import clases.dto.FuncionCndeDTO;
 import clases.dto.FuncionDTO;
+import clases.dto.FuncionNombreIdDTO;
 import clases.entidades.Competencia;
 import clases.entidades.Empresa;
 import clases.entidades.Evaluacion;
@@ -269,6 +270,12 @@ public class GestorFuncion
 		fDao.updateFuncionConPuntajesYEmpresa(f);
 		
 		
+	}
+
+	public List<FuncionNombreIdDTO> findFuncionesByEmpresa(EmpresaDTO e)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

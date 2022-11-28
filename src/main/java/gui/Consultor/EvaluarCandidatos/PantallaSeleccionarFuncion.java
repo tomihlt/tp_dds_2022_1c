@@ -1,11 +1,15 @@
 package gui.Consultor.EvaluarCandidatos;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 import clases.dto.CandidatoBasicoDTO;
+import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.EmpresaDTO;
 import clases.dto.FuncionNombreIdDTO;
+import clases.gestores.GestorFuncion;
 import gui.Main;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
 
@@ -19,6 +23,7 @@ import java.awt.BorderLayout;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -26,6 +31,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class PantallaSeleccionarFuncion extends JPanel
@@ -62,6 +68,9 @@ public class PantallaSeleccionarFuncion extends JPanel
 	private JButton siguienteButton;
 	private Component horizontalStrut_6;
 	private Component horizontalStrut_7;
+	// Datos
+	private Map<EmpresaDTO, FuncionNombreIdDTO> empresas;
+	private Map<FuncionNombreIdDTO, CompetenciaPuntajeNombreDTO> funciones;
 
 	/**
 	 * Create the panel.
@@ -71,7 +80,48 @@ public class PantallaSeleccionarFuncion extends JPanel
 		this.wWindow = wWindow;
 		this.panel = panel;
 		this.pantallAnterior = pantallaAnterior;
+		this.empresas = new HashMap<EmpresaDTO, FuncionNombreIdDTO>();
+		this.funciones = new HashMap<FuncionNombreIdDTO, CompetenciaPuntajeNombreDTO>();
 		initialize();
+		cargarDatos();
+	}
+
+	private void cargarDatos()
+	{
+		// Empresas
+		try
+		{
+			cargarEmpresas();
+		} catch (SQLException e)
+		{
+			JOptionPane.showMessageDialog(this, "Error al cargar las empresas de la bdd", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+
+		// Funciones
+		cargarFunciones();
+	}
+
+	private void cargarFunciones()
+	{
+		GestorFuncion gestor = new GestorFuncion();
+		for (int i = 0; i < empresaCBx.getItemCount(); i++)
+		{
+			EmpresaDTO e = empresaCBx.getItemAt(i);
+			List<FuncionNombreIdDTO> funciones = gestor.findFuncionesByEmpresa(e);
+		}
+	}
+
+	private void cargarEmpresas() throws SQLException
+	{
+		GestorFuncion gestor = new GestorFuncion();
+
+		List<EmpresaDTO> empresas = gestor.getAllEmpresas();
+
+		for (EmpresaDTO e : empresas)
+			empresaCBx.addItem(e);
+
 	}
 
 	private void initialize()
@@ -235,7 +285,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 	private void siguiente()
 	{
-		PantallaFinalizar pantallaSiguiente = new PantallaFinalizar(wWindow,panel,this);
+		PantallaFinalizar pantallaSiguiente = new PantallaFinalizar(wWindow, panel, this);
 		panel.setCurrentMenu(pantallaSiguiente);
 	}
 
