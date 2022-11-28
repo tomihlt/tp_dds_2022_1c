@@ -1,0 +1,273 @@
+CREATE SCHEMA dds;
+
+CREATE TABLE dds.bloque (
+    id serial NOT NULL,
+    id_cuestionario integer,
+    numero integer,
+    visitable boolean
+);
+
+CREATE TABLE dds.candidato (
+    id serial NOT NULL,
+    numero_candidato integer,
+    nacionalidad character varying(200),
+    eliminado boolean DEFAULT false,
+    email character varying(200),
+    fecha_nacimiento date,
+    dni integer,
+    tipo_dni character varying(20)
+);
+
+CREATE TABLE dds.competencia (
+    id serial,
+    nombre character varying(200),
+    codigo integer,
+    eliminado boolean
+    descripcion character varying(500)
+);
+
+CREATE TABLE dds.competencia_cuestionario (
+    id serial NOT NULL,
+    id_cuestionario integer,
+    nombre character varying(200),
+    descripcion character varying(500),
+    ponderacion integer,
+    codigo integer,
+    puntaje_obtenido integer
+);
+
+CREATE TABLE dds.consultor (
+    id serial NOT NULL,
+    usuario character varying(100),
+    "contraseña" character varying(100)
+);
+
+CREATE TABLE dds.cuestionario (
+    id serial NOT NULL,
+    id_candidato integer,
+    id_evaluacion integer,
+    estado character varying(50),
+    fecha_inicio date,
+    fecha_fin date,
+    cantidad_accesos_maxima integer,
+    cantidad_accesos integer,
+    ultimo_ingreso timestamp with time zone,
+    fecha_limite timestamp with time zone,
+    tiempo_empleado bigint,
+    tiempo_maximo bigint,
+    clave character varying(200),
+    puntaje_obtenido integer
+);
+
+CREATE TABLE dds.empresa (
+    id serial NOT NULL,
+    nombre character varying(200)
+);
+
+CREATE TABLE dds.evaluacion (
+    id serial NOT NULL,
+    id_funcion integer,
+    fecha date
+);
+
+CREATE TABLE dds.factor (
+    id serial NOT NULL,
+    id_competencia integer,
+    nombre character varying(200),
+    descripcion character varying(500),
+    codigo integer,
+    nro_orden integer
+);
+
+CREATE TABLE dds.factor_cuestionario (
+    id serial NOT NULL,
+    id_competencia integer,
+    nombre character varying(200),
+    descripcion character varying(500),
+    codigo integer,
+    nro_orden integer,
+    puntaje_obtenido integer
+);
+
+CREATE TABLE dds.funcion (
+    id serial NOT NULL,
+    id_empresa integer,
+    nombre character varying(200),
+    codigo integer,
+    descripcion character varying(500),
+    eliminado boolean
+);
+
+CREATE TABLE dds.funcion_competencias (
+    funcion integer NOT NULL,
+    competencia integer NOT NULL,
+    puntaje_necesario integer
+);
+
+CREATE TABLE dds.opcion_de_respuesta (
+    id serial NOT NULL,
+    nombre character varying(200),
+    descripcion character varying(500)
+);
+
+CREATE TABLE dds.pregunta (
+    id serial NOT NULL,
+    id_factor integer,
+    opcion_de_respuesta integer,
+    nombre character varying(200),
+    descripcion character varying(500)
+);
+
+CREATE TABLE dds.pregunta_cuestionario (
+    id serial NOT NULL,
+    id_bloque integer,
+    id_factor integer,
+    nombre character varying(200),
+    pregunta character varying(200),
+    descripcion character varying(500),
+    nro_orden integer
+);
+
+CREATE TABLE dds.respuesta (
+    id serial NOT NULL,
+    id_opcion integer,
+    nombre character varying(200),
+    descripcion character varying(500),
+    orden_visualizacion integer
+);
+
+CREATE TABLE dds.respuesta_cuestionario (
+    id serial NOT NULL,
+    id_pregunta integer,
+    nombre character varying(200),
+    seleccionada boolean,
+    ponderacion integer,
+    descripcion character varying(500)
+);
+
+CREATE TABLE dds.usuario (
+    id serial NOT NULL,
+    apellido character varying(200),
+    nombre character varying(200)
+);
+
+CREATE TABLE dds.pregunta_respuesta (
+    pregunta integer,
+    respuesta integer,
+    ponderacion integer
+);
+
+-- PRIMARY KEYS
+
+alter table dds.consultor
+	add constraint pk_consultor primary key (id);
+
+alter table dds.usuario
+	add constraint pk_usuario primary key (id);
+
+alter table dds.candidato
+	add constraint pk_candidato primary key(id);
+
+alter table dds.bloque
+	add constraint pk_bloque primary key (id);
+
+alter table dds.pregunta_cuestionario
+	add constraint pk_pregunta_cuest primary key (id);
+
+alter table dds.respuesta_cuestionario
+	add constraint pk_respuesta_cuest primary key (id);
+
+alter table dds.cuestionario
+	add constraint pk_cuestionario primary key (id);
+
+alter table dds.competencia_cuestionario
+	add constraint pk_competencia_cuest primary key (id);
+
+alter table dds.factor_cuestionario
+	add constraint pk_factor_cuest primary key (id);
+
+alter table dds.evaluacion
+	add constraint pk_evaluacion primary key (id);
+
+alter table dds.empresa
+	add constraint pk_empresa primary key (id);
+
+alter table dds.funcion
+	add constraint pk_funcion primary key (id);
+
+alter table dds.competencia
+	add constraint pk_competencia primary key (id);
+
+alter table dds.factor
+	add constraint pk_factor primary key (id);
+
+alter table dds.pregunta
+	add constraint pk_pregunta primary key (id);
+
+alter table dds.opcion_de_respuesta
+	add constraint pk_opcion_de_respuesta primary key (id);
+
+alter table dds.respuesta
+	add constraint pk_respuesta primary key (id);
+
+alter table dds.funcion_competencias
+	add constraint pk_funcion_competencias primary key (funcion,competencia);
+
+alter table dds.pregunta_respuesta
+    add constraint pk_funcion_pregunta_respuesta primary key (pregunta,respuesta);
+
+-- FOREIGN KEY
+
+alter table dds.consultor
+    add constraint fk_usuario foreign key (id) references dds.usuario(id);
+
+alter table dds.candidato
+    add constraint fk_usuario foreign key (id) references dds.usuario(id);
+
+alter table dds.bloque
+    add constraint fk_cuestionario foreign key (id_cuestionario) references dds.cuestionario(id);
+
+alter table dds.pregunta_cuestionario
+    add constraint fk_bloque foreign key (id_bloque) references dds.bloque(id),
+    add constraint fk_cuestionario foreign key (id_factor) references dds.factor_cuestionario(id);
+
+alter table dds.respuesta_cuestionario
+    add constraint fk_pregunta foreign key (id_pregunta) references dds.pregunta_cuestionario(id);
+
+alter table dds.factor_cuestionario
+    add constraint fk_competencia foreign key (id_competencia) references dds.competencia_cuestionario(id);
+
+alter table dds.competencia_cuestionario
+    add constraint fk_cuestionario foreign key (id_cuestionario) references dds.cuestionario(id);
+
+alter table dds.cuestionario
+    add constraint fk_candidato foreign key (id_candidato) references dds.candidato(id),
+    add constraint fk_evaluacion foreign key (id_evaluacion) references dds.evaluacion(id);
+
+alter table dds.evaluacion
+    add constraint fk_funcion foreign key (id_funcion) references dds.funcion(id);
+
+alter table dds.funcion_competencias
+    add constraint fk_funcion foreign key (funcion) references dds.funcion(id),
+    add constraint fk_competencia foreign key (competencia) references dds.competencia(id);
+
+alter table dds.factor
+    add constraint fk_competencia foreign key (id_competencia) references dds.competencia(id);
+
+alter table dds.pregunta
+    add constraint fk_factor foreign key (id_factor) references dds.factor(id),
+    add constraint fk_opcion foreign key (opcion_de_respuesta) references dds.opcion_de_respuesta(id);
+
+alter table dds.respuesta
+    add constraint fk_respuesta foreign key (id_opcion) references dds.opcion_de_respuesta(id);
+
+alter table dds.pregunta_respuesta
+    add constraint fk_pregunta foreign key (pregunta) references dds.pregunta(id),
+    add constraint fk_respuesta foreign key (respuesta) references dds.respuesta(id);
+
+-- UQ
+alter table dds.competencia
+    add constraint uq_cod_competencia unique(codigo);
+
+alter table dds.factor
+    add constraint uq_cod_factor unique(codigo);
