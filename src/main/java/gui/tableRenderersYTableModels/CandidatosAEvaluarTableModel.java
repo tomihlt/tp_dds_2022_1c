@@ -2,7 +2,7 @@ package gui.tableRenderersYTableModels;
 
 import javax.swing.table.DefaultTableModel;
 
-import clases.dto.CandidatoIdNumeroDTO;
+import clases.dto.CandidatoBasicoDTO;
 
 public class CandidatosAEvaluarTableModel extends DefaultTableModel
 {
@@ -35,6 +35,6 @@ public class CandidatosAEvaluarTableModel extends DefaultTableModel
 		else if(columnIndex == 1)
 			return String.class;
 		else
-			return CandidatoIdNumeroDTO.class;
+			return CandidatoBasicoDTO.class;
 	}
 }

@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import clases.dao.DBConnection;
 import clases.dao.interfaces.CandidatoDAO;
+import clases.dto.CandidatoBasicoDTO;
 import clases.entidades.Candidato;
 import clases.enums.TipoDNI;
 
@@ -101,6 +104,58 @@ public class PostgresCandidato implements CandidatoDAO
 			return TipoDNI.LC;
 		else
 			return TipoDNI.PP;
+	}
+
+	@Override
+	public List<Candidato> findByFilters(String apellido, String nombre, Integer numeroDeCandidato)
+			throws SQLException
+	{
+		List<Candidato> candidatos = new ArrayList<Candidato>();
+		
+		String query = "SELECT c.id,c.numero_candidato,c.nacionalidad,c.eliminado,c.email,c.fecha_nacimiento,c.dni,c.tipo_dni, u.apellido, u.nombre FROM dds.candidato c, dds.usuario u WHERE eliminado = false AND u.id = c.id AND u.apellido ILIKE ? AND u.nombre ILIKE ?";
+		
+		if(numeroDeCandidato != null)
+			query += " AND numero_candidato = ? ORDER BY numero_candidato;";
+		else
+			query += " ORDER BY numero_candidato";
+		
+		try(PreparedStatement pstm = conn.prepareStatement(query))
+		{
+			if(apellido != null)
+				pstm.setString(1, apellido + "%");
+			else
+				pstm.setString(1, "%");
+			
+			if(nombre != null)
+				pstm.setString(2, nombre + "%");
+			else
+				pstm.setString(2, "%");
+			
+			if(numeroDeCandidato != null)
+				pstm.setInt(3, numeroDeCandidato);
+			
+			ResultSet rs = pstm.executeQuery();
+			
+			Candidato c = null;
+			
+			while(rs.next())
+			{
+				c = new Candidato();
+				c.setId(rs.getInt(1));
+				c.setNumeroCandidato(rs.getInt(2));
+				c.setNacionalidad(rs.getString(3));
+				c.setEliminado(rs.getBoolean(4));
+				c.setEmail(rs.getString(5));
+				c.setFechaNacimiento(rs.getDate(6).toLocalDate());
+				c.setDni(rs.getInt(7));
+				c.setTipoDni(tipoDeDniDelCandidato(rs.getString(8)));
+				c.setApellido(rs.getString(9));
+				c.setNombre(rs.getString(10));
+				candidatos.add(c);
+			}
+		}
+		
+		return candidatos;
 	}
 
 }

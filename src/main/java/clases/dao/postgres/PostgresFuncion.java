@@ -134,7 +134,7 @@ public class PostgresFuncion implements FuncionDAO
 		String query = "SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado FROM dds.funcion as f, dds.empresa as e WHERE f.id_empresa = e.id AND f.eliminado = false AND f.nombre ILIKE ? AND e.nombre ILIKE ?";
 
 		if(codigo != null)
-			query += "AND f.codigo = ? ORDER BY f.codigo;";
+			query += " AND f.codigo = ? ORDER BY f.codigo;";
 		else
 			query += " ORDER BY f.codigo;";
 
@@ -144,12 +144,12 @@ public class PostgresFuncion implements FuncionDAO
 			if(nombre == null)
 				pstm.setString(1, "%");
 			else
-				pstm.setString(1, "%"+nombre+"%");
+				pstm.setString(1, nombre+"%");
 			
 			if(empresa == null)
 				pstm.setString(2, "%");
 			else
-				pstm.setString(2, "%"+empresa+"%");
+				pstm.setString(2, empresa+"%");
 			
 			if(codigo != null)
 				pstm.setInt(3, codigo);

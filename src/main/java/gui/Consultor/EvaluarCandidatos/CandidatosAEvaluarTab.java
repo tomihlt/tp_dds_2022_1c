@@ -5,13 +5,17 @@ import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 
+import clases.dto.CandidatoBasicoDTO;
 import gui.tableRenderersYTableModels.CandidatosAEvaluarTableModel;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CandidatosAEvaluarTab extends JPanel
 {
@@ -29,34 +33,41 @@ public class CandidatosAEvaluarTab extends JPanel
 		this.invocador = invocador;
 		initialize();
 	}
-	private void initialize() {
+
+	private void initialize()
+	{
 		setLayout(new BorderLayout(0, 0));
-		
+
 		panelBotones = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panelBotones.getLayout();
 		add(panelBotones, BorderLayout.SOUTH);
-		
+
 		eliminarButton = new JButton("Eliminar");
+		eliminarButton.addActionListener(e -> eliminar());
 		panelBotones.add(eliminarButton);
-		
+
 		scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
-		
+
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new CandidatosAEvaluarTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Apellido", "Nombre", "Número de candidato"
-			}
-		));
+		table.setModel(new CandidatosAEvaluarTableModel(new Object[][] {}, new String[]
+		{ "Apellido", "Nombre", "Número de candidato" }));
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
 		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
 		table.getTableHeader().setReorderingAllowed(false);
 		scrollPane.setViewportView(table);
 	}
-	
+
+	private void eliminar()
+	{
+		if (table.getSelectedRow() < 0)
+			JOptionPane.showMessageDialog(this, "Debe seleccionar un cadidato.", "Error", JOptionPane.WARNING_MESSAGE);
+		
+		((CandidatosAEvaluarTableModel)table.getModel()).removeRow(table.getSelectedRow());
+		
+	}
+
 	protected JTable getTable()
 	{
 		return table;
@@ -66,5 +77,29 @@ public class CandidatosAEvaluarTab extends JPanel
 	{
 		this.table = table;
 	}
-	
+
+	protected void agregarElementoTabla(CandidatoBasicoDTO c) throws CandidatoYaCargadoException
+	{
+
+		if (existeCandidatoEnTabla(c))
+			throw new CandidatoYaCargadoException(
+					"El candidato " + c.getApellido() + c.getNombre() + " ya ha sido agregado.");
+
+		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) table.getModel();
+		Object[] row = new Object[]
+		{ c.getApellido(), c.getNombre(), c };
+		model.addRow(row);
+	}
+
+	private Boolean existeCandidatoEnTabla(CandidatoBasicoDTO c)
+	{
+		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) table.getModel();
+
+		for (int i = 0; i < model.getRowCount(); i++)
+			if (((CandidatoBasicoDTO) model.getValueAt(i, 2)).equals(c))
+				return true;
+
+		return false;
+	}
+
 }

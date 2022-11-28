@@ -9,16 +9,23 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.SQLException;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import clases.dto.CandidatoBasicoDTO;
+import clases.gestores.GestorUsuario;
 import gui.Main;
+import gui.tableRenderersYTableModels.CandidatosAEvaluarTableModel;
+
 import javax.swing.JTabbedPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -80,7 +87,7 @@ public class PantallaElegirCandidatos extends JPanel
 		this.panel = panel;
 		initialize();
 	}
-	
+
 	private void initialize()
 	{
 		setLayout(new BorderLayout(0, 0));
@@ -88,32 +95,32 @@ public class PantallaElegirCandidatos extends JPanel
 		panelDeDatos = new JPanel();
 		add(panelDeDatos, BorderLayout.CENTER);
 		panelDeDatos.setLayout(new BorderLayout(0, 0));
-		
+
 		agregarEliminarPane = new JTabbedPane(JTabbedPane.TOP);
-		agregarEliminarPane.addTab("Candidatos", null, new CandidatosTab(this), null);
-		agregarEliminarPane.addTab("Candidatos a evaluar", null, new CandidatosAEvaluarTab(this), null);
+		agregarEliminarPane.addTab("Candidatos", null, panelA, null);
+		agregarEliminarPane.addTab("Candidatos a evaluar", null, panelB, null);
 		panelDeDatos.add(agregarEliminarPane, BorderLayout.CENTER);
-		
+
 		horizontalStrut_1 = Box.createHorizontalStrut(20);
 		panelDeDatos.add(horizontalStrut_1, BorderLayout.WEST);
-		
+
 		horizontalStrut_2 = Box.createHorizontalStrut(20);
 		panelDeDatos.add(horizontalStrut_2, BorderLayout.EAST);
-		
+
 		verticalStrut_3 = Box.createVerticalStrut(20);
 		panelDeDatos.add(verticalStrut_3, BorderLayout.NORTH);
 
 		panelDeBotones = new JPanel();
 		add(panelDeBotones, BorderLayout.SOUTH);
 		panelDeBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 10));
-		
+
 		lblNewLabel_9 = new JLabel("1/3");
 		panelDeBotones.add(lblNewLabel_9);
-		
+
 		siguienteButton = new JButton("Siguiente");
 		siguienteButton.addActionListener(e -> siguiente());
 		panelDeBotones.add(siguienteButton);
-		
+
 		horizontalStrut = Box.createHorizontalStrut(20);
 		panelDeBotones.add(horizontalStrut);
 
@@ -262,10 +269,12 @@ public class PantallaElegirCandidatos extends JPanel
 		panelBuscador.add(verticalStrut_1, gbc_verticalStrut_1);
 
 		buscarButton = new JButton("Buscar");
+		buscarButton.addActionListener(e -> buscar());
 		GridBagConstraints gbc_buscarButton = new GridBagConstraints();
+		gbc_buscarButton.gridwidth = 11;
 		gbc_buscarButton.fill = GridBagConstraints.VERTICAL;
 		gbc_buscarButton.insets = new Insets(0, 0, 5, 5);
-		gbc_buscarButton.gridx = 5;
+		gbc_buscarButton.gridx = 0;
 		gbc_buscarButton.gridy = 4;
 		panelBuscador.add(buscarButton, gbc_buscarButton);
 
@@ -294,10 +303,75 @@ public class PantallaElegirCandidatos extends JPanel
 		panelNorte.add(verticalStrut_4, BorderLayout.NORTH);
 	}
 
+	private void buscar()
+	{
+		panelA.limpiarTabla();
+		String apellido = null;
+		String nombre = null;
+		Integer numeroDeCandidato = null;
+
+		if (!(apellidoTxt.getText().isBlank() || apellidoTxt.getText().isEmpty()))
+			apellido = apellidoTxt.getText();
+
+		if (!(nombreTxt.getText().isBlank() || nombreTxt.getText().isEmpty()))
+			nombre = nombreTxt.getText();
+
+		if (!numeroTxt.getText().isEmpty())
+			numeroDeCandidato = Integer.parseInt(numeroTxt.getText());
+
+		GestorUsuario gestor = new GestorUsuario();
+
+		try
+		{
+			List<CandidatoBasicoDTO> candidatosFiltrados = gestor.findByFilters(apellido, nombre, numeroDeCandidato);
+			cargarCandidatoTablaA(candidatosFiltrados);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Error al obtener los candidatos de la base de datos", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+
+	}
+
+	protected void cargarCandidatoTablaA(List<CandidatoBasicoDTO> candidatosFiltrados)
+	{
+		for (CandidatoBasicoDTO c : candidatosFiltrados)
+			cargarCandidatoTablaA(c);
+	}
+
+	protected void cargarCandidatoTablaA(CandidatoBasicoDTO c)
+	{
+		panelA.agregarElementoTabla(c);
+	}
+
+	protected void cargarCandidatoTablaB(CandidatoBasicoDTO c)
+	{
+		try
+		{
+			panelB.agregarElementoTabla(c);
+		} catch (CandidatoYaCargadoException e)
+		{
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Candidato ya seleccionado.",
+					JOptionPane.WARNING_MESSAGE);
+		}
+	}
+
 	private void siguiente()
 	{
-		PantallaSeleccionarFuncion pantallaSiguiente = new PantallaSeleccionarFuncion(wWindow,panel,this);
+		PantallaSeleccionarFuncion pantallaSiguiente = new PantallaSeleccionarFuncion(wWindow, panel, this);
 		panel.setCurrentMenu(pantallaSiguiente);
+	}
+
+	public void repintar()
+	{
+		tablaA.repaint();
+		tablaA.revalidate();
+		repaint();
+		revalidate();
+		wWindow.repaint();
+		wWindow.revalidate();
 	}
 
 }
