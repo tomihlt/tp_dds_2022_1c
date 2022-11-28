@@ -14,6 +14,9 @@ import gui.Main;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
 
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+
 import java.awt.GridBagLayout;
 import java.awt.Component;
 import javax.swing.Box;
@@ -33,6 +36,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class PantallaSeleccionarFuncion extends JPanel
 {
@@ -68,9 +73,9 @@ public class PantallaSeleccionarFuncion extends JPanel
 	private JButton siguienteButton;
 	private Component horizontalStrut_6;
 	private Component horizontalStrut_7;
-	// Datos
-	private Map<EmpresaDTO, FuncionNombreIdDTO> empresas;
-	private Map<FuncionNombreIdDTO, CompetenciaPuntajeNombreDTO> funciones;
+	// Datos del comboBox
+	private Map<EmpresaDTO, List<FuncionNombreIdDTO>> empresas;
+	private Boolean datosCargados = false;
 
 	/**
 	 * Create the panel.
@@ -80,37 +85,54 @@ public class PantallaSeleccionarFuncion extends JPanel
 		this.wWindow = wWindow;
 		this.panel = panel;
 		this.pantallAnterior = pantallaAnterior;
-		this.empresas = new HashMap<EmpresaDTO, FuncionNombreIdDTO>();
-		this.funciones = new HashMap<FuncionNombreIdDTO, CompetenciaPuntajeNombreDTO>();
+		this.empresas = new HashMap<EmpresaDTO, List<FuncionNombreIdDTO>>();
 		initialize();
-		cargarDatos();
-	}
-
-	private void cargarDatos()
-	{
-		// Empresas
 		try
 		{
-			cargarEmpresas();
+			cargarDatos();
 		} catch (SQLException e)
 		{
-			JOptionPane.showMessageDialog(this, "Error al cargar las empresas de la bdd", "Error",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Error al cargar datos.", "Error", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+
+	private void cargarDatos() throws SQLException
+	{
+		// Empresas
+		cargarEmpresas();
 
 		// Funciones
 		cargarFunciones();
+		
+		/* Competencias: Se cargan a medida que se va seleccionando una función en el JComboBox */
+		cargarDatosComboBox();
 	}
 
-	private void cargarFunciones()
+	private void cargarDatosComboBox()
+	{
+		if(empresaCBx.getSelectedIndex() < 0 || !datosCargados)
+			return;
+
+		EmpresaDTO e = (EmpresaDTO) empresaCBx.getSelectedItem();
+		List<FuncionNombreIdDTO> f = empresas.get(e);
+		FuncionNombreIdDTO[] faux = new FuncionNombreIdDTO[f.size()];
+		faux = f.toArray(faux);
+		funcionCBx.setModel(new DefaultComboBoxModel<FuncionNombreIdDTO>(faux));
+//		for(EmpresaDTO e : empresas.keySet())
+//			System.out.println(empresas.get(e).size());
+	}
+
+	private void cargarFunciones() throws SQLException
 	{
 		GestorFuncion gestor = new GestorFuncion();
 		for (int i = 0; i < empresaCBx.getItemCount(); i++)
 		{
 			EmpresaDTO e = empresaCBx.getItemAt(i);
 			List<FuncionNombreIdDTO> funciones = gestor.findFuncionesByEmpresa(e);
+			empresas.put(e, funciones);
 		}
+		datosCargados = true;
 	}
 
 	private void cargarEmpresas() throws SQLException
@@ -118,7 +140,6 @@ public class PantallaSeleccionarFuncion extends JPanel
 		GestorFuncion gestor = new GestorFuncion();
 
 		List<EmpresaDTO> empresas = gestor.getAllEmpresas();
-
 		for (EmpresaDTO e : empresas)
 			empresaCBx.addItem(e);
 
@@ -190,6 +211,11 @@ public class PantallaSeleccionarFuncion extends JPanel
 		panelBuscador.add(horizontalStrut_2, gbc_horizontalStrut_2);
 
 		empresaCBx = new JComboBox<EmpresaDTO>();
+		empresaCBx.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				cargarDatosComboBox();
+			}
+		});
 		GridBagConstraints gbc_empresaCBx = new GridBagConstraints();
 		gbc_empresaCBx.insets = new Insets(0, 0, 5, 5);
 		gbc_empresaCBx.fill = GridBagConstraints.HORIZONTAL;
@@ -213,6 +239,11 @@ public class PantallaSeleccionarFuncion extends JPanel
 		panelBuscador.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
 		funcionCBx = new JComboBox<FuncionNombreIdDTO>();
+		funcionCBx.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				cargarCompetencias();
+			}
+		});
 		GridBagConstraints gbc_funcionCBx = new GridBagConstraints();
 		gbc_funcionCBx.insets = new Insets(0, 0, 5, 5);
 		gbc_funcionCBx.fill = GridBagConstraints.HORIZONTAL;
@@ -281,6 +312,18 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 		horizontalStrut_6 = Box.createHorizontalStrut(20);
 		panelDeBotones.add(horizontalStrut_6);
+	}
+
+	private void cargarCompetencias()
+	{
+		if(funcionCBx.getSelectedIndex() < 0 || !datosCargados)
+			return;
+		
+		FuncionNombreIdDTO func = (FuncionNombreIdDTO) funcionCBx.getSelectedItem();
+		GestorFuncion gestor = new GestorFuncion();
+		
+		List<CompetenciaPuntajeNombreDTO> competencias = gestor.findCompetenciasByFuncion(func);
+		
 	}
 
 	private void siguiente()

@@ -40,9 +40,6 @@ public class GestorFuncion
 			emps = dao.getAll();
 		} catch (SQLException e1)
 		{
-//			JOptionPane.showMessageDialog(null, "Error al obtener las empresas de la bdd", "Error",
-//					JOptionPane.ERROR_MESSAGE);
-//			e1.printStackTrace();
 			throw e1;
 		}
 		for (Empresa e : emps)
@@ -272,9 +269,30 @@ public class GestorFuncion
 		
 	}
 
-	public List<FuncionNombreIdDTO> findFuncionesByEmpresa(EmpresaDTO e)
+	public List<FuncionNombreIdDTO> findFuncionesByEmpresa(EmpresaDTO e) throws SQLException
 	{
-		// TODO Auto-generated method stub
+		FuncionDAO fDao = new PostgresFuncion();
+		List<Funcion> funciones = fDao.findFuncionesByIdEmpresa(e.getId());
+		
+		List<FuncionNombreIdDTO> funcionesDto = new ArrayList<FuncionNombreIdDTO>();
+		
+		FuncionNombreIdDTO aux = null;
+		for(Funcion f : funciones)
+		{
+			aux = new FuncionNombreIdDTO();
+			aux.setId(f.getId());
+			aux.setNombre(f.getNombre());
+			funcionesDto.add(aux);
+		}
+		
+		return funcionesDto;
+	}
+
+	public List<CompetenciaPuntajeNombreDTO> findCompetenciasByFuncion(FuncionNombreIdDTO func)
+	{
+		
+		
+		
 		return null;
 	}
 

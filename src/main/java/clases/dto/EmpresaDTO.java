@@ -36,7 +36,7 @@ public class EmpresaDTO
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(id, nombre);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class EmpresaDTO
 		if (getClass() != obj.getClass())
 			return false;
 		EmpresaDTO other = (EmpresaDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre);
+		return Objects.equals(id, other.id);
 	}
 
 }

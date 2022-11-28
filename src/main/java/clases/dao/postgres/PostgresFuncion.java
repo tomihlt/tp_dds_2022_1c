@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.spi.DirStateFactory.Result;
+
 import org.postgresql.util.PSQLException;
 
 import clases.dao.DBConnection;
@@ -24,16 +26,17 @@ public class PostgresFuncion implements FuncionDAO
 	@Override
 	public void save(Funcion t) throws SQLException
 	{
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT nombre FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
+		try (PreparedStatement pstm = conn
+				.prepareStatement("SELECT nombre FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
 		{
 			pstm.setInt(1, t.getCodigo());
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 			{
 				throw new SQLException("Ya hay una funcion con ese código");
 			}
 		}
-		
+
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.funcion (id_empresa,nombre,codigo,descripcion,eliminado) VALUES (?,?,?,?,?)",
 				PreparedStatement.RETURN_GENERATED_KEYS))
@@ -133,27 +136,26 @@ public class PostgresFuncion implements FuncionDAO
 
 		String query = "SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado FROM dds.funcion as f, dds.empresa as e WHERE f.id_empresa = e.id AND f.eliminado = false AND f.nombre ILIKE ? AND e.nombre ILIKE ?";
 
-		if(codigo != null)
+		if (codigo != null)
 			query += " AND f.codigo = ? ORDER BY f.codigo;";
 		else
 			query += " ORDER BY f.codigo;";
 
 		try (PreparedStatement pstm = conn.prepareStatement(query))
 		{
-			
-			if(nombre == null)
+
+			if (nombre == null)
 				pstm.setString(1, "%");
 			else
-				pstm.setString(1, nombre+"%");
-			
-			if(empresa == null)
+				pstm.setString(1, nombre + "%");
+
+			if (empresa == null)
 				pstm.setString(2, "%");
 			else
-				pstm.setString(2, empresa+"%");
-			
-			if(codigo != null)
+				pstm.setString(2, empresa + "%");
+
+			if (codigo != null)
 				pstm.setInt(3, codigo);
-				
 
 			ResultSet rs = pstm.executeQuery();
 			Funcion funcion = null;
@@ -223,8 +225,8 @@ public class PostgresFuncion implements FuncionDAO
 	@Override
 	public void update(Funcion t) throws SQLException
 	{
-		try (PreparedStatement pstm = conn
-				.prepareStatement("UPDATE dds.funcion SET codigo = ?, descripcion = ?, eliminado = ?, nombre = ? WHERE id = ?;"))
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"UPDATE dds.funcion SET codigo = ?, descripcion = ?, eliminado = ?, nombre = ? WHERE id = ?;"))
 		{
 			pstm.setInt(1, t.getCodigo());
 			pstm.setString(2, t.getDescripcion());
@@ -239,35 +241,36 @@ public class PostgresFuncion implements FuncionDAO
 	public List<PuntajeNecesario> findPuntajes(Funcion f) throws SQLException
 	{
 		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
-		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT c.id,c.nombre,c.codigo,c.descripcion,p.puntaje_necesario FROM dds.funcion_competencias as p, dds.competencia as c WHERE p.competencia = c.id AND p.funcion = ? AND c.eliminado = false;"))
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT c.id,c.nombre,c.codigo,c.descripcion,p.puntaje_necesario FROM dds.funcion_competencias as p, dds.competencia as c WHERE p.competencia = c.id AND p.funcion = ? AND c.eliminado = false;"))
 		{
 			pstm.setInt(1, f.getId());
 			ResultSet rs = pstm.executeQuery();
 			PuntajeNecesario p = null;
 			Competencia c = null;
-			while(rs.next())
+			while (rs.next())
 			{
 				c = new Competencia();
 				p = new PuntajeNecesario();
-				
+
 				c.setId(rs.getInt(1));
 				c.setNombre(rs.getString(2));
 				c.setCodigo(rs.getInt(3));
 				c.setDescripcion(rs.getString(4));
 				c.setEliminado(false);
-				
+
 				p.setFuncion(f);
 				p.setCompetencia(c);
 				p.setPuntaje(rs.getInt(5));
-				
+
 				puntajes.add(p);
 			}
-		}catch(PSQLException e)
+		} catch (PSQLException e)
 		{
 			throw e;
 		}
-		
+
 		return puntajes;
 	}
 
@@ -275,44 +278,70 @@ public class PostgresFuncion implements FuncionDAO
 	public void updateFuncionConPuntajesYEmpresa(Funcion f) throws SQLException
 	{
 		conn.setAutoCommit(false);
-		
-		try 
+
+		try
 		{
-		update(f);
-		updateEmpresa(f);
-		removePuntajes(f);
-		addPuntajeCompetencia(f.getPuntajeNecesarioPorCompetencia());
-		}catch(SQLException e)
+			update(f);
+			updateEmpresa(f);
+			removePuntajes(f);
+			addPuntajeCompetencia(f.getPuntajeNecesarioPorCompetencia());
+		} catch (SQLException e)
 		{
 			conn.rollback();
 			conn.setAutoCommit(true);
 			throw e;
 		}
-		
+
 		conn.commit();
 		conn.setAutoCommit(true);
-		
+
 	}
-	
+
 	@Override
 	public void updateEmpresa(Funcion f) throws SQLException
 	{
-		try(PreparedStatement pstm = conn.prepareStatement("UPDATE dds.funcion SET id_empresa = ? WHERE id = ?;"))
+		try (PreparedStatement pstm = conn.prepareStatement("UPDATE dds.funcion SET id_empresa = ? WHERE id = ?;"))
 		{
 			pstm.setInt(1, f.getEmpresa().getId());
 			pstm.setInt(2, f.getId());
 			pstm.executeUpdate();
 		}
 	}
-	
+
 	@Override
 	public void removePuntajes(Funcion f) throws SQLException
 	{
-		try(PreparedStatement pstm = conn.prepareStatement("DELETE FROM dds.funcion_competencias WHERE funcion = ?;"))
+		try (PreparedStatement pstm = conn.prepareStatement("DELETE FROM dds.funcion_competencias WHERE funcion = ?;"))
 		{
 			pstm.setInt(1, f.getId());
 			pstm.executeUpdate();
 		}
+	}
+
+	@Override
+	public List<Funcion> findFuncionesByIdEmpresa(Integer id) throws SQLException
+	{
+		List<Funcion> funciones = new ArrayList<Funcion>();
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado FROM dds.funcion f, dds.empresa e WHERE f.id_empresa = e.id AND f.eliminado = false AND f.id_empresa = ?;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			Funcion f = null;
+			while (rs.next())
+			{
+				f = new Funcion();
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setCodigo(rs.getInt(3));
+				f.setDescripcion(rs.getString(4));
+				f.setEliminado(rs.getBoolean(5));
+				funciones.add(f);
+			}
+		}
+
+		return funciones;
 	}
 
 }
