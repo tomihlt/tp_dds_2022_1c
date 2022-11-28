@@ -288,12 +288,26 @@ public class GestorFuncion
 		return funcionesDto;
 	}
 
-	public List<CompetenciaPuntajeNombreDTO> findCompetenciasByFuncion(FuncionNombreIdDTO func)
+	public List<CompetenciaPuntajeNombreDTO> findCompetenciasByFuncion(FuncionNombreIdDTO func) throws SQLException
 	{
+		FuncionDAO fDao = new PostgresFuncion();
+		Funcion f = fDao.find(func.getId());
 		
+		List<PuntajeNecesario> pjNecesario = fDao.findPuntajes(f);
 		
+		List<CompetenciaPuntajeNombreDTO> puntajes = new ArrayList<CompetenciaPuntajeNombreDTO>();
+		CompetenciaPuntajeNombreDTO puntaje = null;
 		
-		return null;
+		for(PuntajeNecesario p : pjNecesario)
+		{
+			puntaje = new CompetenciaPuntajeNombreDTO();
+			puntaje.setId(p.getCompetencia().getId());
+			puntaje.setNombre(p.getCompetencia().getNombre());
+			puntaje.setPonderacion(p.getPuntaje());
+			puntajes.add(puntaje);
+		}
+		
+		return puntajes;
 	}
 
 }

@@ -12,6 +12,7 @@ import clases.dto.FuncionNombreIdDTO;
 import clases.gestores.GestorFuncion;
 import gui.Main;
 import gui.tableRenderersYTableModels.EstandarCellRenderer;
+import gui.tableRenderersYTableModels.FuncionCompetenciasTableModel;
 
 import javax.swing.BoxLayout;
 import javax.swing.ComboBoxModel;
@@ -104,15 +105,18 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 		// Funciones
 		cargarFunciones();
-		
-		/* Competencias: Se cargan a medida que se va seleccionando una función en el JComboBox */
+
+		/*
+		 * Competencias: Se cargan a medida que se va seleccionando una función en el
+		 * JComboBox
+		 */
 		cargarDatosComboBox();
 	}
 
-	private void cargarDatosComboBox()
+	private Boolean cargarDatosComboBox()
 	{
-		if(empresaCBx.getSelectedIndex() < 0 || !datosCargados)
-			return;
+		if (empresaCBx.getSelectedIndex() < 0 || !datosCargados)
+			return false;
 
 		EmpresaDTO e = (EmpresaDTO) empresaCBx.getSelectedItem();
 		List<FuncionNombreIdDTO> f = empresas.get(e);
@@ -121,6 +125,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 		funcionCBx.setModel(new DefaultComboBoxModel<FuncionNombreIdDTO>(faux));
 //		for(EmpresaDTO e : empresas.keySet())
 //			System.out.println(empresas.get(e).size());
+		return true;
 	}
 
 	private void cargarFunciones() throws SQLException
@@ -211,9 +216,12 @@ public class PantallaSeleccionarFuncion extends JPanel
 		panelBuscador.add(horizontalStrut_2, gbc_horizontalStrut_2);
 
 		empresaCBx = new JComboBox<EmpresaDTO>();
-		empresaCBx.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
-				cargarDatosComboBox();
+		empresaCBx.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e)
+			{
+				if(cargarDatosComboBox())
+					cargarCompetencias();
 			}
 		});
 		GridBagConstraints gbc_empresaCBx = new GridBagConstraints();
@@ -239,8 +247,10 @@ public class PantallaSeleccionarFuncion extends JPanel
 		panelBuscador.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
 		funcionCBx = new JComboBox<FuncionNombreIdDTO>();
-		funcionCBx.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent e) {
+		funcionCBx.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent e)
+			{
 				cargarCompetencias();
 			}
 		});
@@ -280,7 +290,8 @@ public class PantallaSeleccionarFuncion extends JPanel
 		panelDeDatos.add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[]
+		table.setEnabled(false);
+		table.setModel(new FuncionCompetenciasTableModel(new Object[][] {}, new String[]
 		{ "Competencia", "Ponderación" }));
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
@@ -316,14 +327,46 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 	private void cargarCompetencias()
 	{
-		if(funcionCBx.getSelectedIndex() < 0 || !datosCargados)
+		if (funcionCBx.getSelectedIndex() < 0 || !datosCargados)
 			return;
-		
+
 		FuncionNombreIdDTO func = (FuncionNombreIdDTO) funcionCBx.getSelectedItem();
 		GestorFuncion gestor = new GestorFuncion();
-		
-		List<CompetenciaPuntajeNombreDTO> competencias = gestor.findCompetenciasByFuncion(func);
-		
+
+		try
+		{
+			List<CompetenciaPuntajeNombreDTO> competencias = gestor.findCompetenciasByFuncion(func);
+			cargarCompetenciasTabla(competencias);
+		} catch (SQLException e)
+		{
+			JOptionPane.showMessageDialog(this, "Error la obtener las competencias", "Error",
+					JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+
+	}
+
+	private void cargarCompetenciasTabla(List<CompetenciaPuntajeNombreDTO> competencias)
+	{
+		limpiarTabla();
+
+		for (CompetenciaPuntajeNombreDTO c : competencias)
+			agregarElementoTabla(c);
+
+	}
+
+	private void agregarElementoTabla(CompetenciaPuntajeNombreDTO c)
+	{
+		FuncionCompetenciasTableModel model = (FuncionCompetenciasTableModel) table.getModel();
+		Object[] row = new Object[]
+		{ c, c.getPonderacion() };
+		model.addRow(row);
+	}
+
+	private void limpiarTabla()
+	{
+		table.setModel(new FuncionCompetenciasTableModel(new Object[][] {}, new String[]
+		{ "Competencia", "Ponderación" }));
 	}
 
 	private void siguiente()

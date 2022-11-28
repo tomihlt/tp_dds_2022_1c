@@ -39,7 +39,7 @@ public class CompetenciaPuntajeNombreDTO
 	@Override
 	public String toString()
 	{
-		return nombre + ", " + ponderacion.toString();
+		return nombre;
 	}
 
 }
