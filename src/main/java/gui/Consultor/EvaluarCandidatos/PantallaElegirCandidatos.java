@@ -105,7 +105,7 @@ public class PantallaElegirCandidatos extends JPanel
 
 		panelDeBotones = new JPanel();
 		add(panelDeBotones, BorderLayout.SOUTH);
-		panelDeBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		panelDeBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 10));
 		
 		lblNewLabel_9 = new JLabel("1/3");
 		panelDeBotones.add(lblNewLabel_9);
