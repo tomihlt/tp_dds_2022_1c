@@ -123,6 +123,9 @@ public class PantallaSeleccionarFuncion extends JPanel
 		FuncionNombreIdDTO[] faux = new FuncionNombreIdDTO[f.size()];
 		faux = f.toArray(faux);
 		funcionCBx.setModel(new DefaultComboBoxModel<FuncionNombreIdDTO>(faux));
+		
+		if(f.size() == 0)
+			limpiarTabla();
 //		for(EmpresaDTO e : empresas.keySet())
 //			System.out.println(empresas.get(e).size());
 		return true;
