@@ -83,7 +83,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 	private Map<EmpresaDTO, List<FuncionNombreIdDTO>> empresas;
 	private Boolean datosCargados = false;
 	private Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -486,4 +486,19 @@ public class PantallaSeleccionarFuncion extends JPanel
 		return competencias;
 	}
 
+	protected EmpresaDTO getEmpresaParaEvaluar()
+	{
+		return (EmpresaDTO) empresaCBx.getSelectedItem();
+	}
+	
+	protected FuncionNombreIdDTO getFuncionParaEvaluar()
+	{
+		return (FuncionNombreIdDTO) funcionCBx.getSelectedItem();
+	}
+
+	protected List<CandidatoBasicoDTO> obtenerCandidatos()
+	{
+		return ((PantallaElegirCandidatos) pantallAnterior).obtenerCandidatos();
+	}
+	
 }

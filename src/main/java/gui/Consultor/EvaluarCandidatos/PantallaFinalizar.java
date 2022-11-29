@@ -4,6 +4,8 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.FlowLayout;
@@ -14,8 +16,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import clases.dto.CandidatoBasicoDTO;
+import clases.dto.CandidatoDTO;
+import clases.dto.CandidatoNormalDTO;
+import clases.gestores.GestorUsuario;
 import gui.Main;
+import gui.tableRenderersYTableModels.CandidatosFinalesTableModel;
+import gui.tableRenderersYTableModels.EstandarCellRenderer;
+
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 
 public class PantallaFinalizar extends JPanel
@@ -184,9 +196,12 @@ public class PantallaFinalizar extends JPanel
 		panelDeDatos.add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[]
+		table.setEnabled(false);
+		table.setModel(new CandidatosFinalesTableModel(new Object[][] {}, new String[]
 		{ "Apellido", "Nombre", "Tipo de documento", "Número de documento", "Clave de ingreso" }));
 		table.getTableHeader().setReorderingAllowed(false);
+		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
+		table.setDefaultRenderer(Integer.class, new EstandarCellRenderer());
 		scrollPane.setViewportView(table);
 
 		verticalStrut = Box.createVerticalStrut(20);
@@ -200,6 +215,55 @@ public class PantallaFinalizar extends JPanel
 
 		horizontalStrut_3 = Box.createHorizontalStrut(20);
 		add(horizontalStrut_3, BorderLayout.EAST);
+
+		//
+		setInfoLabel();
+		cargarCandidatosTabla();
+
+	}
+
+	private void cargarCandidatosTabla()
+	{
+		List<CandidatoBasicoDTO> candidatosAEvaluar = obtenerCandidatos();
+		GestorUsuario gestor = new GestorUsuario();
+		try
+		{
+			List<CandidatoNormalDTO> candidatos = gestor.getCandidatosDto(candidatosAEvaluar);
+			Map<CandidatoNormalDTO,String> candidatoConClave = gestor.generarClaves(candidatos);
+			agregarCandidatosTabla(candidatoConClave);
+		} catch (SQLException e)
+		{
+			JOptionPane.showMessageDialog(this, "Error al obtener los candidatos.", "Error", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	}
+
+	private void agregarCandidatosTabla(Map<CandidatoNormalDTO,String> candidatos)
+	{
+		
+		for(CandidatoNormalDTO c : candidatos.keySet())
+		{
+			agregarCandidatosTabla(c,candidatos.get(c));	
+		}
+	}
+
+	private void agregarCandidatosTabla(CandidatoNormalDTO c, String clave)
+	{
+		Object[] row = new Object[] {c,c.getNombre(),c.getTipoDNI(),c.getDni(), clave};
+		CandidatosFinalesTableModel model = (CandidatosFinalesTableModel) table.getModel();
+		
+		model.addRow(row);
+	}
+
+	private List<CandidatoBasicoDTO> obtenerCandidatos()
+	{
+		return anterior.obtenerCandidatos();
+	}
+
+	private void setInfoLabel()
+	{
+		infoLabel.setText("Resumen de candidatos a evaluar para la función " + anterior.getFuncionParaEvaluar()
+				+ " en la empresa " + anterior.getEmpresaParaEvaluar() + ".");
 	}
 
 	private void cancelar()

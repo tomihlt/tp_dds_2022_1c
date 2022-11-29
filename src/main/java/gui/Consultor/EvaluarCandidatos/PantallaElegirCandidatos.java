@@ -412,4 +412,18 @@ public class PantallaElegirCandidatos extends JPanel
 
 	}
 
+	protected List<CandidatoBasicoDTO> obtenerCandidatos()
+	{
+		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) tablaB.getModel();
+		
+		List<CandidatoBasicoDTO> candidatos = new ArrayList<CandidatoBasicoDTO>();
+		
+		for(int i = 0; i < model.getRowCount() ; i ++)
+		{
+			candidatos.add((CandidatoBasicoDTO) model.getValueAt(i, 2));
+		}
+		
+		return candidatos;
+	}
+
 }

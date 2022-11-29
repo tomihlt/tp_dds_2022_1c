@@ -2,7 +2,10 @@ package clases.gestores;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JTextField;
 
@@ -15,6 +18,7 @@ import clases.entidades.Candidato;
 import clases.entidades.Consultor;
 import clases.dto.CandidatoBasicoDTO;
 import clases.dto.CandidatoDTO;
+import clases.dto.CandidatoNormalDTO;
 
 public class GestorUsuario
 {
@@ -23,9 +27,9 @@ public class GestorUsuario
 	{
 		Consultor consultor = null;
 		ConsultorDTO consultorDto = null;
-		
+
 		ConsultorDAO cDao = new PostgresConsultor();
-		
+
 		try
 		{
 			consultor = cDao.findConsultorByNombreUsuario(usuario);
@@ -39,7 +43,7 @@ public class GestorUsuario
 		{
 			throw e;
 		}
-		
+
 		return consultorDto;
 	}
 
@@ -47,13 +51,13 @@ public class GestorUsuario
 	{
 		Candidato candidato = null;
 		CandidatoDTO candidatoDto = null;
-		
+
 		CandidatoDAO cDao = new PostgresCandidato();
 
 		candidato = cDao.findCandidatoByDni(dni);
-		if(candidato == null)
+		if (candidato == null)
 			return candidatoDto;
-		
+
 		candidatoDto = new CandidatoDTO();
 		candidatoDto.setApellido(candidato.getApellido());
 		candidatoDto.setDni(candidato.getDni());
@@ -65,19 +69,20 @@ public class GestorUsuario
 		candidatoDto.setNombre(candidato.getNombre());
 		candidatoDto.setNumeroCandidato(candidato.getNumeroCandidato());
 		candidatoDto.setTipoDni(candidato.getTipoDni());
-		
+
 		return candidatoDto;
 	}
 
-	public List<CandidatoBasicoDTO> findByFilters(String apellido, String nombre, Integer numeroDeCandidato) throws SQLException
+	public List<CandidatoBasicoDTO> findByFilters(String apellido, String nombre, Integer numeroDeCandidato)
+			throws SQLException
 	{
 		List<CandidatoBasicoDTO> resultado = new ArrayList<CandidatoBasicoDTO>();
-		
+
 		CandidatoDAO cDao = new PostgresCandidato();
-		
+
 		List<Candidato> candidatos = cDao.findByFilters(apellido, nombre, numeroDeCandidato);
-		
-		for(Candidato c : candidatos)
+
+		for (Candidato c : candidatos)
 		{
 			CandidatoBasicoDTO cand = new CandidatoBasicoDTO();
 			cand.setId(c.getId());
@@ -86,15 +91,85 @@ public class GestorUsuario
 			cand.setNumeroDeCandidato(c.getNumeroCandidato());
 			resultado.add(cand);
 		}
-		
+
 		return resultado;
 	}
 
 	public Boolean tieneCuestionario(CandidatoBasicoDTO c) throws SQLException
 	{
 		CandidatoDAO cDao = new PostgresCandidato();
-		
+
 		return cDao.tieneCuestionarioById(c.getId());
+	}
+
+	public List<CandidatoNormalDTO> getCandidatosDto(List<CandidatoBasicoDTO> candidatosAEvaluar) throws SQLException
+	{
+		List<CandidatoNormalDTO> candidatos = new ArrayList<CandidatoNormalDTO>();
+
+		for (CandidatoBasicoDTO c : candidatosAEvaluar)
+		{
+			CandidatoNormalDTO cand = findCandidatoNormalById(c.getId());
+			candidatos.add(cand);
+		}
+
+		return candidatos;
+	}
+
+	public CandidatoNormalDTO findCandidatoNormalById(Integer id) throws SQLException
+	{
+		Candidato candidato = null;
+		CandidatoNormalDTO candidatoDto = null;
+
+		CandidatoDAO cDao = new PostgresCandidato();
+
+		candidato = cDao.find(id);
+		if (candidato == null)
+			return candidatoDto;
+
+		candidatoDto = new CandidatoNormalDTO();
+		candidatoDto.setApellido(candidato.getApellido());
+		candidatoDto.setDni(candidato.getDni());
+		candidatoDto.setId(candidato.getId());
+		candidatoDto.setNombre(candidato.getNombre());
+		candidatoDto.setTipoDNI(candidato.getTipoDni());
+
+		return candidatoDto;
+	}
+
+	public Map<CandidatoNormalDTO, String> generarClaves(List<CandidatoNormalDTO> candidatos)
+	{
+		Map<CandidatoNormalDTO, String> claves = new HashMap<CandidatoNormalDTO, String>();
+
+		for (CandidatoNormalDTO c : candidatos)
+		{
+			String aux = cadenaAleatoria(10);
+			
+			claves.put(c, aux);
+		}
+
+		return claves;
+	}
+
+	private String cadenaAleatoria(int longitud)
+	{ // Metodo sacado de internet
+		// El banco de caracteres
+		String banco = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+		// La cadena en donde iremos agregando un carácter aleatorio
+		String cadena = "";
+		for (int x = 0; x < longitud; x++)
+		{
+			int indiceAleatorio = numeroAleatorioEnRango(0, banco.length() - 1);
+			char caracterAleatorio = banco.charAt(indiceAleatorio);
+			cadena += caracterAleatorio;
+		}
+		return cadena;
+	}
+
+	private Integer numeroAleatorioEnRango(int minimo, int maximo)
+	{
+		// nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos
+		// 1
+		return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
 	}
 
 }
