@@ -83,7 +83,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 	private Map<EmpresaDTO, List<FuncionNombreIdDTO>> empresas;
 	private Boolean datosCargados = false;
 	private Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables;
-
+	
 	/**
 	 * Create the panel.
 	 */
@@ -380,12 +380,15 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 	private void siguiente()
 	{
-//		PantallaFinalizar pantallaSiguiente = new PantallaFinalizar(wWindow, panel, this);
-//		panel.setCurrentMenu(pantallaSiguiente);
 		if (!funcionEvaluable())
 		{
-			JOptionPane.showMessageDialog(this, "Esta función no es evaluable.", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Esta función no es evaluable.", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
 			return;
+		} else
+		{
+			PantallaFinalizar pantallaSiguiente = new PantallaFinalizar(wWindow, panel, this);
+			panel.setCurrentMenu(pantallaSiguiente);
 		}
 	}
 
@@ -396,6 +399,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 		GestorCompetencia gestorC = new GestorCompetencia();
 		GestorFactor gestorF = new GestorFactor();
+
 		for (CompetenciaPuntajeNombreDTO c : competencias)
 		{
 			try
@@ -412,12 +416,32 @@ public class PantallaSeleccionarFuncion extends JPanel
 			} catch (SQLException e)
 			{
 				e.printStackTrace();
+				return false;
 			}
 		}
 
 		competenciasEvaluables = competenciasFactoresEvaluables(factoresCompetencia);
+		info(factoresCompetencia);
 
-		return competenciasEvaluables.size() > 0 ? true : false;
+		return competenciasEvaluables.keySet().size() > 0 ? true : false;
+//		return true;
+	}
+
+	private void info(
+			Map<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>> factoresCompetencia)
+	{
+		for (CompetenciaPuntajeNombreDTO c : factoresCompetencia.keySet())
+		{
+			System.out.println("COMPETENCIA (" + funcionCBx.getSelectedItem().toString() + ") : " + c.toString());
+
+			Map<FactorBasicoDTO, List<PreguntaBasicaDTO>> values = factoresCompetencia.get(c);
+			int i = 1;
+
+			for (FactorBasicoDTO f : values.keySet())
+			{
+				System.out.println("\t" + i + ". " + f.getNombre() + ". Cant Preguntas: " + values.get(f).size());
+			}
+		}
 	}
 
 	private Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasFactoresEvaluables(
@@ -427,19 +451,22 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 		for (CompetenciaPuntajeNombreDTO c : factoresCompetencia.keySet())
 		{
+
 			Map<FactorBasicoDTO, List<PreguntaBasicaDTO>> factores = factoresCompetencia.get(c);
 			List<FactorBasicoDTO> factoresEvaluables = new ArrayList<FactorBasicoDTO>();
-			if (factores == null || factores.keySet().isEmpty())
-				break;
-			for (FactorBasicoDTO f : factores.keySet())
+
+			if (!(factores == null || factores.keySet().isEmpty()))
 			{
-				if (factores.get(f).size() > 1)
+				for (FactorBasicoDTO f : factores.keySet())
 				{
-					factoresEvaluables.add(f);
+					if (factores.get(f).size() > 1)
+					{
+						factoresEvaluables.add(f);
+					}
 				}
+				if (factoresEvaluables.size() > 0)
+					resultado.put(c, factoresEvaluables);
 			}
-			if (factoresEvaluables.size() > 0)
-				resultado.put(c, factoresEvaluables);
 		}
 
 		return resultado;

@@ -25,4 +25,10 @@ public class FactorBasicoDTO
 		this.nombre = nombre;
 	}
 
+	@Override
+	public String toString()
+	{
+		return nombre;
+	}
+
 }
