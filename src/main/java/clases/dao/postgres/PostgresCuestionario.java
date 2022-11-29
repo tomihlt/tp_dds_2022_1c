@@ -97,11 +97,11 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private EstadoCuestionario estadoDelCuestionario(String string)
 	{
-		if(string == "Activo")
+		if(string.equals("Activo"))
 			return EstadoCuestionario.Activo;
-		else if(string == "SinContestar")
+		else if(string.equals("SinContestar"))
 			return EstadoCuestionario.SinContestar;
-		else if(string == "EnProceso")
+		else if(string.equals("EnProceso"))
 			return EstadoCuestionario.EnProceso;
 		else
 			return EstadoCuestionario.Completo;

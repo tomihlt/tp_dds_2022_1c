@@ -118,11 +118,11 @@ public class PostgresCandidato implements CandidatoDAO
 
 	private TipoDNI tipoDeDniDelCandidato(String string)
 	{
-		if (string == "DNI")
+		if (string.equals("DNI"))
 			return TipoDNI.DNI;
-		else if (string == "LE")
+		else if (string.equals("LE"))
 			return TipoDNI.LE;
-		else if (string == "LC")
+		else if (string.equals("LC"))
 			return TipoDNI.LC;
 		else
 			return TipoDNI.PP;
