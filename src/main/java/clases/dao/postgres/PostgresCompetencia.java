@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import clases.dao.DBConnection;
 import clases.dao.interfaces.CompetenciaDAO;
 import clases.entidades.Competencia;
+import clases.entidades.Factor;
 
 public class PostgresCompetencia implements CompetenciaDAO
 {
@@ -171,6 +172,31 @@ public class PostgresCompetencia implements CompetenciaDAO
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<Factor> findFactoresByIdCompetencia(Integer id) throws SQLException
+	{
+		List<Factor> factores = new ArrayList<Factor>();
+		
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT f.id,f.nombre,f.descripcion,f.codigo,f.nro_orden FROM dds.factor f, dds.competencia c WHERE f.id_competencia = c.id AND c.id = ?;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			Factor f = null;
+			while(rs.next())
+			{
+				f = new Factor();
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setDescripcion(rs.getString(3));
+				f.setCodigo(rs.getInt(4));
+				f.setNroOrden(rs.getInt(5));
+				factores.add(f);
+			}
+		}
+		
+		return factores;
 	}
 
 }

@@ -10,8 +10,10 @@ import clases.dao.postgres.PostgresCompetencia;
 import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CompetenciaBasicaDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
+import clases.dto.FactorBasicoDTO;
 import clases.dto.FuncionNombreIdDTO;
 import clases.entidades.Competencia;
+import clases.entidades.Factor;
 import clases.entidades.Funcion;
 
 public class GestorCompetencia
@@ -40,6 +42,24 @@ public class GestorCompetencia
 		}
 		
 		return comps;
+	}
+
+	public List<FactorBasicoDTO> getFactoresBasicosByCompetencia(CompetenciaPuntajeNombreDTO c) throws SQLException
+	{
+		List<FactorBasicoDTO> factoresDto = new ArrayList<FactorBasicoDTO>();
+		
+		CompetenciaDAO cDao = new PostgresCompetencia();
+		List<Factor> factores = cDao.findFactoresByIdCompetencia(c.getId());
+		
+		for(Factor f : factores)
+		{
+			FactorBasicoDTO fact = new FactorBasicoDTO();
+			fact.setId(f.getId());
+			fact.setNombre(f.getNombre());
+			factoresDto.add(fact);
+		}
+		
+		return factoresDto;
 	}
 
 }
