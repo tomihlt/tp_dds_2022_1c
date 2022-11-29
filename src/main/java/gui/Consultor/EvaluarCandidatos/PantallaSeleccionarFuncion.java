@@ -117,6 +117,9 @@ public class PantallaSeleccionarFuncion extends JPanel
 		 * JComboBox
 		 */
 		cargarDatosComboBox();
+		
+		// Competencias
+		cargarCompetencias();
 	}
 
 	private Boolean cargarDatosComboBox()
