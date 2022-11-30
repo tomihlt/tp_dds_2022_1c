@@ -19,6 +19,10 @@ import javax.swing.table.DefaultTableModel;
 import clases.dto.CandidatoBasicoDTO;
 import clases.dto.CandidatoDTO;
 import clases.dto.CandidatoNormalDTO;
+import clases.dto.CompetenciaPuntajeNombreDTO;
+import clases.dto.FactorBasicoDTO;
+import clases.dto.FuncionNombreIdDTO;
+import clases.gestores.GestorEvaluacion;
 import clases.gestores.GestorUsuario;
 import gui.Main;
 import gui.tableRenderersYTableModels.CandidatosFinalesTableModel;
@@ -26,6 +30,7 @@ import gui.tableRenderersYTableModels.EstandarCellRenderer;
 
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.awt.event.ActionEvent;
@@ -168,6 +173,7 @@ public class PantallaFinalizar extends JPanel
 		panelDeBotones.add(lblNewLabel_3, gbc_lblNewLabel_3);
 
 		finalizarButton = new JButton("Finalizar");
+		finalizarButton.addActionListener(e -> finalizar());
 		GridBagConstraints gbc_finalizarButton = new GridBagConstraints();
 		gbc_finalizarButton.insets = new Insets(0, 0, 5, 5);
 		gbc_finalizarButton.gridx = 5;
@@ -220,6 +226,39 @@ public class PantallaFinalizar extends JPanel
 		setInfoLabel();
 		cargarCandidatosTabla();
 
+	}
+
+	private void finalizar()
+	{
+		GestorEvaluacion gestor = new GestorEvaluacion();
+		Map<CandidatoNormalDTO,String> usuariosConClaves = obtenerCandidatosFinales();
+		Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
+		gestor.generarEvaluacion(obtenerFuncionAEvaluar(),competenciasEvaluables,usuariosConClaves);
+	}
+
+	private FuncionNombreIdDTO obtenerFuncionAEvaluar()
+	{
+		return anterior.getFuncionParaEvaluar();
+	}
+
+	private Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> obtenerCompetenciasParaEvaluar()
+	{
+		return anterior.getCompetenciasEvaluables();
+	}
+
+	private Map<CandidatoNormalDTO, String> obtenerCandidatosFinales()
+	{
+		Map<CandidatoNormalDTO,String> candidatos = new HashMap<CandidatoNormalDTO,String>();
+		CandidatosFinalesTableModel model = (CandidatosFinalesTableModel) table.getModel();
+		
+		for(int i = 0 ; i < model.getRowCount(); i++)
+		{
+			CandidatoNormalDTO c = (CandidatoNormalDTO) model.getValueAt(i, 0);
+			String clave = (String) model.getValueAt(i, 4);
+			candidatos.put(c, clave);
+		}
+		
+		return candidatos;
 	}
 
 	private void cargarCandidatosTabla()

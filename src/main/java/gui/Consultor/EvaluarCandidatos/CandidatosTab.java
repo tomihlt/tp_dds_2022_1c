@@ -64,8 +64,10 @@ public class CandidatosTab extends JPanel
 	private void agregar()
 	{
 		if (table.getSelectedRow() < 0)
+		{
 			JOptionPane.showMessageDialog(this, "Debe seleccionar un candidato.", "Error", JOptionPane.WARNING_MESSAGE);
-
+			return;
+		}	
 		CandidatoBasicoDTO c = (CandidatoBasicoDTO) ((CandidatosAEvaluarTableModel) table.getModel())
 				.getValueAt(table.getSelectedRow(), 2);
 		

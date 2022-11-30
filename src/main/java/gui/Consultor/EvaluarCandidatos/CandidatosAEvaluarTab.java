@@ -64,8 +64,10 @@ public class CandidatosAEvaluarTab extends JPanel
 	private void eliminar()
 	{
 		if (table.getSelectedRow() < 0)
+		{
 			JOptionPane.showMessageDialog(this, "Debe seleccionar un cadidato.", "Error", JOptionPane.WARNING_MESSAGE);
-		
+			return;
+		}
 		((CandidatosAEvaluarTableModel)table.getModel()).removeRow(table.getSelectedRow());
 		
 	}
@@ -85,7 +87,7 @@ public class CandidatosAEvaluarTab extends JPanel
 
 		if (existeCandidatoEnTabla(c))
 			throw new CandidatoYaCargadoException(
-					"El candidato " + c.getApellido() + c.getNombre() + " ya ha sido agregado.");
+					"El candidato " + c.getApellido() + " " + c.getNombre() + " ya ha sido agregado.");
 
 		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) table.getModel();
 		Object[] row = new Object[]

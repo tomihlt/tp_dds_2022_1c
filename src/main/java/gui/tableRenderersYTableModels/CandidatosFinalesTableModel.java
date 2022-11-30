@@ -3,6 +3,7 @@ package gui.tableRenderersYTableModels;
 import javax.swing.table.DefaultTableModel;
 
 import clases.dto.CandidatoBasicoDTO;
+import clases.dto.CandidatoNormalDTO;
 
 public class CandidatosFinalesTableModel extends DefaultTableModel
 {
@@ -28,10 +29,10 @@ public class CandidatosFinalesTableModel extends DefaultTableModel
 	public Class<?> getColumnClass(int columnIndex)
 	{
 		if (columnIndex == 0)
-			return String.class;
-		else if(columnIndex == 1)
-			return String.class;
+			return CandidatoNormalDTO.class;
+		else if(columnIndex == 3)
+			return Integer.class;
 		else
-			return CandidatoBasicoDTO.class;
+			return Object.class;
 	}
 }

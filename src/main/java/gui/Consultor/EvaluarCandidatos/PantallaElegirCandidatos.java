@@ -373,6 +373,14 @@ public class PantallaElegirCandidatos extends JPanel
 	{
 
 		List<CandidatoBasicoDTO> candidatos = panelB.obtenerCandidatos();
+
+		if (candidatos.isEmpty())
+		{
+			JOptionPane.showMessageDialog(this, "Debe elegir al menos un candidato para evaluar", "Error de validación",
+					JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+
 		List<CandidatoBasicoDTO> candidatosNoEvaluables = new ArrayList<CandidatoBasicoDTO>();
 
 		for (CandidatoBasicoDTO c : candidatos)
@@ -415,14 +423,14 @@ public class PantallaElegirCandidatos extends JPanel
 	protected List<CandidatoBasicoDTO> obtenerCandidatos()
 	{
 		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) tablaB.getModel();
-		
+
 		List<CandidatoBasicoDTO> candidatos = new ArrayList<CandidatoBasicoDTO>();
-		
-		for(int i = 0; i < model.getRowCount() ; i ++)
+
+		for (int i = 0; i < model.getRowCount(); i++)
 		{
 			candidatos.add((CandidatoBasicoDTO) model.getValueAt(i, 2));
 		}
-		
+
 		return candidatos;
 	}
 

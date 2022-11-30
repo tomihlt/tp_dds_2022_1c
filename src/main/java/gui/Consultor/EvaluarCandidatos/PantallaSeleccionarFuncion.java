@@ -117,7 +117,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 		 * JComboBox
 		 */
 		cargarDatosComboBox();
-		
+
 		// Competencias
 		cargarCompetencias();
 	}
@@ -493,7 +493,7 @@ public class PantallaSeleccionarFuncion extends JPanel
 	{
 		return (EmpresaDTO) empresaCBx.getSelectedItem();
 	}
-	
+
 	protected FuncionNombreIdDTO getFuncionParaEvaluar()
 	{
 		return (FuncionNombreIdDTO) funcionCBx.getSelectedItem();
@@ -503,5 +503,10 @@ public class PantallaSeleccionarFuncion extends JPanel
 	{
 		return ((PantallaElegirCandidatos) pantallAnterior).obtenerCandidatos();
 	}
-	
+
+	protected Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> getCompetenciasEvaluables()
+	{
+		return competenciasEvaluables;
+	}
+
 }
