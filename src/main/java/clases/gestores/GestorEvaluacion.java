@@ -15,7 +15,6 @@ public class GestorEvaluacion
 			Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables,
 			Map<CandidatoNormalDTO, String> usuariosConClaves)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
