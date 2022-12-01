@@ -8,7 +8,7 @@ public class CompetenciaCuestionario
 	private Integer id;
 	private String nombre;
 	private String descripcion;
-	private Integer ponderacion;
+	private Integer puntajeNecesario;
 	private Integer codigo;
 	private Integer puntajeObtenido;
 	private List<FactorCuestionario> factores;
@@ -68,14 +68,14 @@ public class CompetenciaCuestionario
 		this.descripcion = descripcion;
 	}
 
-	public Integer getPonderacion()
+	public Integer getPuntajeNecesario()
 	{
-		return ponderacion;
+		return puntajeNecesario;
 	}
 
-	public void setPonderacion(Integer ponderacion)
+	public void setPuntajeNecesario(Integer puntajeNecesario)
 	{
-		this.ponderacion = ponderacion;
+		this.puntajeNecesario = puntajeNecesario;
 	}
 
 	public Integer getCodigo()

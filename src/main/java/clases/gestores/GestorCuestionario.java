@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import clases.dao.interfaces.CuestionarioDAO;
+import clases.dao.interfaces.FuncionDAO;
 import clases.dao.postgres.PostgresCuestionario;
+import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CandidatoDTO;
 import clases.dto.CuestionarioDTO;
 import clases.entidades.Candidato;
 import clases.entidades.Competencia;
 import clases.entidades.CompetenciaCuestionario;
 import clases.entidades.Cuestionario;
+import clases.entidades.Funcion;
 import clases.enums.EstadoCuestionario;
 
 public class GestorCuestionario
@@ -42,7 +45,7 @@ public class GestorCuestionario
 		
 	}
 
-	public Cuestionario crearCuestionario(List<Competencia> competencias, Candidato c, String clave)
+	public Cuestionario crearCuestionario(Funcion f,List<Competencia> competencias, Candidato c, String clave) throws SQLException
 	{
 		Cuestionario cuestionario = new Cuestionario();
 			
@@ -60,20 +63,26 @@ public class GestorCuestionario
 		cuestionario.setPuntajeObtenido(0);
 		cuestionario.setCandidato(c);
 		
-		generarCompetenciasYFactoresCuestionario(cuestionario,competencias);
+		generarCompetenciasYFactoresCuestionario(f, cuestionario,competencias);
 		
 		return cuestionario;
 	}
 
-	private void generarCompetenciasYFactoresCuestionario(Cuestionario cuestionario, List<Competencia> competencias)
+	private void generarCompetenciasYFactoresCuestionario(Funcion f, Cuestionario cuestionario, List<Competencia> competencias) throws SQLException
 	{
 		
 		CompetenciaCuestionario comp = null;
 		List<CompetenciaCuestionario> comps = new ArrayList<CompetenciaCuestionario>();
+		FuncionDAO dao = new PostgresFuncion();
 		
 		for(Competencia c : competencias)
 		{
 			comp = new CompetenciaCuestionario();
+			comp.setNombre(c.getNombre());
+			comp.setDescripcion(c.getDescripcion());
+			comp.setPuntajeNecesario(dao.findPuntaje(f,c).getPuntaje());
+			comp.setCodigo(c.getCodigo());
+			comp.setPuntajeObtenido(0);
 			
 		}
 	}

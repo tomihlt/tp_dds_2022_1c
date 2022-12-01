@@ -31,7 +31,7 @@ CREATE TABLE dds.competencia_cuestionario (
     id_cuestionario integer,
     nombre character varying(200),
     descripcion character varying(500),
-    ponderacion integer,
+    puntaje_necesario integer,
     codigo integer,
     puntaje_obtenido integer
 );

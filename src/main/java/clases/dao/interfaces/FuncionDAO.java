@@ -26,4 +26,6 @@ public interface FuncionDAO extends CRUD<Funcion>
 	
 	public List<Funcion> findFuncionesByIdEmpresa(Integer id) throws SQLException;
 
+	public PuntajeNecesario findPuntaje(Funcion f, Competencia c) throws SQLException;
+
 }

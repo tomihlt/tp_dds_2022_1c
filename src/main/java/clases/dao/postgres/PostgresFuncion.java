@@ -344,4 +344,26 @@ public class PostgresFuncion implements FuncionDAO
 		return funciones;
 	}
 
+	@Override
+	public PuntajeNecesario findPuntaje(Funcion f, Competencia c) throws SQLException
+	{
+		PuntajeNecesario puntaje = null;
+		
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT puntaje_necesario FROM dds.funcion_competencias WHERE funcion.id = ? AND competencia.id = ?;"))
+		{
+			pstm.setInt(1, f.getId());
+			pstm.setInt(2, c.getId());
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				puntaje = new PuntajeNecesario();
+				puntaje.setCompetencia(c);
+				puntaje.setFuncion(f);
+				puntaje.setPuntaje(rs.getInt(1));
+			}
+		}
+		
+		return puntaje;
+	}
+
 }

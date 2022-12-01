@@ -10,7 +10,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import clases.dao.interfaces.FactorDAO;
+import clases.dao.interfaces.FuncionDAO;
 import clases.dao.postgres.PostgresFactor;
+import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CandidatoNormalDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.FactorBasicoDTO;
@@ -20,6 +22,7 @@ import clases.entidades.Competencia;
 import clases.entidades.Cuestionario;
 import clases.entidades.Evaluacion;
 import clases.entidades.Factor;
+import clases.entidades.Funcion;
 import clases.entidades.Pregunta;
 
 public class GestorEvaluacion
@@ -32,8 +35,11 @@ public class GestorEvaluacion
 
 		List<Competencia> competencias = cargarCompetenciaConFactores(competenciasEvaluables);
 		Map<Candidato, String> candidatos = obtenerCandidatos(usuariosConClaves);
-
-		generarEvaluacion(competencias, candidatos);
+		
+		FuncionDAO dao = new PostgresFuncion();
+		Funcion f = dao.find(obtenerFuncionAEvaluar.getId());
+		
+		generarEvaluacion(f,competencias, candidatos);
 
 	}
 
@@ -75,7 +81,7 @@ public class GestorEvaluacion
 		return competencias;
 	}
 	
-	private void generarEvaluacion(List<Competencia> competencias, Map<Candidato, String> candidatos)
+	private void generarEvaluacion(Funcion f, List<Competencia> competencias, Map<Candidato, String> candidatos) throws SQLException
 	{
 		Evaluacion evaluacion = new Evaluacion();
 		List<Cuestionario> cuestionarios = new ArrayList<Cuestionario>();
@@ -84,7 +90,7 @@ public class GestorEvaluacion
 		
 		for(Candidato c : candidatos.keySet())
 		{
-			Cuestionario cuestionario = gestor.crearCuestionario(competencias,c,candidatos.get(c));
+			Cuestionario cuestionario = gestor.crearCuestionario(f,competencias,c,candidatos.get(c));
 			cuestionarios.add(cuestionario);
 		}
 	}
