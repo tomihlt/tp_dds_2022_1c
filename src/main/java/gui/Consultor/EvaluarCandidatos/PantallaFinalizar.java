@@ -233,7 +233,13 @@ public class PantallaFinalizar extends JPanel
 		GestorEvaluacion gestor = new GestorEvaluacion();
 		Map<CandidatoNormalDTO,String> usuariosConClaves = obtenerCandidatosFinales();
 		Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
-		gestor.generarEvaluacion(obtenerFuncionAEvaluar(),competenciasEvaluables,usuariosConClaves);
+		try
+		{
+			gestor.generarEvaluacion(obtenerFuncionAEvaluar(),competenciasEvaluables,usuariosConClaves);
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private FuncionNombreIdDTO obtenerFuncionAEvaluar()
