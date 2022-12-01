@@ -14,9 +14,9 @@ import clases.entidades.Pregunta;
 
 public class PostgresFactor implements FactorDAO
 {
-	
+
 	private Connection conn = DBConnection.get();
-	
+
 	@Override
 	public void save(Factor t)
 	{
@@ -35,12 +35,13 @@ public class PostgresFactor implements FactorDAO
 	public Factor find(Integer id) throws SQLException
 	{
 		Factor f = new Factor();
-		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT id, nombre, descripcion, codigo, nro_orden, eliminado FROM dds.factor WHERE eliminado = false AND id = ?;"))
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT id, nombre, descripcion, codigo, nro_orden, eliminado FROM dds.factor WHERE eliminado = false AND id = ?;"))
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 			{
 				f.setId(rs.getInt(1));
 				f.setNombre(rs.getString(2));
@@ -50,7 +51,7 @@ public class PostgresFactor implements FactorDAO
 				f.setEliminado(rs.getBoolean(6));
 			}
 		}
-		
+
 		return f;
 	}
 
@@ -72,19 +73,57 @@ public class PostgresFactor implements FactorDAO
 	public void update(Factor t) throws SQLException
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public List<Pregunta> findPreguntasByIdFactor(Integer id) throws SQLException
 	{
 		List<Pregunta> preguntas = new ArrayList<Pregunta>();
-		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT p.id,p.nombre,p.descripcion FROM dds.factor f, dds.pregunta p WHERE f.id = p.id_factor AND f.id = ?;"))
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT p.id,p.nombre,p.descripcion FROM dds.factor f, dds.pregunta p WHERE f.id = p.id_factor AND f.id = ?;"))
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
 			Pregunta p = null;
+			while (rs.next())
+			{
+				p = new Pregunta();
+				p.setId(rs.getInt(1));
+				p.setNombre(rs.getString(2));
+				p.setDescripcion(rs.getString(3));
+				preguntas.add(p);
+			}
+		}
+
+		return preguntas;
+	}
+
+	@Override
+	public List<Pregunta> findPreguntasByFactor(List<Factor> factores) throws SQLException
+	{
+		List<Pregunta> preguntas = new ArrayList<Pregunta>();
+		
+		for(Factor f : factores)
+		{
+			preguntas.addAll(findPreguntasByFactor(f));
+		}
+		
+		return preguntas;
+	}
+
+	@Override
+	public List<Pregunta> findPreguntasByFactor(Factor factor) throws SQLException
+	{
+		List<Pregunta> preguntas = new ArrayList<Pregunta>();
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT p.id,p.nombre,p.descripcion FROM dds.pregunta p, dds.factor f WHERE f.id = p.id_factor AND f.id = ?;"))
+		{
+			pstm.setInt(1, factor.getId());
+			Pregunta p = null;
+			ResultSet rs = pstm.executeQuery();
 			while(rs.next())
 			{
 				p = new Pregunta();
@@ -94,7 +133,7 @@ public class PostgresFactor implements FactorDAO
 				preguntas.add(p);
 			}
 		}
-		
+
 		return preguntas;
 	}
 

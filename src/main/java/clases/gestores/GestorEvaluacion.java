@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import clases.dao.interfaces.FactorDAO;
+import clases.dao.postgres.PostgresFactor;
 import clases.dto.CandidatoNormalDTO;
 import clases.dto.CompetenciaPuntajeNombreDTO;
 import clases.dto.FactorBasicoDTO;
@@ -29,8 +31,14 @@ public class GestorEvaluacion
 		}
 		
 		GestorFactor gestorF = new GestorFactor();
-		List<Factor> factores = gestorF.findById(factoresEvaluablesDto.stream().map(f -> f.getId()).collect(Collectors.toSet())); 
-		List<Pregunta> preguntas;
+		List<Factor> factores = gestorF.findById(factoresEvaluablesDto.stream().map(f -> f.getId()).collect(Collectors.toSet()));
+		
+		FactorDAO fDao = new PostgresFactor();
+		for(Factor f : factores)
+		{
+			List<Pregunta> preguntasDelFactor = fDao.findPreguntasByFactor(f);
+			f.setPreguntas(preguntasDelFactor);
+		}
 	}
 
 }
