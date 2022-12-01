@@ -126,7 +126,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 		Competencia c = new Competencia();
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT id,nombre,codigo,eliminado,descripcion FROM dds.competencia WHERE nombre = ?"))
+				"SELECT id,nombre,codigo,eliminado,descripcion FROM dds.competencia WHERE nombre = ? AND eliminado = false;"))
 		{
 			pstm.setString(1, name);
 			ResultSet rs = pstm.executeQuery();

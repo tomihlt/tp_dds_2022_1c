@@ -205,7 +205,7 @@ public class PostgresFuncion implements FuncionDAO
 		Funcion f = new Funcion();
 
 		try (PreparedStatement pstm = conn
-				.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE codigo = ?;"))
+				.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
 		{
 			pstm.setInt(1, codigo);
 			ResultSet rs = pstm.executeQuery();

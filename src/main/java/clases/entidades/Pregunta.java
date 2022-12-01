@@ -6,6 +6,7 @@ public class Pregunta
 	private String nombre;
 	private String descripcion;
 	private Factor factor;
+	private Boolean eliminado;
 	private OpcionDeRespuesta opcionDeRespuesta;
 
 	public Factor getFactor()
@@ -56,6 +57,16 @@ public class Pregunta
 	public void setDescripcion(String descripcion)
 	{
 		this.descripcion = descripcion;
+	}
+
+	public Boolean getEliminado()
+	{
+		return eliminado;
+	}
+
+	public void setEliminado(Boolean eliminado)
+	{
+		this.eliminado = eliminado;
 	}
 
 }

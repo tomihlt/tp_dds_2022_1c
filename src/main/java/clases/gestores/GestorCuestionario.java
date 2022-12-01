@@ -102,7 +102,7 @@ public class GestorCuestionario
 	private void getAndSetRespuestasCuestionario(List<PreguntaCuestionario> preguntasDelFactor)
 	{
 		GestorPregunta gestor = new GestorPregunta();
-		//TODO
+		
 	}
 
 	private List<PreguntaCuestionario> generarPreguntaCuestionario(List<Pregunta> preguntas)
