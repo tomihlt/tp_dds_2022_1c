@@ -1,5 +1,8 @@
 package clases.entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FactorCuestionario
 {
 	private Integer id;
@@ -9,8 +12,13 @@ public class FactorCuestionario
 	private Integer nroOrden;
 	private Integer puntajeObtenido;
 	private CompetenciaCuestionario competencia;
-	private PreguntaCuestionario pregunta; // TODO
-
+	private List<PreguntaCuestionario> preguntas;
+	
+	public FactorCuestionario()
+	{
+		preguntas = new ArrayList<PreguntaCuestionario>();
+	}
+	
 	public CompetenciaCuestionario getCompetencia()
 	{
 		return competencia;
@@ -31,14 +39,14 @@ public class FactorCuestionario
 		this.competencia = competencia;
 	}
 
-	public PreguntaCuestionario getPregunta()
+	public List<PreguntaCuestionario> getPregunta()
 	{
-		return pregunta;
+		return preguntas;
 	}
 
-	public void setPregunta(PreguntaCuestionario pregunta)
+	public void setPregunta(List<PreguntaCuestionario> pregunta)
 	{
-		this.pregunta = pregunta;
+		this.preguntas = pregunta;
 	}
 
 	public Integer getId()

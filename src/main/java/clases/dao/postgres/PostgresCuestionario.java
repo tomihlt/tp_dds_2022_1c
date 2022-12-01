@@ -66,7 +66,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 		Cuestionario c = null;
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT c.id, c.estado, c.fecha_inicio, c.fecha_fin, c.cantidad_accesos_maxima, c.cantidad_accesos, c.ultimo_ingreso, c.fecha_limite, c.tiempo_empleado, c.tiempo_maximo, c.clave, c.puntaje_obtenido FROM dds.cuestionario c, dds.candidato cand WHERE c.id_candidato = cand.id AND cand.id = ?;"))
+				"SELECT c.id, c.estado, c.fecha_inicio, c.fecha_fin, c.cantidad_accesos_maxima, c.cantidad_accesos, c.ultimo_ingreso, c.fecha_limite, c.tiempo_maximo, c.clave, c.puntaje_obtenido FROM dds.cuestionario c, dds.candidato cand WHERE c.id_candidato = cand.id AND cand.id = ?;"))
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
@@ -81,7 +81,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 				c.setCantidadAccesos(rs.getInt(6));
 				c.setUltimoIngreso(rs.getTimestamp(7).toLocalDateTime());
 				c.setFechaLimite(rs.getTimestamp(8).toLocalDateTime());
-				c.setTiempoEmpleado(rs.getBigDecimal(9).toBigInteger().longValue());
+//				c.setTiempoEmpleado(rs.getBigDecimal(9).toBigInteger().longValue());
 				c.setTiempoMaximo(rs.getBigDecimal(10).toBigInteger().longValue());
 				c.setClave(rs.getString(11));
 				c.setPuntajeObtenido(rs.getInt(12));

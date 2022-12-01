@@ -13,6 +13,7 @@ public class Evaluacion
 	public Evaluacion()
 	{
 		cuestionarios = new ArrayList<Cuestionario>();
+		fecha = LocalDate.now();
 	}
 
 	public List<Cuestionario> getCuestionarios()

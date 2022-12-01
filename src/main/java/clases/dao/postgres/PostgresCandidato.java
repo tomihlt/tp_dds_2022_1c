@@ -72,8 +72,14 @@ public class PostgresCandidato implements CandidatoDAO
 	@Override
 	public List<Candidato> find(List<Integer> id) throws SQLException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		List<Candidato> candidatos = new ArrayList<Candidato>();
+		
+		for(Integer i : id)
+		{
+			candidatos.add(find(i));
+		}
+		
+		return candidatos;
 	}
 
 	@Override

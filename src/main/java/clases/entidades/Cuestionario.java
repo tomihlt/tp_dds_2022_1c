@@ -18,21 +18,33 @@ public class Cuestionario
 	private Integer cantidadAccesos;
 	private LocalDateTime ultimoIngreso;
 	private LocalDateTime fechaLimite;
-	private Long tiempoEmpleado;
+//	private Long tiempoEmpleado;
 	private Long tiempoMaximo;
 	private String clave;
 	private Integer puntajeObtenido;
 	private Candidato candidato;
 	private List<Bloque> bloques;
-
+	private List<CompetenciaCuestionario> competencias;
+	
 	public Cuestionario()
 	{
 		bloques = new ArrayList<Bloque>();
+		competencias = new ArrayList<CompetenciaCuestionario>();
 	}
 
 	public Integer getId()
 	{
 		return id;
+	}
+
+	public List<CompetenciaCuestionario> getCompetencias()
+	{
+		return competencias;
+	}
+
+	public void setCompetencias(List<CompetenciaCuestionario> competencias)
+	{
+		this.competencias = competencias;
 	}
 
 	public void setId(Integer id)
@@ -110,15 +122,15 @@ public class Cuestionario
 		this.fechaLimite = fechaLimite;
 	}
 
-	public Long getTiempoEmpleado()
-	{
-		return tiempoEmpleado;
-	}
-
-	public void setTiempoEmpleado(Long tiempoEmpleado)
-	{
-		this.tiempoEmpleado = tiempoEmpleado;
-	}
+//	public Long getTiempoEmpleado()
+//	{
+//		return tiempoEmpleado;
+//	}
+//
+//	public void setTiempoEmpleado(Long tiempoEmpleado)
+//	{
+//		this.tiempoEmpleado = tiempoEmpleado;
+//	}
 
 	public Long getTiempoMaximo()
 	{

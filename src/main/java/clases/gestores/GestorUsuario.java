@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 import javax.swing.JTextField;
 
@@ -170,6 +171,18 @@ public class GestorUsuario
 		// nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos
 		// 1
 		return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
+	}
+
+	public List<Candidato> findCandidatoById(List<Integer> ids) throws SQLException
+	{
+		CandidatoDAO dao = new PostgresCandidato();
+		return dao.find(ids);
+	}
+	
+	public Candidato findCandidatoById(Integer id) throws SQLException
+	{
+		CandidatoDAO dao = new PostgresCandidato();
+		return dao.find(id);
 	}
 
 }

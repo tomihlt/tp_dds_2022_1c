@@ -62,4 +62,10 @@ public class GestorCompetencia
 		return factoresDto;
 	}
 
+	public Competencia findById(Integer id) throws SQLException
+	{
+		CompetenciaDAO dao = new PostgresCompetencia();
+		return dao.find(id);
+	}
+
 }

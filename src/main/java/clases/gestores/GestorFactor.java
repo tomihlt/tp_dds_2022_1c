@@ -54,4 +54,17 @@ public class GestorFactor
 		return dao.find(id);
 	}
 
+	public List<Factor> findById(List<FactorBasicoDTO> factoresDto) throws SQLException
+	{
+		List<Factor> factores = new ArrayList<Factor>();
+		
+		for(FactorBasicoDTO f : factoresDto)
+		{
+			Factor fact = findById(f.getId());
+			factores.add(fact);
+		}
+		
+		return factores;
+	}
+
 }
