@@ -12,7 +12,7 @@ public class FactorCuestionario
 	private Integer nroOrden;
 	private Integer puntajeObtenido;
 	private List<PreguntaCuestionario> preguntas;
-	
+
 	public FactorCuestionario()
 	{
 		preguntas = new ArrayList<PreguntaCuestionario>();
@@ -86,6 +86,12 @@ public class FactorCuestionario
 	public void setNroOrden(Integer nroOrden)
 	{
 		this.nroOrden = nroOrden;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "FactorCuestionario [nombre=" + nombre + "]";
 	}
 
 }

@@ -88,4 +88,10 @@ public class CompetenciaCuestionario
 		this.codigo = codigo;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "CompetenciaCuestionario [nombre=" + nombre + "]";
+	}
+
 }

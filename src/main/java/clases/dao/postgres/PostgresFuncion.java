@@ -349,7 +349,7 @@ public class PostgresFuncion implements FuncionDAO
 	{
 		PuntajeNecesario puntaje = null;
 		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT puntaje_necesario FROM dds.funcion_competencias WHERE funcion.id = ? AND competencia.id = ?;"))
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT puntaje_necesario FROM dds.funcion_competencias WHERE funcion = ? AND competencia = ?;"))
 		{
 			pstm.setInt(1, f.getId());
 			pstm.setInt(2, c.getId());

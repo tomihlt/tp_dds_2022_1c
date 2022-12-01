@@ -144,6 +144,7 @@ CREATE TABLE dds.respuesta_cuestionario (
     nombre character varying(200),
     seleccionada boolean,
     ponderacion integer,
+    orden_visualizacion integer,
     descripcion character varying(500)
 );
 

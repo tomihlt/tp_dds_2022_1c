@@ -4,6 +4,7 @@ public class RespuestaCuestionario
 {
 	private Integer id;
 	private String nombre; // La respuesta en si, cambiarla por respuesta despues
+	private Integer ordenVisualizacion;
 	private Boolean seleccionada;
 	private Integer ponderacion;
 	private String descripcion;
@@ -36,6 +37,16 @@ public class RespuestaCuestionario
 	public void setSeleccionada(Boolean seleccionada)
 	{
 		this.seleccionada = seleccionada;
+	}
+
+	public Integer getOrdenVisualizacion()
+	{
+		return ordenVisualizacion;
+	}
+
+	public void setOrdenVisualizacion(Integer ordenVisualizacion)
+	{
+		this.ordenVisualizacion = ordenVisualizacion;
 	}
 
 	public Integer getPonderacion()

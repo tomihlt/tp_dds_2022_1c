@@ -8,7 +8,7 @@ public class PreguntaCuestionario
 	private Integer id;
 	private String nombre;
 	private String descripcion;
-	private Integer nroOrden;
+	private Integer nroOrden; // Lo setea el creador de Bloque
 	private List<RespuestaCuestionario> respuestas;
 
 	public PreguntaCuestionario()
