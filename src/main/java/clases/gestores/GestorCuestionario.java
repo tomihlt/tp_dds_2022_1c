@@ -15,6 +15,7 @@ import clases.entidades.Candidato;
 import clases.entidades.Competencia;
 import clases.entidades.CompetenciaCuestionario;
 import clases.entidades.Cuestionario;
+import clases.entidades.FactorCuestionario;
 import clases.entidades.Funcion;
 import clases.enums.EstadoCuestionario;
 
@@ -83,8 +84,27 @@ public class GestorCuestionario
 			comp.setPuntajeNecesario(dao.findPuntaje(f,c).getPuntaje());
 			comp.setCodigo(c.getCodigo());
 			comp.setPuntajeObtenido(0);
-			
+			List<FactorCuestionario> factoresCuestionario = obtenerFactoresCuestionarios(c);
+			comp.setFactores(factoresCuestionario);
+			comps.add(comp);
 		}
+	}
+
+	private List<FactorCuestionario> obtenerFactoresCuestionarios(Competencia c)
+	{
+		List<FactorCuestionario> factores = new ArrayList<FactorCuestionario>();
+		
+		c.getFactores().forEach(f -> {
+			FactorCuestionario aux = new FactorCuestionario();
+			aux.setNombre(f.getNombre());
+			aux.setDescripcion(f.getDescripcion());
+			aux.setCodigo(f.getCodigo());
+			aux.setNroOrden(f.getNroOrden());
+			aux.setPuntajeObtenido(0);
+			factores.add(aux);
+		});
+		
+		return factores;
 	}
 
 }

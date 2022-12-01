@@ -11,17 +11,11 @@ public class FactorCuestionario
 	private Integer codigo;
 	private Integer nroOrden;
 	private Integer puntajeObtenido;
-	private CompetenciaCuestionario competencia;
 	private List<PreguntaCuestionario> preguntas;
 	
 	public FactorCuestionario()
 	{
 		preguntas = new ArrayList<PreguntaCuestionario>();
-	}
-	
-	public CompetenciaCuestionario getCompetencia()
-	{
-		return competencia;
 	}
 
 	public Integer getPuntajeObtenido()
@@ -32,11 +26,6 @@ public class FactorCuestionario
 	public void setPuntajeObtenido(Integer puntajeObtenido)
 	{
 		this.puntajeObtenido = puntajeObtenido;
-	}
-
-	public void setCompetencia(CompetenciaCuestionario competencia)
-	{
-		this.competencia = competencia;
 	}
 
 	public List<PreguntaCuestionario> getPregunta()

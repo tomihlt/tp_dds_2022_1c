@@ -93,6 +93,9 @@ public class GestorEvaluacion
 			Cuestionario cuestionario = gestor.crearCuestionario(f,competencias,c,candidatos.get(c));
 			cuestionarios.add(cuestionario);
 		}
+		
+		evaluacion.setCuestionarios(cuestionarios);
+		// Una vez generada todas las evaluaciones se carga todo en la bdd como una transaccion
 	}
 
 }
