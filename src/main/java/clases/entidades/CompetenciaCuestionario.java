@@ -11,7 +11,6 @@ public class CompetenciaCuestionario
 	private Integer ponderacion;
 	private Integer codigo;
 	private Integer puntajeObtenido;
-	private Cuestionario cuestionario;
 	private List<FactorCuestionario> factores;
 
 	public CompetenciaCuestionario()
@@ -27,16 +26,6 @@ public class CompetenciaCuestionario
 	public void setPuntajeObtenido(Integer puntajeObtenido)
 	{
 		this.puntajeObtenido = puntajeObtenido;
-	}
-
-	public Cuestionario getCuestionario()
-	{
-		return cuestionario;
-	}
-
-	public void setCuestionario(Cuestionario cuestionario)
-	{
-		this.cuestionario = cuestionario;
 	}
 
 	public List<FactorCuestionario> getFactores()

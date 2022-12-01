@@ -2,6 +2,7 @@ package clases.gestores;
 
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import clases.dao.interfaces.CuestionarioDAO;
@@ -10,6 +11,7 @@ import clases.dto.CandidatoDTO;
 import clases.dto.CuestionarioDTO;
 import clases.entidades.Candidato;
 import clases.entidades.Competencia;
+import clases.entidades.CompetenciaCuestionario;
 import clases.entidades.Cuestionario;
 import clases.enums.EstadoCuestionario;
 
@@ -58,7 +60,22 @@ public class GestorCuestionario
 		cuestionario.setPuntajeObtenido(0);
 		cuestionario.setCandidato(c);
 		
+		generarCompetenciasYFactoresCuestionario(cuestionario,competencias);
+		
 		return cuestionario;
+	}
+
+	private void generarCompetenciasYFactoresCuestionario(Cuestionario cuestionario, List<Competencia> competencias)
+	{
+		
+		CompetenciaCuestionario comp = null;
+		List<CompetenciaCuestionario> comps = new ArrayList<CompetenciaCuestionario>();
+		
+		for(Competencia c : competencias)
+		{
+			comp = new CompetenciaCuestionario();
+			
+		}
 	}
 
 }
