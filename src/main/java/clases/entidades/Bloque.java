@@ -8,22 +8,11 @@ public class Bloque
 	private Integer id;
 	private Integer numeroBloque;
 	private Boolean visitable;
-	private Cuestionario cuestionario;
 	private List<PreguntaCuestionario> preguntas;
 	
 	public Bloque()
 	{
 		preguntas = new ArrayList<PreguntaCuestionario>();
-	}
-	
-	public Cuestionario getCuestionario()
-	{
-		return cuestionario;
-	}
-
-	public void setCuestionario(Cuestionario cuestionario)
-	{
-		this.cuestionario = cuestionario;
 	}
 
 	public List<PreguntaCuestionario> getPreguntas()

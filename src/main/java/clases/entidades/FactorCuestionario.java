@@ -28,12 +28,12 @@ public class FactorCuestionario
 		this.puntajeObtenido = puntajeObtenido;
 	}
 
-	public List<PreguntaCuestionario> getPregunta()
+	public List<PreguntaCuestionario> getPreguntas()
 	{
 		return preguntas;
 	}
 
-	public void setPregunta(List<PreguntaCuestionario> pregunta)
+	public void setPreguntas(List<PreguntaCuestionario> pregunta)
 	{
 		this.preguntas = pregunta;
 	}

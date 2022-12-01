@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import clases.dao.interfaces.CuestionarioDAO;
 import clases.dao.interfaces.FactorDAO;
@@ -16,6 +17,7 @@ import clases.dao.postgres.PostgresFuncion;
 import clases.dao.postgres.PostgresPregunta;
 import clases.dto.CandidatoDTO;
 import clases.dto.CuestionarioDTO;
+import clases.entidades.Bloque;
 import clases.entidades.Candidato;
 import clases.entidades.Competencia;
 import clases.entidades.CompetenciaCuestionario;
@@ -82,10 +84,61 @@ public class GestorCuestionario
 		getAndSetPreguntasPorFactor(cuestionario); // Ya elige aleatoriamente las 2 preguntas y las setea dentro de cada
 													// clase
 		//TODO ahora hay que generar los bloques
-//		infoCuestionario(cuestionario);
+		List<Bloque> bloques = generarBloques(cuestionario);
 		
+		cuestionario.setBloques(bloques);
+		
+		infoCuestionario(cuestionario);
 		
 		return cuestionario;
+	}
+
+	private List<Bloque> generarBloques(Cuestionario cuestionario)
+	{
+		// Genero 3 preguntas por bloque (eleccion arbitraria, cambiar el parametro de esta funcion
+		// para N preguntas por bloques
+		final int $CANT_PREG_BLOQUE = 3;
+		
+		List<PreguntaCuestionario> allPreguntas = getAllPreguntas(cuestionario);
+		Collections.shuffle(allPreguntas); // Mezclo todo
+		
+		Bloque b = null;
+		List<Bloque> bloques = new ArrayList<Bloque>();
+		Integer cantidadDeBloques = 0;
+		
+		while(allPreguntas.size() > 0)
+		{
+			List<PreguntaCuestionario> aux = new ArrayList<PreguntaCuestionario>();
+			b = new Bloque();
+			for(int i = 0; i < $CANT_PREG_BLOQUE && !allPreguntas.isEmpty(); i++)
+			{
+				aux.add(allPreguntas.get(0));
+				allPreguntas.remove(0);
+			}
+			b.setPreguntas(aux);
+			b.setNumeroBloque(cantidadDeBloques);
+			cantidadDeBloques++;
+			b.setVisitable(true);
+			bloques.add(b);
+		}
+		
+		return bloques;
+		
+	}
+
+	private List<PreguntaCuestionario> getAllPreguntas(Cuestionario cuestionario)
+	{
+		List<PreguntaCuestionario> preguntas = new ArrayList<PreguntaCuestionario>();
+		
+		for(CompetenciaCuestionario c : cuestionario.getCompetencias())
+		{
+			for(FactorCuestionario f : c.getFactores())
+			{
+				preguntas.addAll(f.getPreguntas());
+			}
+		}
+		
+		return preguntas;
 	}
 
 	private void infoCuestionario(Cuestionario c)
@@ -108,7 +161,7 @@ public class GestorCuestionario
 				elegidas.add(preguntas.get(0));
 				elegidas.add(preguntas.get(1));
 				List<PreguntaCuestionario> preguntasDelFactor = generarPreguntaAndRespuestaCuestionario(elegidas);
-				f.setPregunta(preguntasDelFactor);
+				f.setPreguntas(preguntasDelFactor);
 			}
 		}
 	}
@@ -133,7 +186,6 @@ public class GestorCuestionario
 
 	private List<RespuestaCuestionario> obtenerRespuestasPregunta(Pregunta p) throws SQLException
 	{
-		// TODO Necesito recuperar: Respuesta y Ponderación
 		List<RespuestaCuestionario> resultado = new ArrayList<RespuestaCuestionario>();
 		
 		PreguntaDAO dao = new PostgresPregunta();
