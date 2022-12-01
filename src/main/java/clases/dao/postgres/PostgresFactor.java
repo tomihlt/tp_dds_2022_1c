@@ -82,7 +82,7 @@ public class PostgresFactor implements FactorDAO
 		List<Pregunta> preguntas = new ArrayList<Pregunta>();
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT p.id,p.nombre,p.descripcion FROM dds.factor f, dds.pregunta p WHERE f.id = p.id_factor AND f.id = ?;"))
+				"SELECT p.id,p.nombre,p.descripcion FROM dds.factor f, dds.pregunta p WHERE f.id = p.id_factor AND f.id = ? AND f.eliminado = false;"))
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
@@ -119,9 +119,33 @@ public class PostgresFactor implements FactorDAO
 		List<Pregunta> preguntas = new ArrayList<Pregunta>();
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT p.id,p.nombre,p.descripcion FROM dds.pregunta p, dds.factor f WHERE f.id = p.id_factor AND f.id = ?;"))
+				"SELECT p.id,p.nombre,p.descripcion FROM dds.pregunta p, dds.factor f WHERE f.id = p.id_factor AND f.id = ? AND f.eliminado = false;"))
 		{
 			pstm.setInt(1, factor.getId());
+			Pregunta p = null;
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next())
+			{
+				p = new Pregunta();
+				p.setId(rs.getInt(1));
+				p.setNombre(rs.getString(2));
+				p.setDescripcion(rs.getString(3));
+				preguntas.add(p);
+			}
+		}
+
+		return preguntas;
+	}
+
+	@Override
+	public List<Pregunta> findPreguntasByCodigoFactor(Integer codigo) throws SQLException
+	{
+		List<Pregunta> preguntas = new ArrayList<Pregunta>();
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT p.id,p.nombre,p.descripcion FROM dds.pregunta p, dds.factor f WHERE f.id = p.id_factor AND f.codigo = ? AND f.eliminado = false;"))
+		{
+			pstm.setInt(1, codigo);
 			Pregunta p = null;
 			ResultSet rs = pstm.executeQuery();
 			while(rs.next())

@@ -107,6 +107,7 @@ CREATE TABLE dds.funcion_competencias (
 CREATE TABLE dds.opcion_de_respuesta (
     id serial NOT NULL,
     nombre character varying(200),
+    eliminado boolean DEFAULT false,
     descripcion character varying(500)
 );
 
@@ -115,6 +116,7 @@ CREATE TABLE dds.pregunta (
     id_factor integer,
     opcion_de_respuesta integer,
     nombre character varying(200),
+    eliminado boolean DEFAULT false,
     descripcion character varying(500)
 );
 

@@ -7,35 +7,13 @@ public class PreguntaCuestionario
 {
 	private Integer id;
 	private String nombre;
-	private String pregunta;
 	private String descripcion;
-	private FactorCuestionario factor;
-	private Bloque bloque;
+	private Integer nroOrden;
 	private List<RespuestaCuestionario> respuestas;
 
 	public PreguntaCuestionario()
 	{
 		respuestas = new ArrayList<RespuestaCuestionario>();
-	}
-
-	public FactorCuestionario getFactor()
-	{
-		return factor;
-	}
-
-	public void setFactor(FactorCuestionario factor)
-	{
-		this.factor = factor;
-	}
-
-	public Bloque getBloque()
-	{
-		return bloque;
-	}
-
-	public void setBloque(Bloque bloque)
-	{
-		this.bloque = bloque;
 	}
 
 	public List<RespuestaCuestionario> getRespuestas()
@@ -68,16 +46,6 @@ public class PreguntaCuestionario
 		this.nombre = nombre;
 	}
 
-	public String getPregunta()
-	{
-		return pregunta;
-	}
-
-	public void setPregunta(String pregunta)
-	{
-		this.pregunta = pregunta;
-	}
-
 	public String getDescripcion()
 	{
 		return descripcion;
@@ -86,6 +54,16 @@ public class PreguntaCuestionario
 	public void setDescripcion(String descripcion)
 	{
 		this.descripcion = descripcion;
+	}
+
+	public Integer getNroOrden()
+	{
+		return nroOrden;
+	}
+
+	public void setNroOrden(Integer nroOrden)
+	{
+		this.nroOrden = nroOrden;
 	}
 
 }
