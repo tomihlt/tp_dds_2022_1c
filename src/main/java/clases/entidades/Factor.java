@@ -11,6 +11,7 @@ public class Factor
 	private Integer codigo;
 	private Integer nroOrden;
 	private List<Pregunta> preguntas;
+	private Boolean eliminado;
 
 	public Factor()
 	{
@@ -75,6 +76,16 @@ public class Factor
 	public void setNroOrden(Integer nroOrden)
 	{
 		this.nroOrden = nroOrden;
+	}
+
+	public Boolean getEliminado()
+	{
+		return eliminado;
+	}
+
+	public void setEliminado(Boolean eliminado)
+	{
+		this.eliminado = eliminado;
 	}
 
 }

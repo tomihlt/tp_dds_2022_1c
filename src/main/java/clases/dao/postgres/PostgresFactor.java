@@ -32,10 +32,26 @@ public class PostgresFactor implements FactorDAO
 	}
 
 	@Override
-	public Factor find(Integer id)
+	public Factor find(Integer id) throws SQLException
 	{
-		// TODO Auto-generated method stub
-		return null;
+		Factor f = new Factor();
+		
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT id, nombre, descripcion, codigo, nro_orden, eliminado FROM dds.factor WHERE eliminado = false AND id = ?;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setDescripcion(rs.getString(3));
+				f.setCodigo(rs.getInt(4));
+				f.setNroOrden(rs.getInt(5));
+				f.setEliminado(rs.getBoolean(6));
+			}
+		}
+		
+		return f;
 	}
 
 	@Override

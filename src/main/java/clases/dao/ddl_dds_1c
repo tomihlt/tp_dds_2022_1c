@@ -76,6 +76,7 @@ CREATE TABLE dds.factor (
     nombre character varying(200),
     descripcion character varying(500),
     codigo integer,
+    eliminado boolean DEFAULT false,
     nro_orden integer
 );
 

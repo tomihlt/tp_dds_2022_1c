@@ -1,5 +1,7 @@
 package clases.dto;
 
+import java.util.Objects;
+
 public class FactorBasicoDTO
 {
 	private Integer id;
@@ -29,6 +31,25 @@ public class FactorBasicoDTO
 	public String toString()
 	{
 		return nombre;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FactorBasicoDTO other = (FactorBasicoDTO) obj;
+		return Objects.equals(id, other.id);
 	}
 
 }

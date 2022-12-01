@@ -179,7 +179,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 	{
 		List<Factor> factores = new ArrayList<Factor>();
 		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT f.id,f.nombre,f.descripcion,f.codigo,f.nro_orden FROM dds.factor f, dds.competencia c WHERE f.id_competencia = c.id AND c.id = ?;"))
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT f.id,f.nombre,f.descripcion,f.codigo,f.nro_orden FROM dds.factor f, dds.competencia c WHERE f.id_competencia = c.id AND c.id = ? AND f.eliminado = false;"))
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
