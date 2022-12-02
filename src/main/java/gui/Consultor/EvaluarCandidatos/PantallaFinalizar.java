@@ -231,14 +231,17 @@ public class PantallaFinalizar extends JPanel
 	private void finalizar()
 	{
 		GestorEvaluacion gestor = new GestorEvaluacion();
-		Map<CandidatoNormalDTO,String> usuariosConClaves = obtenerCandidatosFinales();
+		Map<CandidatoNormalDTO, String> usuariosConClaves = obtenerCandidatosFinales();
 		Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
 		try
 		{
-			gestor.generarEvaluacion(obtenerFuncionAEvaluar(),competenciasEvaluables,usuariosConClaves);
+			gestor.generarEvaluacion(obtenerFuncionAEvaluar(), competenciasEvaluables, usuariosConClaves);
 		} catch (SQLException e)
 		{
+			JOptionPane.showMessageDialog(this, "Error en la bdd al guardar cuestionarios", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
+			return;
 		}
 	}
 
@@ -254,16 +257,16 @@ public class PantallaFinalizar extends JPanel
 
 	private Map<CandidatoNormalDTO, String> obtenerCandidatosFinales()
 	{
-		Map<CandidatoNormalDTO,String> candidatos = new HashMap<CandidatoNormalDTO,String>();
+		Map<CandidatoNormalDTO, String> candidatos = new HashMap<CandidatoNormalDTO, String>();
 		CandidatosFinalesTableModel model = (CandidatosFinalesTableModel) table.getModel();
-		
-		for(int i = 0 ; i < model.getRowCount(); i++)
+
+		for (int i = 0; i < model.getRowCount(); i++)
 		{
 			CandidatoNormalDTO c = (CandidatoNormalDTO) model.getValueAt(i, 0);
 			String clave = (String) model.getValueAt(i, 4);
 			candidatos.put(c, clave);
 		}
-		
+
 		return candidatos;
 	}
 
@@ -274,7 +277,7 @@ public class PantallaFinalizar extends JPanel
 		try
 		{
 			List<CandidatoNormalDTO> candidatos = gestor.getCandidatosDto(candidatosAEvaluar);
-			Map<CandidatoNormalDTO,String> candidatoConClave = gestor.generarClaves(candidatos);
+			Map<CandidatoNormalDTO, String> candidatoConClave = gestor.generarClaves(candidatos);
 			agregarCandidatosTabla(candidatoConClave);
 		} catch (SQLException e)
 		{
@@ -283,20 +286,21 @@ public class PantallaFinalizar extends JPanel
 		}
 	}
 
-	private void agregarCandidatosTabla(Map<CandidatoNormalDTO,String> candidatos)
+	private void agregarCandidatosTabla(Map<CandidatoNormalDTO, String> candidatos)
 	{
-		
-		for(CandidatoNormalDTO c : candidatos.keySet())
+
+		for (CandidatoNormalDTO c : candidatos.keySet())
 		{
-			agregarCandidatosTabla(c,candidatos.get(c));	
+			agregarCandidatosTabla(c, candidatos.get(c));
 		}
 	}
 
 	private void agregarCandidatosTabla(CandidatoNormalDTO c, String clave)
 	{
-		Object[] row = new Object[] {c,c.getNombre(),c.getTipoDNI(),c.getDni(), clave};
+		Object[] row = new Object[]
+		{ c, c.getNombre(), c.getTipoDNI(), c.getDni(), clave };
 		CandidatosFinalesTableModel model = (CandidatosFinalesTableModel) table.getModel();
-		
+
 		model.addRow(row);
 	}
 

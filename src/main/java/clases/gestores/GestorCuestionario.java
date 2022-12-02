@@ -160,25 +160,29 @@ public class GestorCuestionario
 				List<Pregunta> elegidas = new ArrayList<Pregunta>();
 				elegidas.add(preguntas.get(0));
 				elegidas.add(preguntas.get(1));
-				List<PreguntaCuestionario> preguntasDelFactor = generarPreguntaAndRespuestaCuestionario(elegidas);
+				List<PreguntaCuestionario> preguntasDelFactor = generarPreguntaAndRespuestaCuestionario(elegidas,f);
 				f.setPreguntas(preguntasDelFactor);
 			}
 		}
 	}
 
-	private List<PreguntaCuestionario> generarPreguntaAndRespuestaCuestionario(List<Pregunta> preguntas) throws SQLException
+	private List<PreguntaCuestionario> generarPreguntaAndRespuestaCuestionario(List<Pregunta> preguntas, FactorCuestionario f) throws SQLException
 	{
 		
 		List<PreguntaCuestionario> resultado = new ArrayList<PreguntaCuestionario>();
-		
+		int i;
 		for(Pregunta p : preguntas)
 		{
+			i = 0;
 			PreguntaCuestionario aux = new PreguntaCuestionario();
 			aux.setNombre(p.getNombre());
 			aux.setDescripcion(p.getDescripcion());
+			aux.setFactor(f);
+			aux.setNroOrden(i);
 			List<RespuestaCuestionario> respuestas = obtenerRespuestasPregunta(p);
 			aux.setRespuestas(respuestas);
 			resultado.add(aux);
+			i++;
 		}
 		
 		return resultado;

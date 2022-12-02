@@ -10,6 +10,7 @@ public class PreguntaCuestionario
 	private String descripcion;
 	private Integer nroOrden; // Lo setea el creador de Bloque
 	private List<RespuestaCuestionario> respuestas;
+	private FactorCuestionario factor;
 
 	public PreguntaCuestionario()
 	{
@@ -24,6 +25,16 @@ public class PreguntaCuestionario
 	public void setRespuestas(List<RespuestaCuestionario> respuestas)
 	{
 		this.respuestas = respuestas;
+	}
+
+	public FactorCuestionario getFactor()
+	{
+		return factor;
+	}
+
+	public void setFactor(FactorCuestionario factor)
+	{
+		this.factor = factor;
 	}
 
 	public Integer getId()

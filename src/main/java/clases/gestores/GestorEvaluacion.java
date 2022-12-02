@@ -9,8 +9,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import clases.dao.interfaces.EvaluacionDAO;
 import clases.dao.interfaces.FactorDAO;
 import clases.dao.interfaces.FuncionDAO;
+import clases.dao.postgres.PostgresEvaluacion;
 import clases.dao.postgres.PostgresFactor;
 import clases.dao.postgres.PostgresFuncion;
 import clases.dto.CandidatoNormalDTO;
@@ -94,8 +96,13 @@ public class GestorEvaluacion
 			cuestionarios.add(cuestionario);
 		}
 		
+		evaluacion.setFuncion(f);
 		evaluacion.setCuestionarios(cuestionarios);
-		// Una vez generada todas las evaluaciones se carga todo en la bdd como una transaccion
+		// Una vez generada todas los cuestionarios se carga todo en la bdd como una transaccion
+		
+		EvaluacionDAO eDao = new PostgresEvaluacion();
+		eDao.save(evaluacion);
+		
 	}
 
 }

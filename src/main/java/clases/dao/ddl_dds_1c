@@ -125,7 +125,6 @@ CREATE TABLE dds.pregunta_cuestionario (
     id_bloque integer,
     id_factor integer,
     nombre character varying(200),
-    pregunta character varying(200),
     descripcion character varying(500),
     nro_orden integer
 );
