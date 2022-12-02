@@ -65,7 +65,7 @@ public class GestorCuestionario
 
 		LocalDateTime fechaCreacion = LocalDateTime.now();
 
-		cuestionario.setEstado(EstadoCuestionario.EnProceso);
+		cuestionario.setEstado(EstadoCuestionario.Activo);
 		cuestionario.setFechaInicio(fechaCreacion); // Aca no importa porque se supone que cuando el candidato inicie
 													// por primera vez
 		cuestionario.setFechaFin(fechaCreacion); // esta fecha se sobreescribe al igual que cuando finaliza
