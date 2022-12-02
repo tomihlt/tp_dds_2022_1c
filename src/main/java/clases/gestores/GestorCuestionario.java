@@ -113,6 +113,7 @@ public class GestorCuestionario
 			for(int i = 0; i < $CANT_PREG_BLOQUE && !allPreguntas.isEmpty(); i++)
 			{
 				aux.add(allPreguntas.get(0));
+				allPreguntas.get(0).setNroOrden(i);
 				allPreguntas.remove(0);
 			}
 			b.setPreguntas(aux);
@@ -170,19 +171,15 @@ public class GestorCuestionario
 	{
 		
 		List<PreguntaCuestionario> resultado = new ArrayList<PreguntaCuestionario>();
-		int i;
 		for(Pregunta p : preguntas)
 		{
-			i = 0;
 			PreguntaCuestionario aux = new PreguntaCuestionario();
 			aux.setNombre(p.getNombre());
 			aux.setDescripcion(p.getDescripcion());
 			aux.setFactor(f);
-			aux.setNroOrden(i);
 			List<RespuestaCuestionario> respuestas = obtenerRespuestasPregunta(p);
 			aux.setRespuestas(respuestas);
 			resultado.add(aux);
-			i++;
 		}
 		
 		return resultado;
