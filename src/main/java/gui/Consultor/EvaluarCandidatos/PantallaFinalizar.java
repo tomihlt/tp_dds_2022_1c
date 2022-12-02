@@ -236,6 +236,8 @@ public class PantallaFinalizar extends JPanel
 		try
 		{
 			gestor.generarEvaluacion(obtenerFuncionAEvaluar(), competenciasEvaluables, usuariosConClaves);
+			JOptionPane.showMessageDialog(this, "Cuestionarios generados con éxito.", "Cuestionarios generados",
+					JOptionPane.INFORMATION_MESSAGE);
 		} catch (SQLException e)
 		{
 			JOptionPane.showMessageDialog(this, "Error en la bdd al guardar cuestionarios", "Error",
@@ -243,6 +245,7 @@ public class PantallaFinalizar extends JPanel
 			e.printStackTrace();
 			return;
 		}
+		panel.setCurrentMenu(new PanelEvaluarCandidatos(wWindow));
 	}
 
 	private FuncionNombreIdDTO obtenerFuncionAEvaluar()

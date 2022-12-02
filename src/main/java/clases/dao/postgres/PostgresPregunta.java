@@ -88,7 +88,7 @@ public class PostgresPregunta implements PreguntaDAO
 	{
 		Ponderacion pond = new Ponderacion();
 		
-		try(PreparedStatement pstm = conn .prepareStatement("SELECT pond.ponderacion FROM dds.pregunta_respuesta p WHERE p.pregunta = ? AND p.respuesta = ? AND p.eliminado = false;"))
+		try(PreparedStatement pstm = conn .prepareStatement("SELECT p.ponderacion FROM dds.pregunta_respuesta p WHERE p.pregunta = ? AND p.respuesta = ? AND p.eliminado = false;"))
 		{
 			pstm.setInt(1, p.getId());
 			pstm.setInt(2, r.getId());
