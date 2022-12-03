@@ -26,6 +26,7 @@ public class PostgresFuncion implements FuncionDAO
 	@Override
 	public void save(Funcion t) throws SQLException
 	{
+
 		try (PreparedStatement pstm = conn
 				.prepareStatement("SELECT nombre FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
 		{
@@ -204,8 +205,8 @@ public class PostgresFuncion implements FuncionDAO
 	{
 		Funcion f = new Funcion();
 
-		try (PreparedStatement pstm = conn
-				.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
 		{
 			pstm.setInt(1, codigo);
 			ResultSet rs = pstm.executeQuery();
@@ -348,13 +349,14 @@ public class PostgresFuncion implements FuncionDAO
 	public PuntajeNecesario findPuntaje(Funcion f, Competencia c) throws SQLException
 	{
 		PuntajeNecesario puntaje = null;
-		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT puntaje_necesario FROM dds.funcion_competencias WHERE funcion = ? AND competencia = ?;"))
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT puntaje_necesario FROM dds.funcion_competencias WHERE funcion = ? AND competencia = ?;"))
 		{
 			pstm.setInt(1, f.getId());
 			pstm.setInt(2, c.getId());
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 			{
 				puntaje = new PuntajeNecesario();
 				puntaje.setCompetencia(c);
@@ -362,8 +364,56 @@ public class PostgresFuncion implements FuncionDAO
 				puntaje.setPuntaje(rs.getInt(1));
 			}
 		}
-		
+
 		return puntaje;
+	}
+
+	@Override
+	public Funcion find(Integer id, boolean b) throws SQLException
+	{
+		
+		if(!b)
+			return find(id);
+		
+		Funcion f = null;
+		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
+		Competencia c = null;
+		PuntajeNecesario pj = null;
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT f.id,f.nombre,f.codigo,f.descripcion,f.eliminado,p.puntaje_necesario,c.id,c.nombre,c.codigo,c.eliminado,c.descripcion FROM dds.funcion f, dds.funcion_competencias p, dds.competencia c WHERE p.funcion = f.id AND p.competencia = c.id AND f.id = ?;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			while (rs.next())
+			{
+				f = new Funcion();
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setCodigo(rs.getInt(3));
+				f.setDescripcion(rs.getString(4));
+				f.setEliminado(rs.getBoolean(5));
+
+				c = new Competencia();
+				pj = new PuntajeNecesario();
+
+				pj.setPuntaje(rs.getInt(6));
+
+				c.setId(rs.getInt(7));
+				c.setNombre(rs.getString(8));
+				c.setCodigo(rs.getInt(9));
+				c.setEliminado(rs.getBoolean(10));
+				c.setDescripcion(rs.getString(11));
+
+				pj.setFuncion(f);
+				pj.setCompetencia(c);
+
+				puntajes.add(pj);
+			}
+			f.setPuntajeNecesarioPorCompetencia(puntajes);
+		}
+
+		return f;
 	}
 
 }
