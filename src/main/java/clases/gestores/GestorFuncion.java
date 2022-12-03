@@ -291,7 +291,7 @@ public class GestorFuncion
 	public List<CompetenciaPuntajeNombreDTO> findCompetenciasByFuncion(FuncionNombreIdDTO func) throws SQLException
 	{
 		FuncionDAO fDao = new PostgresFuncion();
-		Funcion f = fDao.find(func.getId());
+		Funcion f = fDao.find(func.getId()); //TODO agregar parametro para cargar puntajes
 		
 		List<PuntajeNecesario> pjNecesario = fDao.findPuntajes(f);
 		

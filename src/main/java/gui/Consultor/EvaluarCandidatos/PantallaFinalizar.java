@@ -232,7 +232,7 @@ public class PantallaFinalizar extends JPanel
 	{
 		GestorEvaluacion gestor = new GestorEvaluacion();
 		Map<CandidatoNormalDTO, String> usuariosConClaves = obtenerCandidatosFinales();
-		Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
+		List<CompetenciaPuntajeNombreDTO> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
 		try
 		{
 			gestor.generarEvaluacion(obtenerFuncionAEvaluar(), competenciasEvaluables, usuariosConClaves);
@@ -253,7 +253,7 @@ public class PantallaFinalizar extends JPanel
 		return anterior.getFuncionParaEvaluar();
 	}
 
-	private Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> obtenerCompetenciasParaEvaluar()
+	private List<CompetenciaPuntajeNombreDTO> obtenerCompetenciasParaEvaluar()
 	{
 		return anterior.getCompetenciasEvaluables();
 	}

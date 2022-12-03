@@ -24,6 +24,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.GridBagConstraints;
@@ -397,36 +398,50 @@ public class PantallaSeleccionarFuncion extends JPanel
 
 	private Boolean funcionEvaluable()
 	{
+		
 		List<CompetenciaPuntajeNombreDTO> competencias = getCompetenciasTabla();
-		Map<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>> factoresCompetencia = new HashMap<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>>();
-
 		GestorCompetencia gestorC = new GestorCompetencia();
-		GestorFactor gestorF = new GestorFactor();
-
-		for (CompetenciaPuntajeNombreDTO c : competencias)
+		try
 		{
-			try
-			{
-				Map<FactorBasicoDTO, List<PreguntaBasicaDTO>> preguntas = new HashMap<FactorBasicoDTO, List<PreguntaBasicaDTO>>();
-				List<FactorBasicoDTO> factores = gestorC.getFactoresBasicosByCompetencia(c);
-				for (FactorBasicoDTO f : factores)
-				{
-					List<PreguntaBasicaDTO> lPreg = gestorF.findPreguntasBasicasByFactor(f);
-					preguntas.put(f, lPreg);
-				}
-				factoresCompetencia.put(c, preguntas);
-
-			} catch (SQLException e)
-			{
-				e.printStackTrace();
-				return false;
-			}
+			Boolean r = gestorC.competenciasEvaluables(competencias);
+			return r;
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+			return false;
 		}
+		
+		// TODO la validacion la hace el gestor
+//		List<CompetenciaPuntajeNombreDTO> competencias = getCompetenciasTabla();
+//		Map<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>> factoresCompetencia = new HashMap<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>>();
+//
+//		GestorCompetencia gestorC = new GestorCompetencia();
+//		GestorFactor gestorF = new GestorFactor();
+//
+//		for (CompetenciaPuntajeNombreDTO c : competencias)
+//		{
+//			try
+//			{
+//				Map<FactorBasicoDTO, List<PreguntaBasicaDTO>> preguntas = new HashMap<FactorBasicoDTO, List<PreguntaBasicaDTO>>();
+//				List<FactorBasicoDTO> factores = gestorC.getFactoresBasicosByCompetencia(c);
+//				for (FactorBasicoDTO f : factores)
+//				{
+//					List<PreguntaBasicaDTO> lPreg = gestorF.findPreguntasBasicasByFactor(f);
+//					preguntas.put(f, lPreg);
+//				}
+//				factoresCompetencia.put(c, preguntas);
+//
+//			} catch (SQLException e)
+//			{
+//				e.printStackTrace();
+//				return false;
+//			}
+//		}
+//
+//		competenciasEvaluables = competenciasFactoresEvaluables(factoresCompetencia);
+//		info(factoresCompetencia);
 
-		competenciasEvaluables = competenciasFactoresEvaluables(factoresCompetencia);
-		info(factoresCompetencia);
-
-		return competenciasEvaluables.keySet().size() > 0 ? true : false;
+//		return competenciasEvaluables.keySet().size() > 0 ? true : false;
 //		return true;
 	}
 
@@ -504,9 +519,9 @@ public class PantallaSeleccionarFuncion extends JPanel
 		return ((PantallaElegirCandidatos) pantallAnterior).obtenerCandidatos();
 	}
 
-	protected Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> getCompetenciasEvaluables()
+	protected List<CompetenciaPuntajeNombreDTO> getCompetenciasEvaluables()
 	{
-		return competenciasEvaluables;
+		return getCompetenciasTabla();
 	}
 
 }

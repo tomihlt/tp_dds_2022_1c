@@ -57,7 +57,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 			{
 				comp.setId(rs.getInt(1));
 				comp.setNombre(rs.getString(2));
@@ -69,7 +69,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 		{
 			throw e;
 		}
-		
+
 		return comp;
 	}
 
@@ -152,18 +152,18 @@ public class PostgresCompetencia implements CompetenciaDAO
 	public List<Competencia> find(List<Integer> id) throws SQLException
 	{
 		List<Competencia> comp = new ArrayList<Competencia>();
-		
+
 		try
 		{
-			for(Integer i : id)
+			for (Integer i : id)
 			{
 				comp.add(find(i));
 			}
-		}catch(SQLException e)
+		} catch (SQLException e)
 		{
 			throw e;
 		}
-		
+
 		return comp;
 	}
 
@@ -171,20 +171,21 @@ public class PostgresCompetencia implements CompetenciaDAO
 	public void update(Competencia t) throws SQLException
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public List<Factor> findFactoresByIdCompetencia(Integer id) throws SQLException
 	{
 		List<Factor> factores = new ArrayList<Factor>();
-		
-		try(PreparedStatement pstm = conn.prepareStatement("SELECT f.id,f.nombre,f.descripcion,f.codigo,f.nro_orden FROM dds.factor f, dds.competencia c WHERE f.id_competencia = c.id AND c.id = ? AND f.eliminado = false;"))
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT f.id,f.nombre,f.descripcion,f.codigo,f.nro_orden FROM dds.factor f, dds.competencia c WHERE f.id_competencia = c.id AND c.id = ? AND f.eliminado = false;"))
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
 			Factor f = null;
-			while(rs.next())
+			while (rs.next())
 			{
 				f = new Factor();
 				f.setId(rs.getInt(1));
@@ -195,8 +196,26 @@ public class PostgresCompetencia implements CompetenciaDAO
 				factores.add(f);
 			}
 		}
-		
+
 		return factores;
+	}
+
+	@Override
+	public List<Integer> getCantidadPreguntasPorFactor(Competencia aux) throws SQLException
+	{
+		List<Integer> cantidadDePreguntas = new ArrayList<Integer>();
+		
+		try(PreparedStatement pstm = conn.prepareStatement("select count(p.id) as cant_preguntas from dds.competencia c, dds.factor f, dds.pregunta p where f.id_competencia = c.id and p.id_factor = f.id and c.id = ? group by c.id,f.id;"))
+		{
+			pstm.setInt(1, aux.getId());
+			ResultSet rs = pstm.executeQuery();
+			while(rs.next())
+			{
+				cantidadDePreguntas.add(rs.getInt(1));
+			}
+		}
+		
+		return cantidadDePreguntas;
 	}
 
 }

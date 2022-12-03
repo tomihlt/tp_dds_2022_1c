@@ -31,60 +31,63 @@ public class GestorEvaluacion
 {
 
 	public void generarEvaluacion(FuncionNombreIdDTO obtenerFuncionAEvaluar,
-			Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables,
+			List<CompetenciaPuntajeNombreDTO> competenciasEvaluables,
 			Map<CandidatoNormalDTO, String> usuariosConClaves) throws SQLException
 	{
 
-		List<Competencia> competencias = cargarCompetenciaConFactores(competenciasEvaluables);
-		Map<Candidato, String> candidatos = obtenerCandidatos(usuariosConClaves);
+//		List<Competencia> competencias = cargarCompetenciaConFactores(competenciasEvaluables);
+//		Map<Candidato, String> candidatos = obtenerCandidatos(usuariosConClaves);
 		
-		FuncionDAO dao = new PostgresFuncion();
-		Funcion f = dao.find(obtenerFuncionAEvaluar.getId());
+//		FuncionDAO dao = new PostgresFuncion();
+//		Funcion f = dao.find(obtenerFuncionAEvaluar.getId());
 		
-		generarEvaluacion(f,competencias, candidatos);
-
+//		generarEvaluacion(f,competencias, candidatos);
+//
 	}
-
-	private Map<Candidato, String> obtenerCandidatos(Map<CandidatoNormalDTO, String> lista) throws SQLException
-	{
-		GestorUsuario gestor = new GestorUsuario();
-		Map<Candidato, String> candidatos = new HashMap<Candidato, String>();
-
-		for (CandidatoNormalDTO c : lista.keySet())
-		{
-			Candidato cand = gestor.findCandidatoById(c.getId());
-			candidatos.put(cand, lista.get(c));
-		}
-
-		return candidatos;
-	}
-
-	public List<Competencia> cargarCompetenciaConFactores(
-			Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables) throws SQLException
-	{
-
-		List<Competencia> competencias = new ArrayList<Competencia>();
-
-		for (CompetenciaPuntajeNombreDTO c : competenciasEvaluables.keySet())
-		{
-			GestorCompetencia gestorC = new GestorCompetencia();
-			GestorFactor gestorF = new GestorFactor();
-
-			Competencia comp = gestorC.findById(c.getId());
-
-			List<FactorBasicoDTO> factoresDto = competenciasEvaluables.get(c);
-			List<Factor> factores = gestorF.findById(factoresDto);
-			comp.setFactores(factores);
-
-			competencias.add(comp);
-
-		}
-
-		return competencias;
-	}
+//
+//	private Map<Candidato, String> obtenerCandidatos(Map<CandidatoNormalDTO, String> lista) throws SQLException
+//	{
+//		GestorUsuario gestor = new GestorUsuario();
+//		Map<Candidato, String> candidatos = new HashMap<Candidato, String>();
+//
+//		for (CandidatoNormalDTO c : lista.keySet())
+//		{
+//			Candidato cand = gestor.findCandidatoById(c.getId());
+//			candidatos.put(cand, lista.get(c));
+//		}
+//
+//		return candidatos;
+//	}
+//
+//	public List<Competencia> cargarCompetenciaConFactores(
+//			Map<CompetenciaPuntajeNombreDTO, List<FactorBasicoDTO>> competenciasEvaluables) throws SQLException
+//	{
+//
+//		List<Competencia> competencias = new ArrayList<Competencia>();
+//
+//		for (CompetenciaPuntajeNombreDTO c : competenciasEvaluables.keySet())
+//		{
+//			GestorCompetencia gestorC = new GestorCompetencia();
+//			GestorFactor gestorF = new GestorFactor();
+//
+//			Competencia comp = gestorC.findById(c.getId());
+//
+//			List<FactorBasicoDTO> factoresDto = competenciasEvaluables.get(c);
+//			List<Factor> factores = gestorF.findById(factoresDto);
+//			comp.setFactores(factores);
+//
+//			competencias.add(comp);
+//
+//		}
+//
+//		return competencias;
+//	}
 	
 	private void generarEvaluacion(Funcion f, List<Competencia> competencias, Map<Candidato, String> candidatos) throws SQLException
 	{
+		// Funcion f: funcion en si
+		// Competencias: Aquellas que se pueden evaluar, en su lista de factores, dichos factores son evaluables
+		// los factores no tienen seteadas las preguntas
 		Evaluacion evaluacion = new Evaluacion();
 		List<Cuestionario> cuestionarios = new ArrayList<Cuestionario>();
 		
