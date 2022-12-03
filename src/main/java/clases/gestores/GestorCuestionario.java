@@ -67,15 +67,15 @@ public class GestorCuestionario
 
 		cuestionario.setEstado(EstadoCuestionario.Activo);
 		cuestionario.setFechaInicio(fechaCreacion); // Aca no importa porque se supone que cuando el candidato inicie
-													// por primera vez
-		cuestionario.setFechaFin(fechaCreacion); // esta fecha se sobreescribe al igual que cuando finaliza
+													// por primera vez sta fecha se sobreescribe al igual que cuando finaliza
+		cuestionario.setFechaFin(fechaCreacion);
 		cuestionario.setCantidadAccessosMaxima(100);
 		cuestionario.setCantidadAccesos(0);
 		cuestionario.setUltimoIngreso(fechaCreacion);
 		cuestionario.setFechaLimite(fechaCreacion.plusDays(7)); // tiene 1 semana para completarlo
 		cuestionario.setTiempoMaximo(3600L); // 3600 segundos = 1 hora
 		cuestionario.setClave(clave);
-		cuestionario.setPuntajeObtenido(0);
+		cuestionario.setPuntajeObtenido(0); // Al finalizar cuestionario se sobreescribe
 		cuestionario.setCandidato(c);
 
 		List<CompetenciaCuestionario> competenciasCuestionario = generarCompetenciasYFactoresCuestionario(f,
