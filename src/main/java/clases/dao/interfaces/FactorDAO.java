@@ -17,4 +17,6 @@ public interface FactorDAO extends CRUD<Factor>
 
 	List<Pregunta> findPreguntasByCodigoFactor(Integer codigo) throws SQLException;
 
+	Integer getCantidadPreguntas(Factor f) throws SQLException;
+
 }

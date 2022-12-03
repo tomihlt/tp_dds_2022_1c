@@ -164,4 +164,19 @@ public class PostgresFactor implements FactorDAO
 		return preguntas;
 	}
 
+	@Override
+	public Integer getCantidadPreguntas(Factor f) throws SQLException
+	{
+		
+		try(PreparedStatement pstm = conn.prepareStatement("SELECT count(p.id) FROM dds.factor f, dds.pregunta p WHERE p.id_factor = ?;"))
+		{
+			pstm.setInt(1, f.getId());
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+				return rs.getInt(1);
+		}
+		
+		return null;
+	}
+
 }
