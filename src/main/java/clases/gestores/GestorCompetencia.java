@@ -22,43 +22,43 @@ public class GestorCompetencia
 	public List<CompetenciaBasicaDTO> getAllCompetenciasBasicasDTO()
 	{
 		List<CompetenciaBasicaDTO> comps = new ArrayList<CompetenciaBasicaDTO>();
-		
+
 		CompetenciaDAO dao = new PostgresCompetencia();
 		try
 		{
 			List<Competencia> aux = dao.getAll();
 			CompetenciaBasicaDTO comp;
-			for(Competencia c : aux)
+			for (Competencia c : aux)
 			{
 				comp = new CompetenciaBasicaDTO();
 				comp.setNombre(c.getNombre());
 				comp.setId(c.getId());
 				comps.add(comp);
 			}
-			
+
 		} catch (SQLException e)
 		{
 			e.printStackTrace();
 		}
-		
+
 		return comps;
 	}
 
 	public List<FactorBasicoDTO> getFactoresBasicosByCompetencia(CompetenciaPuntajeNombreDTO c) throws SQLException
 	{
 		List<FactorBasicoDTO> factoresDto = new ArrayList<FactorBasicoDTO>();
-		
+
 		CompetenciaDAO cDao = new PostgresCompetencia();
 		List<Factor> factores = cDao.findFactoresByIdCompetencia(c.getId());
-		
-		for(Factor f : factores)
+
+		for (Factor f : factores)
 		{
 			FactorBasicoDTO fact = new FactorBasicoDTO();
 			fact.setId(f.getId());
 			fact.setNombre(f.getNombre());
 			factoresDto.add(fact);
 		}
-		
+
 		return factoresDto;
 	}
 
@@ -71,39 +71,52 @@ public class GestorCompetencia
 	public Boolean competenciasEvaluables(List<CompetenciaPuntajeNombreDTO> competenciasDto) throws SQLException
 	{
 		List<Competencia> competencias = new ArrayList<Competencia>();
-		
+
 		CompetenciaDAO dao = new PostgresCompetencia();
-		
-		for(CompetenciaPuntajeNombreDTO c : competenciasDto)
+
+		for (CompetenciaPuntajeNombreDTO c : competenciasDto)
 		{
 			Competencia aux = dao.find(c.getId());
 			List<Integer> preguntasPorFactor = dao.getCantidadPreguntasPorFactor(aux);
-			for(Integer i : preguntasPorFactor)
-				if(i > 1)
+			for (Integer i : preguntasPorFactor)
+				if (i > 1)
 					return true;
 		}
-		
+
 		return false;
 	}
 
 	public List<Competencia> find(List<CompetenciaPuntajeNombreDTO> competenciasParaEvaluar) throws SQLException
 	{
 		List<Competencia> competencias = new ArrayList<Competencia>();
-		
-		for(CompetenciaPuntajeNombreDTO c : competenciasParaEvaluar)
+
+		for (CompetenciaPuntajeNombreDTO c : competenciasParaEvaluar)
 		{
 			competencias.add(findById(c.getId()));
 		}
-		
+
 		return competencias;
 	}
 
 	public List<Factor> findFactores(Competencia c) throws SQLException
 	{
-		
+
 		CompetenciaDAO dao = new PostgresCompetencia();
-		
+
 		return dao.findFactoresByIdCompetencia(c.getId());
+	}
+
+	public List<Competencia> find(List<CompetenciaPuntajeNombreDTO> competenciasParaEvaluar, boolean b) throws SQLException
+	{
+		List<Competencia> competencias = new ArrayList<Competencia>();
+		CompetenciaDAO cDao = new PostgresCompetencia();
+
+		for (CompetenciaPuntajeNombreDTO c : competenciasParaEvaluar)
+		{
+			competencias.add(cDao.find(c.getId(),true));
+		}
+
+		return competencias;
 	}
 
 }

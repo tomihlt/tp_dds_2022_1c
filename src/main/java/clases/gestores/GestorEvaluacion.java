@@ -40,13 +40,13 @@ public class GestorEvaluacion
 		Funcion f = dao.find(obtenerFuncionAEvaluar.getId());
 		
 		GestorCompetencia gestorC = new GestorCompetencia();
-		List<Competencia> competencias = gestorC.find(competenciasParaEvaluar);
+		List<Competencia> competencias = gestorC.find(competenciasParaEvaluar,true);
 
-		for(Competencia c : competencias)
-		{
-			List<Factor> factoresDeLaCompetencia = gestorC.findFactores(c);
-			c.setFactores(factoresDeLaCompetencia);
-		}
+//		for(Competencia c : competencias)
+//		{
+//			List<Factor> factoresDeLaCompetencia = gestorC.findFactores(c);
+//			c.setFactores(factoresDeLaCompetencia);
+//		}
 		
 		List<Competencia> compFactoresEvaluables = filtrarCompetenciasConFactoresEvaluables(competencias);
 		

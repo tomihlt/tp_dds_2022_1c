@@ -204,18 +204,60 @@ public class PostgresCompetencia implements CompetenciaDAO
 	public List<Integer> getCantidadPreguntasPorFactor(Competencia aux) throws SQLException
 	{
 		List<Integer> cantidadDePreguntas = new ArrayList<Integer>();
-		
-		try(PreparedStatement pstm = conn.prepareStatement("select count(p.id) as cant_preguntas from dds.competencia c, dds.factor f, dds.pregunta p where f.id_competencia = c.id and p.id_factor = f.id and c.id = ? group by c.id,f.id;"))
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"select count(p.id) as cant_preguntas from dds.competencia c, dds.factor f, dds.pregunta p where f.id_competencia = c.id and p.id_factor = f.id and c.id = ? group by c.id,f.id;"))
 		{
 			pstm.setInt(1, aux.getId());
 			ResultSet rs = pstm.executeQuery();
-			while(rs.next())
+			while (rs.next())
 			{
 				cantidadDePreguntas.add(rs.getInt(1));
 			}
 		}
-		
+
 		return cantidadDePreguntas;
+	}
+
+	@Override
+	public Competencia find(Integer id, boolean b) throws SQLException
+	{
+		if (!b)
+			return find(id);
+
+		List<Factor> factores = null;
+		Competencia c = null;
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT c.id,c.nombre,c.codigo,c.eliminado,c.descripcion,f.id,f.nombre,f.descripcion,f.codigo,f.nro_orden,f.eliminado FROM dds.competencia c, dds.factor f WHERE f.id_competencia = c.id AND c.id = ? AND f.eliminado = false;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			c = new Competencia();
+			factores = new ArrayList<Factor>();
+			while (rs.next())
+			{
+				c.setId(rs.getInt(1));
+				c.setNombre(rs.getString(2));
+				c.setCodigo(rs.getInt(3));
+				c.setEliminado(rs.getBoolean(4));
+				c.setDescripcion(rs.getString(5));
+				
+				Factor f = new Factor();
+				f.setId(rs.getInt(6));
+				f.setNombre(rs.getString(7));
+				f.setDescripcion(rs.getString(8));
+				f.setCodigo(rs.getInt(9));
+				f.setNroOrden(rs.getInt(10));
+				f.setEliminado(rs.getBoolean(11));
+				
+				factores.add(f);
+			}
+			c.setFactores(factores);
+		}
+		
+		return c;
+
 	}
 
 }
