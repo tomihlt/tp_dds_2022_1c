@@ -108,12 +108,21 @@ public class GestorEvaluacion
 
 		for (PuntajeNecesario p : competencias)
 		{
+			Competencia c = new Competencia();
+			c.setId(p.getCompetencia().getId());
+			c.setCodigo(p.getCompetencia().getCodigo());
+			c.setDescripcion(p.getCompetencia().getDescripcion());
+			c.setEliminado(p.getCompetencia().getEliminado());
+			c.setNombre(p.getCompetencia().getNombre());
+			List<Factor> factores = new ArrayList<Factor>();
 			for (Factor f : p.getCompetencia().getFactores())
 			{
-				if (f.getPreguntas().size() < 2)
+				if (f.getPreguntas().size() > 1)
 					// No es evaluable por lo tanto elimino el factor de la competencia para evaluar
-					p.getCompetencia().getFactores().remove(f);
+					factores.add(f);
 			}
+			c.setFactores(factores);
+			p.setCompetencia(c);
 			if (p.getCompetencia().getFactores().size() > 0)
 				// Es evaluable
 				puntajes.add(p);
