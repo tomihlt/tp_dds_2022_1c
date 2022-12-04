@@ -266,10 +266,3 @@ alter table dds.respuesta
 alter table dds.pregunta_respuesta
     add constraint fk_pregunta foreign key (pregunta) references dds.pregunta(id),
     add constraint fk_respuesta foreign key (respuesta) references dds.respuesta(id);
-
--- UQ
-alter table dds.competencia
-    add constraint uq_cod_competencia unique(codigo);
-
-alter table dds.factor
-    add constraint uq_cod_factor unique(codigo);
