@@ -11,8 +11,10 @@ import javax.swing.JOptionPane;
 
 import clases.dao.DBConnection;
 import clases.dao.interfaces.CompetenciaDAO;
+import clases.dao.interfaces.FactorDAO;
 import clases.entidades.Competencia;
 import clases.entidades.Factor;
+import clases.entidades.Pregunta;
 
 public class PostgresCompetencia implements CompetenciaDAO
 {
@@ -242,7 +244,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 				c.setCodigo(rs.getInt(3));
 				c.setEliminado(rs.getBoolean(4));
 				c.setDescripcion(rs.getString(5));
-				
+
 				Factor f = new Factor();
 				f.setId(rs.getInt(6));
 				f.setNombre(rs.getString(7));
@@ -250,14 +252,49 @@ public class PostgresCompetencia implements CompetenciaDAO
 				f.setCodigo(rs.getInt(9));
 				f.setNroOrden(rs.getInt(10));
 				f.setEliminado(rs.getBoolean(11));
-				
+
 				factores.add(f);
 			}
 			c.setFactores(factores);
 		}
-		
+
 		return c;
 
+	}
+
+	@Override
+	public Competencia find(Integer id, boolean b, boolean c) throws SQLException
+	{
+
+		if (!c)
+			return find(id, b);
+
+		Competencia comp = new Competencia();
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT id,nombre,codigo,eliminado,descripcion FROM dds.competencia WHERE id = ?;"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				comp.setId(rs.getInt(1));
+				comp.setNombre(rs.getString(2));
+				comp.setCodigo(rs.getInt(3));
+				comp.setEliminado(rs.getBoolean(4));
+				comp.setDescripcion(rs.getString(5));
+				comp.setFactores(findFactoresByIdCompetencia(comp.getId()));
+				for(Factor f : comp.getFactores())
+				{
+					FactorDAO dao = new PostgresFactor();
+					List<Pregunta> preguntas = dao.findPreguntasByFactor(f);
+					f.setPreguntas(preguntas);
+				}
+			}
+			
+		}
+
+		return comp;
 	}
 
 }

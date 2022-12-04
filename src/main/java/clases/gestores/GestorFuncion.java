@@ -158,15 +158,15 @@ public class GestorFuncion
 		{
 			Funcion f = fDao.find(funcion.getId());
 			List<Evaluacion> evaluaciones = eDao.findEvaluacionesByFuncion(f);
-			
+
 			if (!evaluaciones.isEmpty())
 				return false;
-			
+
 			f.setEliminado(true);
 			fDao.update(f);
-			
+
 			return true;
-			
+
 		} catch (SQLException e)
 		{
 			throw e;
@@ -178,37 +178,37 @@ public class GestorFuncion
 	{
 		FuncionCndeDTO func = new FuncionCndeDTO();
 		FuncionDAO fDao = new PostgresFuncion();
-		
+
 		try
-		{			
+		{
 			Funcion fAux = fDao.find(f.getId());
 			EmpresaDAO eDao = new PostgresEmpresa();
 			Empresa e = eDao.find(f.getEmpresa().getId());
 			fAux.setEmpresa(e);
-			
+
 			func.setId(fAux.getId());
 			func.setDescripcion(fAux.getDescripcion());
 			func.setCodigo(fAux.getCodigo());
 			func.setNombre(fAux.getNombre());
-			
+
 			EmpresaDTO emp = new EmpresaDTO();
 			emp.setId(e.getId());
 			emp.setNombre(e.getNombre());
-			
+
 			func.setEmpresa(emp);
-			
+
 		} catch (SQLException e)
 		{
 			throw e;
-		}		
-		
+		}
+
 		return func;
 	}
 
 	public List<CompetenciaPuntajeNombreDTO> buscarPuntajes(FuncionDTO f) throws SQLException
 	{
 		List<CompetenciaPuntajeNombreDTO> puntajesDto = new ArrayList<CompetenciaPuntajeNombreDTO>();
-		
+
 		FuncionDAO fDao = new PostgresFuncion();
 		Funcion func;
 		try
@@ -226,7 +226,7 @@ public class GestorFuncion
 		{
 			throw e;
 		}
-		
+
 		return puntajesDto;
 	}
 
@@ -235,20 +235,20 @@ public class GestorFuncion
 	{
 		FuncionDAO fDao = new PostgresFuncion();
 		Funcion f;
-		
+
 		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo());
-		
+
 		f.setCodigo(funcionSinCompetencias.getCodigo());
 		f.setDescripcion(funcionSinCompetencias.getDescripcion());
 		f.setNombre(funcionSinCompetencias.getNombre());
 		f.setEliminado(false);
-		
+
 		CompetenciaDAO cDao = new PostgresCompetencia();
 		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
 		Competencia comp = null;
 		PuntajeNecesario p = null;
-		
-		for(CompetenciaPuntajeNombreDTO c : competenciasDeLaFuncion)
+
+		for (CompetenciaPuntajeNombreDTO c : competenciasDeLaFuncion)
 		{
 			comp = cDao.find(c.getId());
 			p = new PuntajeNecesario();
@@ -257,48 +257,47 @@ public class GestorFuncion
 			p.setPuntaje(c.getPonderacion());
 			puntajes.add(p);
 		}
-		
+
 		f.setPuntajeNecesarioPorCompetencia(puntajes);
-		
+
 		EmpresaDAO eDao = new PostgresEmpresa();
 		Empresa e = eDao.find(funcionSinCompetencias.getEmpresa().getId());
 		f.setEmpresa(e);
-		
+
 		fDao.updateFuncionConPuntajesYEmpresa(f);
-		
-		
+
 	}
 
 	public List<FuncionNombreIdDTO> findFuncionesByEmpresa(EmpresaDTO e) throws SQLException
 	{
 		FuncionDAO fDao = new PostgresFuncion();
 		List<Funcion> funciones = fDao.findFuncionesByIdEmpresa(e.getId());
-		
+
 		List<FuncionNombreIdDTO> funcionesDto = new ArrayList<FuncionNombreIdDTO>();
-		
+
 		FuncionNombreIdDTO aux = null;
-		for(Funcion f : funciones)
+		for (Funcion f : funciones)
 		{
 			aux = new FuncionNombreIdDTO();
 			aux.setId(f.getId());
 			aux.setNombre(f.getNombre());
 			funcionesDto.add(aux);
 		}
-		
+
 		return funcionesDto;
 	}
 
 	public List<CompetenciaPuntajeNombreDTO> findCompetenciasByFuncion(FuncionNombreIdDTO func) throws SQLException
 	{
 		FuncionDAO fDao = new PostgresFuncion();
-		Funcion f = fDao.find(func.getId(),true); //TODO agregar parametro para cargar puntajes
-		
+		Funcion f = fDao.find(func.getId(), true); // TODO agregar parametro para cargar puntajes
+
 		List<PuntajeNecesario> pjNecesario = f.getPuntajeNecesarioPorCompetencia();
-		
+
 		List<CompetenciaPuntajeNombreDTO> puntajes = new ArrayList<CompetenciaPuntajeNombreDTO>();
 		CompetenciaPuntajeNombreDTO puntaje = null;
-		
-		for(PuntajeNecesario p : pjNecesario)
+
+		for (PuntajeNecesario p : pjNecesario)
 		{
 			puntaje = new CompetenciaPuntajeNombreDTO();
 			puntaje.setId(p.getCompetencia().getId());
@@ -306,8 +305,42 @@ public class GestorFuncion
 			puntaje.setPonderacion(p.getPuntaje());
 			puntajes.add(puntaje);
 		}
-		
+
 		return puntajes;
+	}
+
+	public Funcion asociarPuntajes(Funcion f, List<Competencia> competencias,
+			List<CompetenciaPuntajeNombreDTO> competenciasParaEvaluar)
+	{
+		Funcion fun = new Funcion();
+		fun.setId(f.getId());
+		fun.setCodigo(f.getCodigo());
+		fun.setDescripcion(f.getDescripcion());
+		fun.setEliminado(f.getEliminado());
+		fun.setNombre(f.getNombre());
+
+		List<Competencia> comps = new ArrayList<Competencia>();
+		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
+
+		for (Competencia c : competencias)
+		{
+			PuntajeNecesario puntaje = new PuntajeNecesario();
+			puntaje.setFuncion(fun);
+			puntaje.setCompetencia(c);
+
+			for (CompetenciaPuntajeNombreDTO aux : competenciasParaEvaluar)
+			{
+				if (aux.getId().equals(c.getId()))
+				{
+					puntaje.setPuntaje(aux.getPonderacion());
+				}
+			}
+			puntajes.add(puntaje);
+		}
+
+		fun.setPuntajeNecesarioPorCompetencia(puntajes);
+
+		return fun;
 	}
 
 }

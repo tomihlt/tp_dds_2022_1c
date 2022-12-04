@@ -26,6 +26,7 @@ import clases.entidades.Evaluacion;
 import clases.entidades.Factor;
 import clases.entidades.Funcion;
 import clases.entidades.Pregunta;
+import clases.entidades.PuntajeNecesario;
 
 public class GestorEvaluacion
 {
@@ -35,50 +36,90 @@ public class GestorEvaluacion
 			Map<CandidatoNormalDTO, String> usuariosConClaves) throws SQLException
 	{
 		Map<Candidato, String> candidatos = obtenerCandidatos(usuariosConClaves);
-		
+
 		FuncionDAO dao = new PostgresFuncion();
 		Funcion f = dao.find(obtenerFuncionAEvaluar.getId());
-		
-		GestorCompetencia gestorC = new GestorCompetencia();
-		List<Competencia> competencias = gestorC.find(competenciasParaEvaluar,true);
 
-//		for(Competencia c : competencias)
-//		{
-//			List<Factor> factoresDeLaCompetencia = gestorC.findFactores(c);
-//			c.setFactores(factoresDeLaCompetencia);
-//		}
-		
-		List<Competencia> compFactoresEvaluables = filtrarCompetenciasConFactoresEvaluables(competencias);
-		
-		generarEvaluacion(f, compFactoresEvaluables, candidatos);
+		GestorCompetencia gestorC = new GestorCompetencia();
+		List<Competencia> competencias = gestorC.find(competenciasParaEvaluar, true, true);
+
+		GestorFuncion gestor = new GestorFuncion();
+		f = gestor.asociarPuntajes(f, competencias, competenciasParaEvaluar);
+//		infoFuncion(f);
+
+		List<PuntajeNecesario> compFactoresEvaluables = filtrarCompetenciasConFactoresEvaluables(
+				f.getPuntajeNecesarioPorCompetencia());
+		infoFuncion(f);
+
+		f.setPuntajeNecesarioPorCompetencia(compFactoresEvaluables);
+
+		generarEvaluacion(f, candidatos);
 
 	}
 
-	private List<Competencia> filtrarCompetenciasConFactoresEvaluables(List<Competencia> competencias) throws SQLException
+	private void infoFuncion(Funcion fn)
 	{
-		List<Competencia> comps = new ArrayList<Competencia>();
-		List<Factor> factores = null;
-		
-		FactorDAO dao = new PostgresFactor();
-		
-		for(Competencia c : competencias)
+		System.out.println("Info funcion " + fn.getNombre());
+		for (PuntajeNecesario p : fn.getPuntajeNecesarioPorCompetencia())
 		{
-			factores = new ArrayList<Factor>();
-			for(Factor f : c.getFactores())
+			System.out.println(
+					"\t Competencia: " + p.getCompetencia().getNombre() + " | Puntaje : " + p.getPuntaje().toString());
+			for (Factor f : p.getCompetencia().getFactores())
 			{
-				Integer cantPreguntas = dao.getCantidadPreguntas(f);
-				if(cantPreguntas > 1)
-					factores.add(f);
-			}
-			
-			if(factores.size() > 0)
-			{
-				comps.add(c);
-				c.setFactores(factores);
+				System.out
+						.println("\t\tFactor : " + f.getNombre() + " | Cantidad de preguntas: " + f.getPreguntas().size());
 			}
 		}
-		
-		return comps;
+
+	}
+
+	private void generarEvaluacion(Funcion f, Map<Candidato, String> candidatos) throws SQLException
+	{
+		// Funcion f: funcion en si
+		// Competencias: Aquellas que se pueden evaluar, en su lista de factores, dichos
+		// factores son evaluables
+		// los factores tienen seteadas las preguntas
+		Evaluacion evaluacion = new Evaluacion();
+		List<Cuestionario> cuestionarios = new ArrayList<Cuestionario>();
+
+		GestorCuestionario gestor = new GestorCuestionario();
+
+		for (Candidato c : candidatos.keySet())
+		{
+			Cuestionario cuestionario = gestor.crearCuestionario(f, c, candidatos.get(c));
+			cuestionarios.add(cuestionario);
+		}
+
+		evaluacion.setFuncion(f);
+		evaluacion.setCuestionarios(cuestionarios);
+		// Una vez generada todas los cuestionarios se carga todo en la bdd como una
+		// transaccion
+
+		EvaluacionDAO eDao = new PostgresEvaluacion();
+		eDao.save(evaluacion);
+
+	}
+
+	private List<PuntajeNecesario> filtrarCompetenciasConFactoresEvaluables(List<PuntajeNecesario> competencias)
+	{
+		// Retorna una lista con las competencias para evaluar (porque son evaluables)
+		// junto con los factores de esa competencia que son evaluables
+		List<PuntajeNecesario> puntajes = new ArrayList<PuntajeNecesario>();
+
+		for (PuntajeNecesario p : competencias)
+		{
+			for (Factor f : p.getCompetencia().getFactores())
+			{
+				if (f.getPreguntas().size() < 2)
+					// No es evaluable por lo tanto elimino el factor de la competencia para evaluar
+					p.getCompetencia().getFactores().remove(f);
+			}
+			if (p.getCompetencia().getFactores().size() > 0)
+				// Es evaluable
+				puntajes.add(p);
+		}
+
+		return puntajes;
 	}
 
 	private Map<Candidato, String> obtenerCandidatos(Map<CandidatoNormalDTO, String> lista) throws SQLException
@@ -118,30 +159,33 @@ public class GestorEvaluacion
 //
 //		return competencias;
 //	}
-	
-	private void generarEvaluacion(Funcion f, List<Competencia> competencias, Map<Candidato, String> candidatos) throws SQLException
-	{
-		// Funcion f: funcion en si
-		// Competencias: Aquellas que se pueden evaluar, en su lista de factores, dichos factores son evaluables
-		// los factores no tienen seteadas las preguntas
-		Evaluacion evaluacion = new Evaluacion();
-		List<Cuestionario> cuestionarios = new ArrayList<Cuestionario>();
-		
-		GestorCuestionario gestor = new GestorCuestionario();
-		
-		for(Candidato c : candidatos.keySet())
-		{
-			Cuestionario cuestionario = gestor.crearCuestionario(f,competencias,c,candidatos.get(c));
-			cuestionarios.add(cuestionario);
-		}
-		
-		evaluacion.setFuncion(f);
-		evaluacion.setCuestionarios(cuestionarios);
-		// Una vez generada todas los cuestionarios se carga todo en la bdd como una transaccion
-		
-		EvaluacionDAO eDao = new PostgresEvaluacion();
-		eDao.save(evaluacion);
-		
-	}
+
+//	private void generarEvaluacion(Funcion f, List<Competencia> competencias, Map<Candidato, String> candidatos)
+//			throws SQLException
+//	{
+//		// Funcion f: funcion en si
+//		// Competencias: Aquellas que se pueden evaluar, en su lista de factores, dichos
+//		// factores son evaluables
+//		// los factores tienen seteadas las preguntas
+//		Evaluacion evaluacion = new Evaluacion();
+//		List<Cuestionario> cuestionarios = new ArrayList<Cuestionario>();
+//
+//		GestorCuestionario gestor = new GestorCuestionario();
+//
+//		for (Candidato c : candidatos.keySet())
+//		{
+//			Cuestionario cuestionario = gestor.crearCuestionario(f, competencias, c, candidatos.get(c));
+//			cuestionarios.add(cuestionario);
+//		}
+//
+//		evaluacion.setFuncion(f);
+//		evaluacion.setCuestionarios(cuestionarios);
+//		// Una vez generada todas los cuestionarios se carga todo en la bdd como una
+//		// transaccion
+//
+//		EvaluacionDAO eDao = new PostgresEvaluacion();
+//		eDao.save(evaluacion);
+//
+//	}
 
 }

@@ -17,4 +17,6 @@ public interface CompetenciaDAO extends CRUD<Competencia>
 	public List<Integer> getCantidadPreguntasPorFactor(Competencia aux) throws SQLException;
 
 	public Competencia find(Integer id, boolean b) throws SQLException;
+
+	public Competencia find(Integer id, boolean b, boolean c) throws SQLException;
 }

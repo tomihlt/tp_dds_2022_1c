@@ -119,4 +119,18 @@ public class GestorCompetencia
 		return competencias;
 	}
 
+	public List<Competencia> find(List<CompetenciaPuntajeNombreDTO> competenciasParaEvaluar, boolean b, boolean c) throws SQLException
+	{
+		List<Competencia> competencias = new ArrayList<Competencia>();
+		CompetenciaDAO cDao = new PostgresCompetencia();
+
+		for (CompetenciaPuntajeNombreDTO comp : competenciasParaEvaluar)
+		{
+			// Competencia con factores y preguntas
+			competencias.add(cDao.find(comp.getId(),true,true));
+		}
+
+		return competencias;
+	}
+
 }

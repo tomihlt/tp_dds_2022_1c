@@ -10,8 +10,8 @@ import clases.entidades.Respuesta;
 public interface PreguntaDAO extends CRUD<Pregunta>
 {
 
-	List<Respuesta> findRespuestas(Pregunta p) throws SQLException;
-
-	Ponderacion findPonderacion(Pregunta p, Respuesta r) throws SQLException;
+	List<Respuesta> findRespuestas(Pregunta p);
+	
+	List<Respuesta> findRespuestas(Pregunta p, boolean b) throws SQLException;
 
 }
