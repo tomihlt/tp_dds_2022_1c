@@ -49,9 +49,9 @@ public class GestorEvaluacion
 
 		List<PuntajeNecesario> compFactoresEvaluables = filtrarCompetenciasConFactoresEvaluables(
 				f.getPuntajeNecesarioPorCompetencia());
-		infoFuncion(f);
-
 		f.setPuntajeNecesarioPorCompetencia(compFactoresEvaluables);
+		
+		infoFuncion(f);
 
 		generarEvaluacion(f, candidatos);
 
