@@ -236,11 +236,12 @@ public class MenuLogInUsuario extends JPanel
 
 	private void autenticarConsultor()
 	{
-		String usuario = usuarioTxt.getText();
-		char[] contraseña = pwTxt.getPassword();
 
 		if (!camposValidos())
 			return;
+
+		String usuario = usuarioTxt.getText();
+		char[] contraseña = pwTxt.getPassword();
 
 		GestorUsuario gestor = new GestorUsuario();
 
@@ -259,8 +260,8 @@ public class MenuLogInUsuario extends JPanel
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			
-			MenuPrincipal home = new MenuPrincipal(wWindow,consultor);
+
+			MenuPrincipal home = new MenuPrincipal(wWindow, consultor);
 			wWindow.setCurrentMenu(home);
 
 		} catch (SQLException e)
