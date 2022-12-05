@@ -70,7 +70,6 @@ public class GestorCompetencia
 
 	public Boolean competenciasEvaluables(List<CompetenciaPuntajeNombreDTO> competenciasDto) throws SQLException
 	{
-		List<Competencia> competencias = new ArrayList<Competencia>();
 
 		CompetenciaDAO dao = new PostgresCompetencia();
 
