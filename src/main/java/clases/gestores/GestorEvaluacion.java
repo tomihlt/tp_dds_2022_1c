@@ -51,7 +51,7 @@ public class GestorEvaluacion
 				f.getPuntajeNecesarioPorCompetencia());
 		f.setPuntajeNecesarioPorCompetencia(compFactoresEvaluables);
 		
-		infoFuncion(f);
+//		infoFuncion(f);
 
 		generarEvaluacion(f, candidatos);
 
@@ -118,13 +118,13 @@ public class GestorEvaluacion
 			for (Factor f : p.getCompetencia().getFactores())
 			{
 				if (f.getPreguntas().size() > 1)
-					// No es evaluable por lo tanto elimino el factor de la competencia para evaluar
+					// Es evaluable
 					factores.add(f);
 			}
 			c.setFactores(factores);
 			p.setCompetencia(c);
 			if (p.getCompetencia().getFactores().size() > 0)
-				// Es evaluable
+				// Competencia con al menos 1 factor evaluable: es evaluable
 				puntajes.add(p);
 		}
 
