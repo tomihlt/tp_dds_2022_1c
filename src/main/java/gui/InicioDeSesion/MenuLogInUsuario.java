@@ -253,7 +253,7 @@ public class MenuLogInUsuario extends JPanel
 				JOptionPane.showMessageDialog(this, "No existe el usuario '" + usuario + "'.", "Usuario incorrecto.",
 						JOptionPane.ERROR_MESSAGE);
 				return;
-			} else if (!contraseñaCorrecta(consultor, contraseña))
+			} else if (!gestor.contraseñaCorrecta(consultor, contraseña))
 			{
 				JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Contraseña incorrecta",
 						JOptionPane.ERROR_MESSAGE);
@@ -270,20 +270,6 @@ public class MenuLogInUsuario extends JPanel
 			return;
 		}
 
-	}
-
-	private Boolean contraseñaCorrecta(ConsultorDTO consultor, char[] contraseña)
-	{
-		
-		if(contraseña.length > consultor.getContraseña().length())
-			return false;
-		
-		for(int i = 0 ; i < contraseña.length ; i++)
-		{
-			if(!(contraseña[i] == consultor.getContraseña().charAt(i)))
-				return false;
-		}
-		return true;
 	}
 
 	private Boolean camposValidos()
