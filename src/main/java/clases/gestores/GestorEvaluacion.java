@@ -41,6 +41,7 @@ public class GestorEvaluacion
 		Funcion f = dao.find(obtenerFuncionAEvaluar.getId());
 
 		GestorCompetencia gestorC = new GestorCompetencia();
+		// Cargar competencia con factores y sus preguntas
 		List<Competencia> competencias = gestorC.find(competenciasParaEvaluar, true, true);
 
 		GestorFuncion gestor = new GestorFuncion();
