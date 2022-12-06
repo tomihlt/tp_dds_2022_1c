@@ -234,7 +234,14 @@ public class PantallaFinalizar extends JPanel
 		Map<CandidatoNormalDTO, String> usuariosConClaves = obtenerCandidatosFinales();
 		List<CompetenciaPuntajeNombreDTO> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
 		
-		gestor.generarEvaluacion(obtenerFuncionAEvaluar(), competenciasEvaluables, usuariosConClaves);
+		try
+		{
+			gestor.generarEvaluacion(obtenerFuncionAEvaluar(),usuariosConClaves);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		JOptionPane.showMessageDialog(this, "Cuestionarios generados con éxito.", "Cuestionarios generados",
 				JOptionPane.INFORMATION_MESSAGE);
 		

@@ -110,4 +110,58 @@ public class GestorCuestionario
 		return preguntas;
 	}
 
+	public Cuestionario crearCuestionario(Funcion funcion, Candidato c, String clave) throws SQLException
+	{
+		Cuestionario cuestionario = new Cuestionario();
+
+		cuestionario.setEstado(EstadoCuestionario.Activo);
+		cuestionario.setFechaInicio(LocalDateTime.now());
+		cuestionario.setFechaFin(LocalDateTime.now()); // Despues se sobreescribe al finalizar
+		cuestionario.setCantidadAccessosMaxima(10);
+		cuestionario.setCantidadAccesos(0);
+		cuestionario.setUltimoIngreso(LocalDateTime.now());
+		cuestionario.setFechaLimite(LocalDateTime.now().plusDays(7)); // 1 semana para completar
+		cuestionario.setTiempoMaximo(3600L); // 3600 segundos = 1 hora
+		cuestionario.setClave(clave);
+		cuestionario.setPuntajeObtenido(0); // Despues se sobreescribe al finalizar
+
+		List<CompetenciaCuestionario> competencias = generarCompetenciasCuestionario(
+				funcion.getPuntajeNecesarioPorCompetencia());
+
+		return cuestionario;
+	}
+
+	private List<CompetenciaCuestionario> generarCompetenciasCuestionario(List<PuntajeNecesario> puntajes) throws SQLException
+	{
+		List<CompetenciaCuestionario> competencias = new ArrayList<CompetenciaCuestionario>();
+
+		for (PuntajeNecesario p : puntajes)
+		{
+			CompetenciaCuestionario comp = new CompetenciaCuestionario();
+			comp.setNombre(p.getCompetencia().getNombre());
+			comp.setDescripcion(p.getCompetencia().getDescripcion());
+			comp.setPuntajeNecesario(p.getPuntaje());
+			comp.setCodigo(p.getCompetencia().getCodigo());
+			comp.setPuntajeObtenido(0);
+			List<FactorCuestionario> factoresCuestionario = generarFactoresCuestionario(
+					p.getCompetencia().getFactores());
+			if(factoresCuestionario.size() > 0)
+			{
+				comp.setFactores(factoresCuestionario);
+				competencias.add(comp);
+			}
+		}
+
+		return competencias;
+	}
+
+	private List<FactorCuestionario> generarFactoresCuestionario(List<Factor> factores)
+	{
+		List<FactorCuestionario> factoresCuestionario = new ArrayList<FactorCuestionario>();
+		
+		
+		
+		return factoresCuestionario;
+	}
+
 }

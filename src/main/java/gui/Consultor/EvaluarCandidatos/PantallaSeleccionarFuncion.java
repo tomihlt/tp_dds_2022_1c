@@ -410,39 +410,6 @@ public class PantallaSeleccionarFuncion extends JPanel
 			e.printStackTrace();
 			return false;
 		}
-		
-		// TODO la validacion la hace el gestor
-//		List<CompetenciaPuntajeNombreDTO> competencias = getCompetenciasTabla();
-//		Map<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>> factoresCompetencia = new HashMap<CompetenciaPuntajeNombreDTO, Map<FactorBasicoDTO, List<PreguntaBasicaDTO>>>();
-//
-//		GestorCompetencia gestorC = new GestorCompetencia();
-//		GestorFactor gestorF = new GestorFactor();
-//
-//		for (CompetenciaPuntajeNombreDTO c : competencias)
-//		{
-//			try
-//			{
-//				Map<FactorBasicoDTO, List<PreguntaBasicaDTO>> preguntas = new HashMap<FactorBasicoDTO, List<PreguntaBasicaDTO>>();
-//				List<FactorBasicoDTO> factores = gestorC.getFactoresBasicosByCompetencia(c);
-//				for (FactorBasicoDTO f : factores)
-//				{
-//					List<PreguntaBasicaDTO> lPreg = gestorF.findPreguntasBasicasByFactor(f);
-//					preguntas.put(f, lPreg);
-//				}
-//				factoresCompetencia.put(c, preguntas);
-//
-//			} catch (SQLException e)
-//			{
-//				e.printStackTrace();
-//				return false;
-//			}
-//		}
-//
-//		competenciasEvaluables = competenciasFactoresEvaluables(factoresCompetencia);
-//		info(factoresCompetencia);
-
-//		return competenciasEvaluables.keySet().size() > 0 ? true : false;
-//		return true;
 	}
 
 	private void info(
