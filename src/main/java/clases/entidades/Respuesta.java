@@ -1,5 +1,8 @@
 package clases.entidades;
 
+import clases.dao.interfaces.RespuestaDAO;
+import clases.dao.postgres.PostgresRespuesta;
+
 public class Respuesta
 {
 	private Integer id;
@@ -7,12 +10,7 @@ public class Respuesta
 	private String descripcion;
 	private Integer ordenVisualizacion;
 	private Ponderacion ponderacion;
-	private OpcionDeRespuesta opcionDeRespuesta;
-
-	public OpcionDeRespuesta getOpcionDeRespuesta()
-	{
-		return opcionDeRespuesta;
-	}
+	private RespuestaDAO dao = new PostgresRespuesta();
 
 	public Ponderacion getPonderacion()
 	{
@@ -22,11 +20,6 @@ public class Respuesta
 	public void setPonderacion(Ponderacion ponderacion)
 	{
 		this.ponderacion = ponderacion;
-	}
-
-	public void setOpcionDeRespuesta(OpcionDeRespuesta opcionDeRespuesta)
-	{
-		this.opcionDeRespuesta = opcionDeRespuesta;
 	}
 
 	public Integer getId()

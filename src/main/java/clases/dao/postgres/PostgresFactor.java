@@ -108,14 +108,14 @@ public class PostgresFactor implements FactorDAO
 		
 		for(Factor f : factores)
 		{
-			preguntas.addAll(findPreguntasByFactor(f));
+			preguntas.addAll(findPreguntas(f));
 		}
 		
 		return preguntas;
 	}
 
 	@Override
-	public List<Pregunta> findPreguntasByFactor(Factor factor) throws SQLException
+	public List<Pregunta> findPreguntas(Factor factor) throws SQLException
 	{
 		List<Pregunta> preguntas = new ArrayList<Pregunta>();
 

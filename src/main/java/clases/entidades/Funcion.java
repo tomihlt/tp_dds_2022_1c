@@ -1,7 +1,11 @@
 package clases.entidades;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import clases.dao.interfaces.FuncionDAO;
+import clases.dao.postgres.PostgresFuncion;
 
 public class Funcion
 {
@@ -12,6 +16,7 @@ public class Funcion
 	private Boolean eliminado;
 	private Empresa empresa;
 	private List<PuntajeNecesario> puntajeNecesarioPorCompetencia;
+	private FuncionDAO dao = new PostgresFuncion();
 
 	public Funcion()
 	{
@@ -29,9 +34,15 @@ public class Funcion
 		this.eliminado = eliminado;
 	}
 
-	public List<PuntajeNecesario> getPuntajeNecesarioPorCompetencia()
+	public List<PuntajeNecesario> getPuntajeNecesarioPorCompetencia() throws SQLException
 	{
-		return puntajeNecesarioPorCompetencia;
+		if(puntajeNecesarioPorCompetencia.size() > 0)
+			return puntajeNecesarioPorCompetencia;
+		else
+		{
+			puntajeNecesarioPorCompetencia = dao.findPuntajes(this);
+			return puntajeNecesarioPorCompetencia;
+		}
 	}
 
 	public void setPuntajeNecesarioPorCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia)

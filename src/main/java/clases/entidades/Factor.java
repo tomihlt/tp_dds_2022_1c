@@ -1,7 +1,11 @@
 package clases.entidades;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import clases.dao.interfaces.FactorDAO;
+import clases.dao.postgres.PostgresFactor;
 
 public class Factor
 {
@@ -12,15 +16,22 @@ public class Factor
 	private Integer nroOrden;
 	private List<Pregunta> preguntas;
 	private Boolean eliminado;
+	private FactorDAO dao = new PostgresFactor();
 
 	public Factor()
 	{
 		preguntas = new ArrayList<Pregunta>();
 	}
 
-	public List<Pregunta> getPreguntas()
+	public List<Pregunta> getPreguntas() throws SQLException
 	{
-		return preguntas;
+		if(preguntas.size() > 0)
+			return preguntas;
+		else
+		{
+			preguntas = dao.findPreguntas(this);
+			return preguntas;
+		}
 	}
 
 	public void setPreguntas(List<Pregunta> preguntas)

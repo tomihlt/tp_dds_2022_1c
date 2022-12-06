@@ -287,7 +287,7 @@ public class PostgresCompetencia implements CompetenciaDAO
 				for(Factor f : comp.getFactores())
 				{
 					FactorDAO dao = new PostgresFactor();
-					List<Pregunta> preguntas = dao.findPreguntasByFactor(f);
+					List<Pregunta> preguntas = dao.findPreguntas(f);
 					f.setPreguntas(preguntas);
 				}
 			}
@@ -295,6 +295,12 @@ public class PostgresCompetencia implements CompetenciaDAO
 		}
 
 		return comp;
+	}
+
+	@Override
+	public List<Factor> findFactores(Competencia competencia) throws SQLException
+	{
+		return findFactoresByIdCompetencia(competencia.getId());
 	}
 
 }

@@ -1,13 +1,18 @@
 package clases.entidades;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import clases.dao.interfaces.OpcionDeRespuestaDAO;
+import clases.dao.postgres.PostgresOpcionDeRespuesta;
 
 public class OpcionDeRespuesta
 {
 	private Integer id;
 	private String nombre;
 	private String descripcion;
+	private Boolean eliminado;
 	private List<Respuesta> respuestas;
 
 	public OpcionDeRespuesta()
@@ -15,7 +20,17 @@ public class OpcionDeRespuesta
 		respuestas = new ArrayList<Respuesta>();
 	}
 
-	public List<Respuesta> getRespuestas()
+	public Boolean getEliminado()
+	{
+		return eliminado;
+	}
+
+	public void setEliminado(Boolean eliminado)
+	{
+		this.eliminado = eliminado;
+	}
+
+	public List<Respuesta> getRespuestas() throws SQLException
 	{
 		return respuestas;
 	}

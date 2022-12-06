@@ -1,9 +1,13 @@
 package clases.entidades;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import clases.dao.interfaces.CompetenciaDAO;
+import clases.dao.postgres.PostgresCompetencia;
 
 public class Competencia
 {
@@ -13,6 +17,7 @@ public class Competencia
 	private String descripcion;
 	private Boolean eliminado;
 	private List<Factor> factores;
+	private CompetenciaDAO dao = new PostgresCompetencia();
 
 //	public PuntajeNecesario getPuntajesNecesarios()
 //	{
@@ -39,9 +44,15 @@ public class Competencia
 		this.eliminado = eliminado;
 	}
 
-	public List<Factor> getFactores()
+	public List<Factor> getFactores() throws SQLException
 	{
-		return factores;
+		if(factores.size() > 0)
+			return factores;
+		else
+		{
+			factores = dao.findFactores(this);
+			return factores;
+		}
 	}
 
 	public void setFactores(List<Factor> factores)

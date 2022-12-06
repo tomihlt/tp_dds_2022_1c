@@ -1,27 +1,28 @@
 package clases.entidades;
 
+import java.sql.SQLException;
+
+import clases.dao.interfaces.PreguntaDAO;
+import clases.dao.postgres.PostgresPregunta;
+
 public class Pregunta
 {
 	private Integer id;
 	private String nombre;
 	private String descripcion;
-	private Factor factor;
 	private Boolean eliminado;
 	private OpcionDeRespuesta opcionDeRespuesta;
-
-	public Factor getFactor()
+	private PreguntaDAO dao = new PostgresPregunta();
+	
+	public OpcionDeRespuesta getOpcionDeRespuesta() throws SQLException
 	{
-		return factor;
-	}
-
-	public void setFactor(Factor factor)
-	{
-		this.factor = factor;
-	}
-
-	public OpcionDeRespuesta getOpcionDeRespuesta()
-	{
-		return opcionDeRespuesta;
+		if(opcionDeRespuesta != null)
+			return opcionDeRespuesta;
+		else
+		{
+			opcionDeRespuesta = dao.findOpcionDeRespuesta(this);
+			return opcionDeRespuesta;
+		}
 	}
 
 	public void setOpcionDeRespuesta(OpcionDeRespuesta opcionDeRespuesta)

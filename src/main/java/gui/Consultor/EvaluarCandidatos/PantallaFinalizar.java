@@ -233,18 +233,11 @@ public class PantallaFinalizar extends JPanel
 		GestorEvaluacion gestor = new GestorEvaluacion();
 		Map<CandidatoNormalDTO, String> usuariosConClaves = obtenerCandidatosFinales();
 		List<CompetenciaPuntajeNombreDTO> competenciasEvaluables = obtenerCompetenciasParaEvaluar();
-		try
-		{
-			gestor.generarEvaluacion(obtenerFuncionAEvaluar(), competenciasEvaluables, usuariosConClaves);
-			JOptionPane.showMessageDialog(this, "Cuestionarios generados con éxito.", "Cuestionarios generados",
-					JOptionPane.INFORMATION_MESSAGE);
-		} catch (SQLException e)
-		{
-			JOptionPane.showMessageDialog(this, "Error en la bdd al guardar cuestionarios", "Error",
-					JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
-			return;
-		}
+		
+		gestor.generarEvaluacion(obtenerFuncionAEvaluar(), competenciasEvaluables, usuariosConClaves);
+		JOptionPane.showMessageDialog(this, "Cuestionarios generados con éxito.", "Cuestionarios generados",
+				JOptionPane.INFORMATION_MESSAGE);
+		
 		panel.setCurrentMenu(new PanelEvaluarCandidatos(wWindow));
 	}
 

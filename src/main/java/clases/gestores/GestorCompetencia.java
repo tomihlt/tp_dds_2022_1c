@@ -76,10 +76,11 @@ public class GestorCompetencia
 		for (CompetenciaPuntajeNombreDTO c : competenciasDto)
 		{
 			Competencia aux = dao.find(c.getId());
-			List<Integer> preguntasPorFactor = dao.getCantidadPreguntasPorFactor(aux);
-			for (Integer i : preguntasPorFactor)
-				if (i > 1)
+			for(Factor f : aux.getFactores())
+			{
+				if(f.getPreguntas().size() > 1)
 					return true;
+			}
 		}
 
 		return false;
