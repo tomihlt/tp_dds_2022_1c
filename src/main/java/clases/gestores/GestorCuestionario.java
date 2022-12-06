@@ -36,30 +36,6 @@ import clases.enums.EstadoCuestionario;
 public class GestorCuestionario
 {
 
-	public CuestionarioDTO findByCandidato(CandidatoDTO candidato) throws SQLException
-	{
-		CuestionarioDTO estado = null;
-		Cuestionario cuestionario = null;
-		CuestionarioDAO cDao = new PostgresCuestionario();
-
-		cuestionario = cDao.findByIdCandidato(candidato.getId());
-
-		if (cuestionario == null)
-			return null;
-
-		estado = new CuestionarioDTO();
-		estado.setId(cuestionario.getId());
-		estado.setFechaFin(cuestionario.getFechaFin());
-		estado.setEstado(cuestionario.getEstado());
-//		estado.setTiempoEmpleado(cuestionario.getTiempoEmpleado());
-		estado.setCantidadAccesos(cuestionario.getCantidadAccesos());
-		estado.setCantidadAccesosMaxima(cuestionario.getCantidadAccessosMaxima());
-		estado.setClave(cuestionario.getClave());
-
-		return estado;
-
-	}
-
 	public Cuestionario crearCuestionario(Funcion funcion, Candidato c, String clave) throws SQLException
 	{
 		Cuestionario cuestionario = new Cuestionario();
@@ -227,6 +203,30 @@ public class GestorCuestionario
 		}
 
 		return preguntas;
+	}
+
+	public CuestionarioDTO findByCandidato(CandidatoDTO candidato) throws SQLException
+	{
+		CuestionarioDTO estado = null;
+		Cuestionario cuestionario = null;
+		CuestionarioDAO cDao = new PostgresCuestionario();
+
+		cuestionario = cDao.findByIdCandidato(candidato.getId());
+
+		if (cuestionario == null)
+			return null;
+
+		estado = new CuestionarioDTO();
+		estado.setId(cuestionario.getId());
+		estado.setFechaFin(cuestionario.getFechaFin());
+		estado.setEstado(cuestionario.getEstado());
+//		estado.setTiempoEmpleado(cuestionario.getTiempoEmpleado());
+		estado.setCantidadAccesos(cuestionario.getCantidadAccesos());
+		estado.setCantidadAccesosMaxima(cuestionario.getCantidadAccessosMaxima());
+		estado.setClave(cuestionario.getClave());
+
+		return estado;
+
 	}
 
 }
