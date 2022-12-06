@@ -25,6 +25,12 @@ public class Funcion
 		eliminado = false;
 		puntajesCargados = false;
 	}
+	
+	public Funcion(Boolean dao)
+	{
+		this();
+		puntajesCargados = dao;
+	}
 
 	public Boolean getEliminado()
 	{

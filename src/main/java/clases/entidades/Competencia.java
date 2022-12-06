@@ -25,6 +25,12 @@ public class Competencia
 		factores = new ArrayList<Factor>();
 		factoresCargados = false;
 	}
+	
+	public Competencia(Boolean dao)
+	{
+		this();
+		factoresCargados = dao;
+	}
 
 	public Boolean getEliminado()
 	{

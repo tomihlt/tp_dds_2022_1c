@@ -24,6 +24,12 @@ public class Factor
 		preguntas = new ArrayList<Pregunta>();
 		preguntasCargadas = false;
 	}
+	
+	public Factor(Boolean dao)
+	{
+		this();
+		preguntasCargadas = dao;
+	}
 
 	public List<Pregunta> getPreguntas() throws SQLException
 	{

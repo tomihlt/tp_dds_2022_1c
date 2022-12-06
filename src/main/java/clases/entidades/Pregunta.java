@@ -20,6 +20,12 @@ public class Pregunta
 		opcionDeRespuestaCargada = false;
 	}
 	
+	public Pregunta(Boolean dao)
+	{
+		this();
+		opcionDeRespuestaCargada = dao;
+	}
+	
 	public OpcionDeRespuesta getOpcionDeRespuesta() throws SQLException
 	{
 		if(opcionDeRespuestaCargada)
