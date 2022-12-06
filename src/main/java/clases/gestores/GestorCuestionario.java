@@ -73,6 +73,7 @@ public class GestorCuestionario
 		cuestionario.setFechaLimite(LocalDateTime.now().plusDays(7)); // 1 semana para completar
 		cuestionario.setTiempoMaximo(3600L); // 3600 segundos = 1 hora
 		cuestionario.setClave(clave);
+		cuestionario.setCandidato(c);
 		cuestionario.setPuntajeObtenido(0); // Despues se sobreescribe al finalizar
 
 		List<CompetenciaCuestionario> competencias = generarCompetenciasCuestionario(
