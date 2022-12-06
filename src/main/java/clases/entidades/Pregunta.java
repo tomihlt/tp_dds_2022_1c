@@ -13,14 +13,21 @@ public class Pregunta
 	private Boolean eliminado;
 	private OpcionDeRespuesta opcionDeRespuesta;
 	private PreguntaDAO dao = new PostgresPregunta();
+	private Boolean opcionDeRespuestaCargada;
+	
+	public Pregunta()
+	{
+		opcionDeRespuestaCargada = false;
+	}
 	
 	public OpcionDeRespuesta getOpcionDeRespuesta() throws SQLException
 	{
-		if(opcionDeRespuesta != null)
+		if(opcionDeRespuestaCargada)
 			return opcionDeRespuesta;
 		else
 		{
 			opcionDeRespuesta = dao.findOpcionDeRespuesta(this);
+			opcionDeRespuestaCargada = true;
 			return opcionDeRespuesta;
 		}
 	}

@@ -17,11 +17,13 @@ public class Funcion
 	private Empresa empresa;
 	private List<PuntajeNecesario> puntajeNecesarioPorCompetencia;
 	private FuncionDAO dao = new PostgresFuncion();
+	private Boolean puntajesCargados;
 
 	public Funcion()
 	{
 		puntajeNecesarioPorCompetencia = new ArrayList<PuntajeNecesario>();
 		eliminado = false;
+		puntajesCargados = false;
 	}
 
 	public Boolean getEliminado()
@@ -36,11 +38,12 @@ public class Funcion
 
 	public List<PuntajeNecesario> getPuntajeNecesarioPorCompetencia() throws SQLException
 	{
-		if(puntajeNecesarioPorCompetencia.size() > 0)
+		if(puntajesCargados)
 			return puntajeNecesarioPorCompetencia;
 		else
 		{
 			puntajeNecesarioPorCompetencia = dao.findPuntajes(this);
+			puntajesCargados = true;
 			return puntajeNecesarioPorCompetencia;
 		}
 	}

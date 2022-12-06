@@ -17,19 +17,22 @@ public class Factor
 	private List<Pregunta> preguntas;
 	private Boolean eliminado;
 	private FactorDAO dao = new PostgresFactor();
+	private Boolean preguntasCargadas;
 
 	public Factor()
 	{
 		preguntas = new ArrayList<Pregunta>();
+		preguntasCargadas = false;
 	}
 
 	public List<Pregunta> getPreguntas() throws SQLException
 	{
-		if(preguntas.size() > 0)
+		if(preguntasCargadas)
 			return preguntas;
 		else
 		{
 			preguntas = dao.findPreguntas(this);
+			preguntasCargadas = true;
 			return preguntas;
 		}
 	}

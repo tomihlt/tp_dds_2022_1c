@@ -18,20 +18,12 @@ public class Competencia
 	private Boolean eliminado;
 	private List<Factor> factores;
 	private CompetenciaDAO dao = new PostgresCompetencia();
-
-//	public PuntajeNecesario getPuntajesNecesarios()
-//	{
-//		return puntajesNecesarios;
-//	}
-//
-//	public void setPuntajesNecesarios(PuntajeNecesario puntajesNecesarios)
-//	{
-//		this.puntajesNecesarios = puntajesNecesarios;
-//	}
+	private Boolean factoresCargados;
 
 	public Competencia()
 	{
 		factores = new ArrayList<Factor>();
+		factoresCargados = false;
 	}
 
 	public Boolean getEliminado()
@@ -46,11 +38,12 @@ public class Competencia
 
 	public List<Factor> getFactores() throws SQLException
 	{
-		if(factores.size() > 0)
+		if (factoresCargados)
 			return factores;
 		else
 		{
 			factores = dao.findFactores(this);
+			factoresCargados = true;
 			return factores;
 		}
 	}
