@@ -56,7 +56,7 @@ public class GestorFuncion
 	public void guardarFuncion(FuncionCndeDTO funcionSinCompetencias,
 			List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion) throws SQLException
 	{
-		Funcion funcion = new Funcion();
+		Funcion funcion = new Funcion(true);
 
 		EmpresaDAO eDao = new PostgresEmpresa();
 		CompetenciaDAO cDao = new PostgresCompetencia();
@@ -238,6 +238,7 @@ public class GestorFuncion
 
 		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo());
 
+		// Sobreescribo con los datos nuevos
 		f.setCodigo(funcionSinCompetencias.getCodigo());
 		f.setDescripcion(funcionSinCompetencias.getDescripcion());
 		f.setNombre(funcionSinCompetencias.getNombre());
