@@ -49,7 +49,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 			if (rs.next())
 				t.setId(rs.getInt(1));
 			saveCompetencias(t); // Guarda CompetenciaCuestionario, FactorCuestionario, PreguntaCuestionario y RespuestaCuestionario
-			saveBloques(t); // Guarda Bloque y setea el id_bloqeu a las preguntas
+			saveBloques(t); // Guarda los bloques y setea el id_bloque a las preguntas
 		}
 	}
 
