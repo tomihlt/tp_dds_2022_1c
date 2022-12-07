@@ -48,8 +48,8 @@ public class PostgresCuestionario implements CuestionarioDAO
 			ResultSet rs = pstm.getGeneratedKeys();
 			if (rs.next())
 				t.setId(rs.getInt(1));
-			saveCompetencias(t); // Guarda CompetenciaCuestionario y FactorCuestionario
-			saveBloques(t); // Guarda Bloque, PreguntaCuestionario y RespuestaCuestionario
+			saveCompetencias(t); // Guarda CompetenciaCuestionario, FactorCuestionario, PreguntaCuestionario y RespuestaCuestionario
+			saveBloques(t); // Guarda Bloque y setea el id_bloqeu a las preguntas
 		}
 	}
 
@@ -205,6 +205,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 			{
 				f.setId(rs.getInt(1));
 			}
+			savePreguntas(f.getPreguntas(), f);
 		}
 
 	}
@@ -234,32 +235,51 @@ public class PostgresCuestionario implements CuestionarioDAO
 			ResultSet rs = pstm.getGeneratedKeys();
 			if (rs.next())
 				b.setId(rs.getInt(1));
-			savePreguntasBloque(b.getPreguntas(), b);
+			setIdBloquePreguntas(b.getPreguntas(), b);
 		}
 
 	}
 
-	private void savePreguntasBloque(List<PreguntaCuestionario> preguntas, Bloque b) throws SQLException
+	private void setIdBloquePreguntas(List<PreguntaCuestionario> preguntas, Bloque b) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		for(PreguntaCuestionario p : preguntas)
+		{
+			setIdBloquePregunta(p,b);
+		}
+	}
+
+	private void setIdBloquePregunta(PreguntaCuestionario p, Bloque b) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		try(PreparedStatement pstm = conn.prepareStatement("UPDATE dds.pregunta_cuestionario SET id_bloque = ? WHERE id = ?;"))
+		{
+			pstm.setInt(1, b.getId());
+			pstm.setInt(2, p.getId());
+			pstm.executeUpdate();
+		}
+	}
+
+	private void savePreguntas(List<PreguntaCuestionario> preguntas, FactorCuestionario f) throws SQLException
 	{
 		// TODO Auto-generated method stub
 		for (PreguntaCuestionario p : preguntas)
 		{
-			savePreguntaBloque(p, b);
+			savePregunta(p, f);
 		}
 	}
 
-	private void savePreguntaBloque(PreguntaCuestionario p, Bloque b) throws SQLException
+	private void savePregunta(PreguntaCuestionario p, FactorCuestionario f) throws SQLException
 	{
 		// TODO Auto-generated method stub
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"INSERT INTO dds.pregunta_cuestionario (id_bloque,id_factor,nombre,descripcion,nro_orden) VALUES (?,?,?,?,?);",
+				"INSERT INTO dds.pregunta_cuestionario (id_factor,nombre,descripcion,nro_orden) VALUES (?,?,?,?);",
 				PreparedStatement.RETURN_GENERATED_KEYS))
 		{
-			pstm.setInt(1, b.getId());
-			pstm.setInt(2, p.getFactor().getId());
-			pstm.setString(3, p.getNombre());
-			pstm.setString(4, p.getDescripcion());
-			pstm.setInt(5, p.getNroOrden());
+			pstm.setInt(1, f.getId());
+			pstm.setString(2, p.getNombre());
+			pstm.setString(3, p.getDescripcion());
+			pstm.setInt(4, p.getNroOrden());
 			pstm.executeUpdate();
 			ResultSet rs = pstm.getGeneratedKeys();
 			if (rs.next())

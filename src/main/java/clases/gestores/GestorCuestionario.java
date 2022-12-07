@@ -103,7 +103,7 @@ public class GestorCuestionario
 				fact.setNroOrden(f.getNroOrden());
 				fact.setPuntajeObtenido(0);
 				List<PreguntaCuestionario> preguntasCuestionarioDelFactor = generarPreguntaCuestionario(
-						f.getPreguntas(), fact);
+						f.getPreguntas());
 				fact.setPreguntas(preguntasCuestionarioDelFactor);
 				factoresCuestionario.add(fact);
 			}
@@ -112,8 +112,7 @@ public class GestorCuestionario
 		return factoresCuestionario;
 	}
 
-	private List<PreguntaCuestionario> generarPreguntaCuestionario(List<Pregunta> preguntas, FactorCuestionario fact)
-			throws SQLException
+	private List<PreguntaCuestionario> generarPreguntaCuestionario(List<Pregunta> preguntas) throws SQLException
 	{
 		List<PreguntaCuestionario> preguntasCuestionario = new ArrayList<PreguntaCuestionario>();
 
@@ -132,8 +131,6 @@ public class GestorCuestionario
 			List<RespuestaCuestionario> respuestas = generarRespuestaCuestionario(
 					p.getOpcionDeRespuesta().getRespuestas());
 			preguntaAux.setRespuestas(respuestas);
-			preguntaAux.setFactor(fact); // Necesito la bidireccionalidad para que sea mas facil cuando lo guarde en la
-											// bdd
 			preguntasCuestionario.add(preguntaAux);
 		}
 
@@ -143,7 +140,6 @@ public class GestorCuestionario
 	private List<RespuestaCuestionario> generarRespuestaCuestionario(List<Respuesta> respuestas)
 	{
 		List<RespuestaCuestionario> rtas = new ArrayList<RespuestaCuestionario>();
-
 		for (Respuesta r : respuestas)
 		{
 			RespuestaCuestionario rAux = new RespuestaCuestionario();

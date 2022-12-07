@@ -124,7 +124,9 @@ public class PostgresPregunta implements PreguntaDAO
 				for(Respuesta r : rtas)
 				{
 					Ponderacion pond = rDao.findPonderacion(pregunta,r);
+					r.setPonderacion(pond);
 				}
+				op.setRespuestas(rtas);
 			}
 		}
 
