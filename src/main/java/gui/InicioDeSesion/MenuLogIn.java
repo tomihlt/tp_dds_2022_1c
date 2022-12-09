@@ -117,7 +117,7 @@ public class MenuLogIn extends JPanel
 		
 		usuarioButton = new JButton("Ingresar como usuario");
 		usuarioButton.addActionListener(e -> {
-			MenuLogInUsuario loginUsuario = new MenuLogInUsuario(wWindow);
+			MenuLogInConsultor loginUsuario = new MenuLogInConsultor(wWindow);
 			wWindow.setCurrentMenu(loginUsuario);
 		});
 		GridBagConstraints gbc_usuarioButton = new GridBagConstraints();

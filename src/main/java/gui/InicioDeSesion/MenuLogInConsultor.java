@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import java.awt.GridBagLayout;
+import java.awt.HeadlessException;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -30,7 +32,7 @@ import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class MenuLogInUsuario extends JPanel
+public class MenuLogInConsultor extends JPanel
 {
 	private Main wWindow;
 	private JPanel panel;
@@ -55,7 +57,7 @@ public class MenuLogInUsuario extends JPanel
 	/**
 	 * Create the panel.
 	 */
-	public MenuLogInUsuario(Main wWindow)
+	public MenuLogInConsultor(Main wWindow)
 	{
 		this.wWindow = wWindow;
 		setLayout(new BorderLayout(0, 0));
@@ -247,28 +249,22 @@ public class MenuLogInUsuario extends JPanel
 
 		try
 		{
-			ConsultorDTO consultor = gestor.findConsultorByNombreUsuario(usuario);
-
-			if (consultor == null)
+			if(!gestor.existeConsultor(usuario,contraseña))
 			{
-				JOptionPane.showMessageDialog(this, "No existe el usuario '" + usuario + "'.", "Usuario incorrecto.",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "No existe el consultor con nombre de usuario " + usuario +" o la contraseña es incorrecta", "Error de validación",
+						JOptionPane.WARNING_MESSAGE);
 				return;
-			} else if (!gestor.contraseñaCorrecta(consultor, contraseña))
+			}else
 			{
-				JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Contraseña incorrecta",
-						JOptionPane.ERROR_MESSAGE);
-				return;
+				ConsultorDTO consultor = gestor.findConsultorByNombreUsuario(usuario);
+				MenuPrincipal home = new MenuPrincipal(wWindow,consultor);
+				wWindow.setCurrentMenu(home);
 			}
-
-			MenuPrincipal home = new MenuPrincipal(wWindow, consultor);
-			wWindow.setCurrentMenu(home);
-
+			
 		} catch (SQLException e)
 		{
-			JOptionPane.showMessageDialog(this, "Excepcion en la linea 231 del login.", "Error",
-					JOptionPane.ERROR_MESSAGE);
-			return;
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}

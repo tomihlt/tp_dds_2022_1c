@@ -27,20 +27,6 @@ import clases.dto.CandidatoNormalDTO;
 public class GestorUsuario
 {
 
-	public Boolean contraseñaCorrecta(ConsultorDTO consultor, char[] contraseña)
-	{
-
-		if (contraseña.length > consultor.getContraseña().length())
-			return false;
-
-		for (int i = 0; i < contraseña.length; i++)
-		{
-			if (!(contraseña[i] == consultor.getContraseña().charAt(i)))
-				return false;
-		}
-		return true;
-	}
-
 	public ConsultorDTO findConsultorByNombreUsuario(String usuario) throws SQLException
 	{
 		Consultor consultor = null;
@@ -242,6 +228,21 @@ public class GestorUsuario
 				return false;
 		}
 		return true;
+	}
+
+	public boolean existeConsultor(String usuario, char[] contraseña) throws SQLException
+	{
+		ConsultorDAO dao = new PostgresConsultor();
+		
+		Consultor c = dao.findConsultorByNombreUsuario(usuario);
+		
+		if(c == null)
+			return false;
+		else if(contraseñaCorrecta(c.getContraseña(), contraseña))
+			return true;
+		else
+			return false;
+		
 	}
 
 }
