@@ -38,7 +38,7 @@ public class Candidato extends Usuario
 			return cuestionario;
 		else
 		{
-			Cuestionario cuest = dao.findCuestionario(this);
+			cuestionario = dao.findCuestionario(this);
 			cuestionarioCargado = true;
 			return cuestionario;
 		}

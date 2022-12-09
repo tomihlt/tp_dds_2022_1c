@@ -279,17 +279,17 @@ public class MenuLogInCandidato extends JPanel
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-
-			if (!cuestionarioAccesbile(candidato))
-			{
-				JOptionPane.showMessageDialog(this, "Cuestionario cerrado.", "Error.",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
 			
 			if (!contraseñaCorrecta(candidato,this.pwTxt.getPassword()))
 			{
 				JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Error.",
+						JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			if (!cuestionarioAccesbile(candidato))
+			{
+				JOptionPane.showMessageDialog(this, "Cuestionario cerrado.", "Error.",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}

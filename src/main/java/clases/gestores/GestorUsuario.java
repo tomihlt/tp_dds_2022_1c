@@ -212,7 +212,7 @@ public class GestorUsuario
 
 		if (cuestionario.getEstado().equals(EstadoCuestionario.Completo)
 				|| cuestionario.getEstado().equals(EstadoCuestionario.SinContestar)
-				|| cuestionario.getFechaFin().isBefore(LocalDateTime.now()))
+				|| cuestionario.getFechaLimite().isBefore(LocalDateTime.now()))
 			return false;
 		else
 			return true;
