@@ -1,7 +1,10 @@
 package clases.entidades;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
+import clases.dao.interfaces.CandidatoDAO;
+import clases.dao.postgres.PostgresCandidato;
 import clases.enums.TipoDNI;
 
 public class Candidato extends Usuario
@@ -15,10 +18,30 @@ public class Candidato extends Usuario
 	private Boolean eliminado;
 	private String nacionalidad;
 	private Cuestionario cuestionario;
+	private CandidatoDAO dao = new PostgresCandidato();
+	private Boolean cuestionarioCargado;
 	
-	public Cuestionario getCuestionario()
+	public Candidato()
 	{
-		return cuestionario;
+		cuestionarioCargado = false;
+	}
+	
+	public Candidato(Boolean b)
+	{
+		this();
+		cuestionarioCargado = b;
+	}
+	
+	public Cuestionario getCuestionario() throws SQLException
+	{
+		if(cuestionarioCargado)
+			return cuestionario;
+		else
+		{
+			Cuestionario cuest = dao.findCuestionario(this);
+			cuestionarioCargado = true;
+			return cuestionario;
+		}
 	}
 
 	public void setCuestionario(Cuestionario cuestionario)

@@ -12,6 +12,8 @@ import clases.dao.DBConnection;
 import clases.dao.interfaces.CandidatoDAO;
 import clases.dto.CandidatoBasicoDTO;
 import clases.entidades.Candidato;
+import clases.entidades.Cuestionario;
+import clases.enums.EstadoCuestionario;
 import clases.enums.TipoDNI;
 
 public class PostgresCandidato implements CandidatoDAO
@@ -73,12 +75,12 @@ public class PostgresCandidato implements CandidatoDAO
 	public List<Candidato> find(List<Integer> id) throws SQLException
 	{
 		List<Candidato> candidatos = new ArrayList<Candidato>();
-		
-		for(Integer i : id)
+
+		for (Integer i : id)
 		{
 			candidatos.add(find(i));
 		}
-		
+
 		return candidatos;
 	}
 
@@ -193,11 +195,52 @@ public class PostgresCandidato implements CandidatoDAO
 		{
 			pstm.setInt(1, id);
 			ResultSet rs = pstm.executeQuery();
-			if(rs.next())
+			if (rs.next())
 				return true;
 			else
 				return false;
 		}
+	}
+
+	@Override
+	public Cuestionario findCuestionario(Candidato candidato) throws SQLException
+	{
+		Cuestionario cuestionario = new Cuestionario();
+
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT c.id,c.estado,c.fecha_inicio,c.fecha_fin,c.cantidad_accesos_maxima,c.cantidad_accesos,c.ultimo_ingreso,c.fecha_limite,c.puntaje_obtenido,c.clave,c.tiempo_maximo FROM dds.cuestionario c, dds.candidato cand WHERE c.id_candidato = ?;"))
+		{
+			pstm.setInt(1, candidato.getId());
+			ResultSet rs = pstm.executeQuery();
+			if(rs.next())
+			{
+				cuestionario.setId(rs.getInt(1));
+				cuestionario.setEstado(obtenerEstado(rs.getString(2)));
+				cuestionario.setFechaInicio(rs.getTimestamp(3).toLocalDateTime());
+				cuestionario.setFechaFin(rs.getTimestamp(4).toLocalDateTime());
+				cuestionario.setCantidadAccessosMaxima(rs.getInt(5));
+				cuestionario.setCantidadAccesos(rs.getInt(6));
+				cuestionario.setUltimoIngreso(rs.getTimestamp(7).toLocalDateTime());
+				cuestionario.setFechaLimite(rs.getTimestamp(8).toLocalDateTime());
+				cuestionario.setPuntajeObtenido(rs.getInt(9));
+				cuestionario.setClave(rs.getString(10));
+				cuestionario.setTiempoMaximo(rs.getLong(11));
+			}
+		}
+
+		return cuestionario;
+	}
+
+	private EstadoCuestionario obtenerEstado(String estado)
+	{
+		if(estado.equals("Activo"))
+			return EstadoCuestionario.Activo;
+		else if(estado.equals("SinContestar"))
+			return EstadoCuestionario.SinContestar;
+		else if(estado.equals("EnProceso"))
+			return EstadoCuestionario.EnProceso;
+		else
+			return EstadoCuestionario.Completo;
 	}
 
 }

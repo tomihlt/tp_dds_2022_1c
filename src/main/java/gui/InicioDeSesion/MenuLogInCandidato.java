@@ -46,7 +46,7 @@ public class MenuLogInCandidato extends JPanel
 	private JLabel lblNewLabel;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewLabel_2;
-	private JComboBox tipoDniCbx;
+	private JComboBox<TipoDNI> tipoDniCbx;
 	private JLabel lblNewLabel_3;
 	private JTextField documentoTxt;
 	private JLabel lblNewLabel_4;
@@ -144,8 +144,8 @@ public class MenuLogInCandidato extends JPanel
 		gbc_lblNewLabel_2.gridy = 2;
 		panel_2.add(lblNewLabel_2, gbc_lblNewLabel_2);
 
-		tipoDniCbx = new JComboBox();
-		tipoDniCbx.setModel(new DefaultComboBoxModel(TipoDNI.values()));
+		tipoDniCbx = new JComboBox<TipoDNI>();
+		tipoDniCbx.setModel(new DefaultComboBoxModel<TipoDNI>(TipoDNI.values()));
 		GridBagConstraints gbc_tipoDniCbx = new GridBagConstraints();
 		gbc_tipoDniCbx.insets = new Insets(0, 0, 5, 5);
 		gbc_tipoDniCbx.fill = GridBagConstraints.HORIZONTAL;
@@ -273,67 +273,52 @@ public class MenuLogInCandidato extends JPanel
 		try
 		{
 			CandidatoDTO candidato = gestor.findCandidatoByDni(Integer.parseInt(documentoTxt.getText()));
-			if(candidato == null)
+			if (candidato == null)
 			{
 				JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos.", "Error.",
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			
+
 			if (!cuestionarioAccesbile(candidato))
+			{
+				JOptionPane.showMessageDialog(this, "Cuestionario cerrado.", "Error.",
+						JOptionPane.ERROR_MESSAGE);
 				return;
-
-		} catch (SQLException e)
-		{
-			JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos o no tiene un cuestionario.", "Error.",
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		// Aca va el inicio de la lógica del Caso de uso 26 - Completar cuestionario
-
-	}
-
-	private Boolean cuestionarioAccesbile(CandidatoDTO candidato)
-	{
-		CuestionarioDTO cuestionario = null;
-		GestorCuestionario gestor = new GestorCuestionario();
-
-		try
-		{
-			cuestionario = gestor.findByCandidato(candidato);
-
-			if (cuestionario == null)
+			}
+			
+			if (!contraseñaCorrecta(candidato,this.pwTxt.getPassword()))
 			{
-				JOptionPane.showMessageDialog(this, "Usted no posee un cuestionario.", "Error",
+				JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Error.",
 						JOptionPane.ERROR_MESSAGE);
-				return false;
-			} else if (!cuestionario.getClave().equals(pwTxt.getPassword().toString()))
-			{
-				JOptionPane.showMessageDialog(this, "La contraseña del cuestionario es incorrecta.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				return false;
-			} else if (cuestionario.getFechaFin().isAfter(LocalDateTime.now()))
-			{
-				JOptionPane.showMessageDialog(this, "La fecha para completar el cuestionario expiró.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				// TODO actualizar info en la base de datos
-				return false;
-			} else if (cuestionario.getCantidadAccesosMaxima() <= cuestionario.getCantidadAccesos())
-			{
-				JOptionPane.showMessageDialog(this, "Ya no le quedan más intentos.", "Error",
-						JOptionPane.ERROR_MESSAGE);
-				return false;
+				return;
 			}
 
 		} catch (SQLException e)
 		{
-			JOptionPane.showMessageDialog(this, "No se pudo obtener el cuestionario.", "Error",
+			JOptionPane.showMessageDialog(this,
+					"No existe este candidato en la base de datos o no tiene un cuestionario.", "Error.",
 					JOptionPane.ERROR_MESSAGE);
-			return false;
+			e.printStackTrace();
+			return;
 		}
 
-		return true;
+		// Aca va el inicio de la lógica del Caso de uso 26 - Completar cuestionario
+		JOptionPane.showMessageDialog(this, "El candidato puede hacer el cuestionario, CU26.", "Ok.",
+				JOptionPane.INFORMATION_MESSAGE);
+		return;
+	}
+
+	private Boolean contraseñaCorrecta(CandidatoDTO candidato, char[] password) throws SQLException
+	{
+		GestorUsuario gestor = new GestorUsuario();
+		return gestor.contraseñaCorrecta(candidato,password);
+	}
+
+	private Boolean cuestionarioAccesbile(CandidatoDTO candidato) throws SQLException
+	{
+		GestorUsuario gestor = new GestorUsuario();
+		return gestor.cuestionarioAccesible(candidato);
 	}
 
 	private Boolean camposValidos()

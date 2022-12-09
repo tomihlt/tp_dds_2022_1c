@@ -1,6 +1,7 @@
 package clases.gestores;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,8 @@ import clases.dao.postgres.PostgresConsultor;
 import clases.dto.ConsultorDTO;
 import clases.entidades.Candidato;
 import clases.entidades.Consultor;
+import clases.entidades.Cuestionario;
+import clases.enums.EstadoCuestionario;
 import clases.dto.CandidatoBasicoDTO;
 import clases.dto.CandidatoDTO;
 import clases.dto.CandidatoNormalDTO;
@@ -197,6 +200,48 @@ public class GestorUsuario
 	{
 		CandidatoDAO dao = new PostgresCandidato();
 		return dao.find(id);
+	}
+
+	public Boolean cuestionarioAccesible(CandidatoDTO candidato) throws SQLException
+	{
+		CandidatoDAO dao = new PostgresCandidato();
+
+		Candidato cand = dao.findCandidatoByDni(candidato.getDni());
+
+		Cuestionario cuestionario = cand.getCuestionario();
+
+		if (cuestionario.getEstado().equals(EstadoCuestionario.Completo)
+				|| cuestionario.getEstado().equals(EstadoCuestionario.SinContestar)
+				|| cuestionario.getFechaFin().isBefore(LocalDateTime.now()))
+			return false;
+		else
+			return true;
+	}
+
+	public Boolean contraseñaCorrecta(CandidatoDTO candidato, char[] password) throws SQLException
+	{
+		CandidatoDAO dao = new PostgresCandidato();
+
+		Candidato cand = dao.find(candidato.getId());
+		
+		Cuestionario cuest = cand.getCuestionario();
+		
+		return contraseñaCorrecta(cuest.getClave(), password);
+		
+	}
+	
+	public Boolean contraseñaCorrecta(String pw, char[] contraseña)
+	{
+
+		if (contraseña.length > pw.length())
+			return false;
+
+		for (int i = 0; i < contraseña.length; i++)
+		{
+			if (!(contraseña[i] == pw.charAt(i)))
+				return false;
+		}
+		return true;
 	}
 
 }
