@@ -179,4 +179,11 @@ public class PostgresFactor implements FactorDAO
 		return null;
 	}
 
+	@Override
+	public Factor find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

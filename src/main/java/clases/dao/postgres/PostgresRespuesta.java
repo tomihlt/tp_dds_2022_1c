@@ -80,4 +80,11 @@ public class PostgresRespuesta implements RespuestaDAO
 		return pond;
 	}
 
+	@Override
+	public Respuesta find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

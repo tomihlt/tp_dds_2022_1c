@@ -13,8 +13,4 @@ public interface CuestionarioDAO extends CRUD<Cuestionario>
 
 	void save(Cuestionario t, Evaluacion e) throws SQLException;
 	
-	void saveCompetencias(Cuestionario t) throws SQLException;
-	
-	void saveCompetencia(CompetenciaCuestionario t, Cuestionario c) throws SQLException;
-	
 }

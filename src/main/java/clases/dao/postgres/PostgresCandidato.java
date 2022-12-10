@@ -243,4 +243,11 @@ public class PostgresCandidato implements CandidatoDAO
 			return EstadoCuestionario.Completo;
 	}
 
+	@Override
+	public Candidato find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -83,4 +83,11 @@ public class PostgresOpcionDeRespuesta implements OpcionDeRespuestaDAO
 		return respuestas;
 	}
 
+	@Override
+	public OpcionDeRespuesta find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

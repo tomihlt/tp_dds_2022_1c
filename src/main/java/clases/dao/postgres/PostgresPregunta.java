@@ -133,4 +133,11 @@ public class PostgresPregunta implements PreguntaDAO
 		return op;
 	}
 
+	@Override
+	public Pregunta find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

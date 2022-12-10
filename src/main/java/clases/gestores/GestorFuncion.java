@@ -236,8 +236,7 @@ public class GestorFuncion
 		FuncionDAO fDao = new PostgresFuncion();
 		Funcion f;
 
-		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo());
-		f.getPuntajeNecesarioPorCompetencia(); // En el dao me lo sobreescribe si no hago esto
+		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo(),true);
 
 		// Sobreescribo con los datos nuevos
 		f.setCodigo(funcionSinCompetencias.getCodigo());

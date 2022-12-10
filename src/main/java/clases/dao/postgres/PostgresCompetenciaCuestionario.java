@@ -51,4 +51,11 @@ public class PostgresCompetenciaCuestionario implements CompetenciaCuestionarioD
 		
 	}
 
+	@Override
+	public CompetenciaCuestionario find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

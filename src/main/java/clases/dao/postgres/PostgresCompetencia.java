@@ -303,4 +303,11 @@ public class PostgresCompetencia implements CompetenciaDAO
 		return findFactoresByIdCompetencia(competencia.getId());
 	}
 
+	@Override
+	public Competencia find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

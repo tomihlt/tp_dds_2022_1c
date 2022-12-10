@@ -51,4 +51,11 @@ public class PostgresFactorCuestionario implements FactorCuestionarioDAO
 		
 	}
 
+	@Override
+	public FactorCuestionario find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

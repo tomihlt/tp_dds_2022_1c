@@ -85,4 +85,11 @@ public class PostgresConsultor implements ConsultorDAO
 		return consultor;
 	}
 
+	@Override
+	public Consultor find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

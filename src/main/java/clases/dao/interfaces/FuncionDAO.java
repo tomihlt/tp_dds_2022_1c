@@ -30,4 +30,6 @@ public interface FuncionDAO extends CRUD<Funcion>
 
 	public Funcion find(Integer id, boolean b) throws SQLException;
 
+	public Funcion findByCodigo(Integer codigo, Boolean b) throws SQLException;
+
 }

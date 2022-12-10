@@ -51,4 +51,11 @@ public class PostgresPreguntaCuestionario implements PreguntaCuestionarioDAO
 		
 	}
 
+	@Override
+	public PreguntaCuestionario find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

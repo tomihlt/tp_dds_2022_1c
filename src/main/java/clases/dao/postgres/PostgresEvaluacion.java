@@ -116,4 +116,11 @@ public class PostgresEvaluacion implements EvaluacionDAO
 		
 	}
 
+	@Override
+	public Evaluacion find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

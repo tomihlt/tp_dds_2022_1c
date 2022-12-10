@@ -51,4 +51,11 @@ public class PostgresBloque implements BloqueDAO
 		
 	}
 
+	@Override
+	public Bloque find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

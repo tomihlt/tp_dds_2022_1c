@@ -222,7 +222,33 @@ public class PostgresFuncion implements FuncionDAO
 
 		return f;
 	}
+	
+	public Funcion findByCodigo(Integer codigo, Boolean modificacion) throws SQLException
+	{
+		
+		if(!modificacion)
+			return findByCodigo(codigo);
+		
+		Funcion f = new Funcion(true);
 
+		try (PreparedStatement pstm = conn.prepareStatement(
+				"SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE codigo = ? AND eliminado = false;"))
+		{
+			pstm.setInt(1, codigo);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next())
+			{
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setCodigo(rs.getInt(3));
+				f.setDescripcion(rs.getString(4));
+				f.setEliminado(rs.getBoolean(5));
+			}
+		}
+
+		return f;
+	}
+	
 	@Override
 	public void update(Funcion t) throws SQLException
 	{
@@ -411,6 +437,35 @@ public class PostgresFuncion implements FuncionDAO
 				puntajes.add(pj);
 			}
 			f.setPuntajeNecesarioPorCompetencia(puntajes);
+		}
+
+		return f;
+	}
+
+	@Override
+	public Funcion find(Integer id, Boolean modificacion) throws SQLException
+	{
+		if(!modificacion)
+			return find(id);
+		
+		Funcion f = new Funcion(true);
+
+		try (PreparedStatement pstm = conn
+				.prepareStatement("SELECT id,nombre,codigo,descripcion,eliminado FROM dds.funcion WHERE id = ?"))
+		{
+			pstm.setInt(1, id);
+			ResultSet rs = pstm.executeQuery();
+			if (rs.next())
+			{
+				f.setId(rs.getInt(1));
+				f.setNombre(rs.getString(2));
+				f.setCodigo(rs.getInt(3));
+				f.setDescripcion(rs.getString(4));
+				f.setEliminado(rs.getBoolean(5));
+			}
+		} catch (SQLException e)
+		{
+			throw e;
 		}
 
 		return f;

@@ -129,4 +129,11 @@ public class PostgresEmpresa implements EmpresaDAO
 		
 	}
 
+	@Override
+	public Empresa find(Integer id, Boolean modificacion) throws SQLException
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

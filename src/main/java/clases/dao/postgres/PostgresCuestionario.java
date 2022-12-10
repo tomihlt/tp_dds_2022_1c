@@ -142,8 +142,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	}
 
-	@Override
-	public void saveCompetencias(Cuestionario t) throws SQLException
+	private void saveCompetencias(Cuestionario t) throws SQLException
 	{
 		List<CompetenciaCuestionario> competencias = t.getCompetencias();
 
@@ -154,8 +153,7 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	}
 
-	@Override
-	public void saveCompetencia(CompetenciaCuestionario t, Cuestionario c) throws SQLException
+	private void saveCompetencia(CompetenciaCuestionario t, Cuestionario c) throws SQLException
 	{
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.competencia_cuestionario (id_cuestionario, nombre,descripcion,puntaje_necesario,codigo,puntaje_obtenido) VALUES (?,?,?,?,?,?);",
@@ -178,7 +176,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 	private void saveFactoresCompetencia(List<FactorCuestionario> factores, CompetenciaCuestionario t)
 			throws SQLException
 	{
-		// TODO
 		for (FactorCuestionario f : factores)
 		{
 			saveFactoresCompetencia(f, t);
@@ -187,8 +184,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void saveFactoresCompetencia(FactorCuestionario f, CompetenciaCuestionario t) throws SQLException
 	{
-		// TODO Auto-generated method stub
-
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.factor_cuestionario (id_competencia,nombre,descripcion,codigo,nro_orden,puntaje_obtenido) VALUES (?,?,?,?,?,?);",
 				PreparedStatement.RETURN_GENERATED_KEYS))
@@ -212,7 +207,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void saveBloques(Cuestionario t) throws SQLException
 	{
-		// TODO
 		List<Bloque> bloques = t.getBloques();
 
 		for (Bloque b : bloques)
@@ -222,8 +216,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void saveBloque(Bloque b, Cuestionario t) throws SQLException
 	{
-		// TODO Auto-generated method stub
-
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.bloque (id_cuestionario,numero,visitable) VALUES (?,?,?);",
 				PreparedStatement.RETURN_GENERATED_KEYS))
@@ -242,7 +234,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void setIdBloquePreguntas(List<PreguntaCuestionario> preguntas, Bloque b) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		for(PreguntaCuestionario p : preguntas)
 		{
 			setIdBloquePregunta(p,b);
@@ -251,7 +242,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void setIdBloquePregunta(PreguntaCuestionario p, Bloque b) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		try(PreparedStatement pstm = conn.prepareStatement("UPDATE dds.pregunta_cuestionario SET id_bloque = ? WHERE id = ?;"))
 		{
 			pstm.setInt(1, b.getId());
@@ -262,7 +252,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void savePreguntas(List<PreguntaCuestionario> preguntas, FactorCuestionario f) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		for (PreguntaCuestionario p : preguntas)
 		{
 			savePregunta(p, f);
@@ -271,7 +260,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void savePregunta(PreguntaCuestionario p, FactorCuestionario f) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.pregunta_cuestionario (id_factor,nombre,descripcion,nro_orden) VALUES (?,?,?,?);",
 				PreparedStatement.RETURN_GENERATED_KEYS))
@@ -290,7 +278,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void saveRespuestas(List<RespuestaCuestionario> respuestas, PreguntaCuestionario p) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		for (RespuestaCuestionario r : respuestas)
 		{
 			saveRespuesta(r, p);
@@ -299,7 +286,6 @@ public class PostgresCuestionario implements CuestionarioDAO
 
 	private void saveRespuesta(RespuestaCuestionario r, PreguntaCuestionario p) throws SQLException
 	{
-		// TODO Auto-generated method stub
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.respuesta_cuestionario (id_pregunta,nombre,seleccionada,ponderacion,descripcion,orden_visualizacion) VALUES (?,?,?,?,?,?);",
 				PreparedStatement.RETURN_GENERATED_KEYS))
@@ -315,6 +301,12 @@ public class PostgresCuestionario implements CuestionarioDAO
 			if(rs.next())
 				r.setId(rs.getInt(1));
 		}
+	}
+
+	@Override
+	public Cuestionario find(Integer id, Boolean modificacion) throws SQLException
+	{
+		return null;
 	}
 
 }
