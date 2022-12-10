@@ -21,6 +21,7 @@ import javax.swing.JPasswordField;
 import javax.swing.DefaultComboBoxModel;
 
 import clases.dto.CandidatoDTO;
+import clases.dto.CandidatoLogInDTO;
 import clases.dto.CuestionarioDTO;
 import clases.enums.EstadoCuestionario;
 import clases.enums.TipoDNI;
@@ -270,35 +271,24 @@ public class MenuLogInCandidato extends JPanel
 
 		GestorUsuario gestor = new GestorUsuario();
 
+		CandidatoLogInDTO aux = new CandidatoLogInDTO();
+		aux.setTipoDni((TipoDNI)this.tipoDniCbx.getSelectedItem());
+		aux.setNroDni(Integer.parseInt(this.documentoTxt.getText()));
+		aux.setPw(this.pwTxt.getPassword());
+		
 		try
 		{
-			CandidatoDTO candidato = gestor.findCandidatoByDni(Integer.parseInt(documentoTxt.getText()));
-			if (candidato == null)
+			if (!gestor.validarCandidato(aux))
 			{
-				JOptionPane.showMessageDialog(this, "No existe este candidato en la base de datos.", "Error.",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
-			if (!contraseñaCorrecta(candidato,this.pwTxt.getPassword()))
-			{
-				JOptionPane.showMessageDialog(this, "Contraseña incorrecta.", "Error.",
-						JOptionPane.ERROR_MESSAGE);
-				return;
-			}
-			
-			if (!cuestionarioAccesbile(candidato))
-			{
-				JOptionPane.showMessageDialog(this, "Cuestionario cerrado.", "Error.",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this,
+						"Los datos ingresados no son válidos o no existe un cuestionario para el candidato", "Error",
+						JOptionPane.WARNING_MESSAGE);
+				blanquearCampos();
 				return;
 			}
 
 		} catch (SQLException e)
 		{
-			JOptionPane.showMessageDialog(this,
-					"No existe este candidato en la base de datos o no tiene un cuestionario.", "Error.",
-					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 			return;
 		}
@@ -309,16 +299,11 @@ public class MenuLogInCandidato extends JPanel
 		return;
 	}
 
-	private Boolean contraseñaCorrecta(CandidatoDTO candidato, char[] password) throws SQLException
+	private void blanquearCampos()
 	{
-		GestorUsuario gestor = new GestorUsuario();
-		return gestor.contraseñaCorrecta(candidato,password);
-	}
-
-	private Boolean cuestionarioAccesbile(CandidatoDTO candidato) throws SQLException
-	{
-		GestorUsuario gestor = new GestorUsuario();
-		return gestor.cuestionarioAccesible(candidato);
+		this.documentoTxt.setText("");
+		this.pwTxt.setText("");
+		this.tipoDniCbx.setSelectedIndex(0);
 	}
 
 	private Boolean camposValidos()

@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import clases.dto.ConsultorDTO;
+import clases.dto.ConsultorLogInDTO;
 import clases.entidades.Consultor;
 import clases.gestores.GestorUsuario;
 
@@ -244,26 +245,30 @@ public class MenuLogInConsultor extends JPanel
 
 		String usuario = usuarioTxt.getText();
 		char[] contraseña = pwTxt.getPassword();
-
+		
+		ConsultorLogInDTO aux = new ConsultorLogInDTO();
+		aux.setUsuario(usuario);
+		aux.setPw(contraseña);
+		
 		GestorUsuario gestor = new GestorUsuario();
 
 		try
 		{
-			if(!gestor.existeConsultor(usuario,contraseña))
+			if(!gestor.validarConsultor(aux))
 			{
-				JOptionPane.showMessageDialog(this, "No existe el consultor con nombre de usuario " + usuario +" o la contraseña es incorrecta", "Error de validación",
+				JOptionPane.showMessageDialog(this, "El usuario o la contraseña no son válidos.", "Error de validación",
 						JOptionPane.WARNING_MESSAGE);
+				this.pwTxt.setText("");
+				this.usuarioTxt.setText("");
 				return;
-			}else
-			{
-				ConsultorDTO consultor = gestor.findConsultorByNombreUsuario(usuario);
-				MenuPrincipal home = new MenuPrincipal(wWindow,consultor);
-				wWindow.setCurrentMenu(home);
 			}
+			
+			ConsultorDTO consultor = gestor.findConsultorByNombreUsuario(aux.getUsuario());
+			MenuPrincipal home = new MenuPrincipal(wWindow,consultor);
+			wWindow.setCurrentMenu(home);
 			
 		} catch (SQLException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

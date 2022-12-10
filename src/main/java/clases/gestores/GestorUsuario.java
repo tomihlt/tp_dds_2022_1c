@@ -16,6 +16,7 @@ import clases.dao.interfaces.ConsultorDAO;
 import clases.dao.postgres.PostgresCandidato;
 import clases.dao.postgres.PostgresConsultor;
 import clases.dto.ConsultorDTO;
+import clases.dto.ConsultorLogInDTO;
 import clases.entidades.Candidato;
 import clases.entidades.Consultor;
 import clases.entidades.Cuestionario;
@@ -23,6 +24,7 @@ import clases.enums.EstadoCuestionario;
 import clases.dto.CandidatoBasicoDTO;
 import clases.dto.CandidatoDTO;
 import clases.dto.CandidatoNormalDTO;
+import clases.dto.CandidatoLogInDTO;
 
 public class GestorUsuario
 {
@@ -209,13 +211,13 @@ public class GestorUsuario
 		CandidatoDAO dao = new PostgresCandidato();
 
 		Candidato cand = dao.find(candidato.getId());
-		
+
 		Cuestionario cuest = cand.getCuestionario();
-		
+
 		return contraseñaCorrecta(cuest.getClave(), password);
-		
+
 	}
-	
+
 	public Boolean contraseñaCorrecta(String pw, char[] contraseña)
 	{
 
@@ -233,15 +235,45 @@ public class GestorUsuario
 	public boolean existeConsultor(String usuario, char[] contraseña) throws SQLException
 	{
 		ConsultorDAO dao = new PostgresConsultor();
-		
+
 		Consultor c = dao.findConsultorByNombreUsuario(usuario);
-		
-		if(c == null)
+
+		if (c == null)
 			return false;
-		else if(contraseñaCorrecta(c.getContraseña(), contraseña))
+		else if (contraseñaCorrecta(c.getContraseña(), contraseña))
 			return true;
 		else
 			return false;
+
+	}
+
+	public Boolean validarCandidato(CandidatoLogInDTO aux) throws SQLException
+	{
+		CandidatoDAO dao = new PostgresCandidato();
+		Candidato cand = dao.findCandidatoByDni(aux.getNroDni());
+		
+		if(cand == null)
+			return false;
+		
+		Cuestionario c = cand.getCuestionario();
+		
+		if ((c.getEstado().equals(EstadoCuestionario.Activo)
+				|| c.getEstado().equals(EstadoCuestionario.EnProceso)) && contraseñaCorrecta(c.getClave(), aux.getPw()))
+			return true;
+		else
+			return false;
+	}
+
+	public Boolean validarConsultor(ConsultorLogInDTO aux) throws SQLException
+	{
+		ConsultorDAO dao = new PostgresConsultor();
+		
+		Consultor c = dao.findConsultorByNombreUsuario(aux.getUsuario());
+		
+		if(c == null || !contraseñaCorrecta(c.getContraseña(), aux.getPw()))
+			return false;
+		else
+			return true;
 		
 	}
 
