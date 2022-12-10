@@ -237,6 +237,7 @@ public class GestorFuncion
 		Funcion f;
 
 		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo());
+		f.getPuntajeNecesarioPorCompetencia(); // En el dao me lo sobreescribe si no hago esto
 
 		// Sobreescribo con los datos nuevos
 		f.setCodigo(funcionSinCompetencias.getCodigo());
