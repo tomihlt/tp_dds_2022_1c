@@ -17,6 +17,8 @@ import gui.tableRenderersYTableModels.EstandarCellRenderer;
 
 import javax.swing.ListSelectionModel;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.ActionEvent;
 
 public class CandidatosTab extends JPanel
@@ -52,7 +54,7 @@ public class CandidatosTab extends JPanel
 		add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setModel(new CandidatosAEvaluarTableModel(new Object[][] {}, new String[]
 		{ "Apellido", "Nombre", "Número de candidato" }));
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
@@ -63,15 +65,28 @@ public class CandidatosTab extends JPanel
 
 	private void agregar()
 	{
-		if (table.getSelectedRow() < 0)
+		if (table.getSelectedRowCount() < 1)
 		{
 			JOptionPane.showMessageDialog(this, "Debe seleccionar un candidato.", "Error", JOptionPane.WARNING_MESSAGE);
 			return;
 		}	
-		CandidatoBasicoDTO c = (CandidatoBasicoDTO) ((CandidatosAEvaluarTableModel) table.getModel())
-				.getValueAt(table.getSelectedRow(), 2);
+		int[] filasSeleccionadas = table.getSelectedRows();
+		List<CandidatoBasicoDTO> candidatos = obtenerCandidatosTabla(filasSeleccionadas);
 		
-		invocador.cargarCandidatoTablaB(c);
+		invocador.cargarCandidatoTablaB(candidatos);
+	}
+
+	private List<CandidatoBasicoDTO> obtenerCandidatosTabla(int[] filasSeleccionadas)
+	{
+		List<CandidatoBasicoDTO> aux = new ArrayList<CandidatoBasicoDTO>();
+		
+		for(int i = 0; i < filasSeleccionadas.length ; i++)
+		{
+		CandidatoBasicoDTO c = (CandidatoBasicoDTO) ((CandidatosAEvaluarTableModel) table.getModel())
+				.getValueAt(filasSeleccionadas[i], 2);
+		aux.add(c);
+		}
+		return aux;
 	}
 
 	protected JTable getTable()

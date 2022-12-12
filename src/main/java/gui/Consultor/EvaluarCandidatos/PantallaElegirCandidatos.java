@@ -434,4 +434,12 @@ public class PantallaElegirCandidatos extends JPanel
 		return candidatos;
 	}
 
+	public void cargarCandidatoTablaB(List<CandidatoBasicoDTO> candidatos)
+	{
+		for(CandidatoBasicoDTO c : candidatos)
+		{
+			cargarCandidatoTablaB(c);
+		}
+	}
+
 }

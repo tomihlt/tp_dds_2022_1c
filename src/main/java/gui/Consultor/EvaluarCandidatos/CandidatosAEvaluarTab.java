@@ -52,7 +52,7 @@ public class CandidatosAEvaluarTab extends JPanel
 		add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setModel(new CandidatosAEvaluarTableModel(new Object[][] {}, new String[]
 		{ "Apellido", "Nombre", "Número de candidato" }));
 		table.setDefaultRenderer(Object.class, new EstandarCellRenderer());
@@ -63,13 +63,46 @@ public class CandidatosAEvaluarTab extends JPanel
 
 	private void eliminar()
 	{
-		if (table.getSelectedRow() < 0)
+		if (table.getSelectedRowCount() < 1)
 		{
 			JOptionPane.showMessageDialog(this, "Debe seleccionar un cadidato.", "Error", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
-		((CandidatosAEvaluarTableModel)table.getModel()).removeRow(table.getSelectedRow());
+		int[] filasSeleccionadas = table.getSelectedRows();
+		List<CandidatoBasicoDTO> aux = obtenerCandidatosTabla(filasSeleccionadas);
+		eliminarCandidatoTabla(aux);
+	}
+	
+	private List<CandidatoBasicoDTO> obtenerCandidatosTabla(int[] filasSeleccionadas)
+	{
+		List<CandidatoBasicoDTO> aux = new ArrayList<CandidatoBasicoDTO>();
 		
+		for(int i = 0; i < filasSeleccionadas.length ; i++)
+		{
+		CandidatoBasicoDTO c = (CandidatoBasicoDTO) ((CandidatosAEvaluarTableModel) table.getModel())
+				.getValueAt(filasSeleccionadas[i], 2);
+		aux.add(c);
+		}
+		return aux;
+	}
+
+	private void eliminarCandidatoTabla(List<CandidatoBasicoDTO> aux)
+	{
+		for(CandidatoBasicoDTO c : aux)
+			eliminarCandidatoTabla(c);
+	}
+
+	private void eliminarCandidatoTabla(CandidatoBasicoDTO aux)
+	{
+		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) table.getModel();
+		for(int i = 0 ; i < table.getRowCount() ; i++)
+		{
+			if(((CandidatoBasicoDTO)model.getValueAt(i, 2)).equals(aux))
+			{
+				model.removeRow(i);
+				break;
+			}
+		}
 	}
 
 	protected JTable getTable()
