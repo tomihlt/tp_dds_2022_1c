@@ -115,12 +115,11 @@ public class CandidatosAEvaluarTab extends JPanel
 		this.table = table;
 	}
 
-	protected void agregarElementoTabla(CandidatoBasicoDTO c) throws CandidatoYaCargadoException
+	protected void agregarElementoTabla(CandidatoBasicoDTO c)
 	{
 
 		if (existeCandidatoEnTabla(c))
-			throw new CandidatoYaCargadoException(
-					"El candidato " + c.getApellido() + " " + c.getNombre() + " ya ha sido agregado.");
+			return;
 
 		CandidatosAEvaluarTableModel model = (CandidatosAEvaluarTableModel) table.getModel();
 		Object[] row = new Object[]

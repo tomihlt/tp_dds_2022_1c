@@ -349,14 +349,7 @@ public class PantallaElegirCandidatos extends JPanel
 
 	protected void cargarCandidatoTablaB(CandidatoBasicoDTO c)
 	{
-		try
-		{
-			panelB.agregarElementoTabla(c);
-		} catch (CandidatoYaCargadoException e)
-		{
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Candidato ya seleccionado.",
-					JOptionPane.WARNING_MESSAGE);
-		}
+		panelB.agregarElementoTabla(c);
 	}
 
 	private void siguiente()
