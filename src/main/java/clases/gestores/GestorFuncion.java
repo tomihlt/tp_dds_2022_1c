@@ -56,7 +56,7 @@ public class GestorFuncion
 	public void guardarFuncion(FuncionCndeDTO funcionSinCompetencias,
 			List<CompetenciaPuntajeNombreDTO> competenciasDeLaFuncion) throws SQLException
 	{
-		Funcion funcion = new Funcion(true);
+		Funcion funcion = new Funcion(true,true);
 
 		EmpresaDAO eDao = new PostgresEmpresa();
 		CompetenciaDAO cDao = new PostgresCompetencia();
@@ -109,15 +109,15 @@ public class GestorFuncion
 		try
 		{
 			List<Funcion> funciones = fDao.findByFilters(codigo, nombre, empresa);
-			funciones.forEach(f -> {
-				try
-				{
-					fDao.setEmpresa(f);
-				} catch (SQLException e)
-				{
-					e.printStackTrace();
-				}
-			});
+//			funciones.forEach(f -> {
+//				try
+//				{
+//					fDao.getEmpresa(f);
+//				} catch (SQLException e)
+//				{
+//					e.printStackTrace();
+//				}
+//			});
 
 			List<FuncionDTO> funcionesDto = new ArrayList<FuncionDTO>();
 			FuncionDTO funcion = null;
@@ -182,9 +182,9 @@ public class GestorFuncion
 		try
 		{
 			Funcion fAux = fDao.find(f.getId());
-			EmpresaDAO eDao = new PostgresEmpresa();
-			Empresa e = eDao.find(f.getEmpresa().getId());
-			fAux.setEmpresa(e);
+//			EmpresaDAO eDao = new PostgresEmpresa();
+//			Empresa e = eDao.find(f.getEmpresa().getId());
+//			fAux.setEmpresa(e);
 
 			func.setId(fAux.getId());
 			func.setDescripcion(fAux.getDescripcion());
@@ -192,8 +192,8 @@ public class GestorFuncion
 			func.setNombre(fAux.getNombre());
 
 			EmpresaDTO emp = new EmpresaDTO();
-			emp.setId(e.getId());
-			emp.setNombre(e.getNombre());
+			emp.setId(f.getEmpresa().getId());
+			emp.setNombre(f.getEmpresa().getNombre());
 
 			func.setEmpresa(emp);
 
@@ -214,7 +214,7 @@ public class GestorFuncion
 		try
 		{
 			func = fDao.find(f.getId());
-			List<PuntajeNecesario> puntajes = fDao.findPuntajes(func);
+			List<PuntajeNecesario> puntajes = func.getPuntajeNecesarioPorCompetencia();
 			puntajes.forEach(p -> {
 				CompetenciaPuntajeNombreDTO aux = new CompetenciaPuntajeNombreDTO();
 				aux.setId(p.getCompetencia().getId());
@@ -236,7 +236,7 @@ public class GestorFuncion
 		FuncionDAO fDao = new PostgresFuncion();
 		Funcion f;
 
-		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo(),true);
+		f = fDao.findByCodigo(funcionSinCompetencias.getCodigo(),true,true);
 
 		// Sobreescribo con los datos nuevos
 		f.setCodigo(funcionSinCompetencias.getCodigo());

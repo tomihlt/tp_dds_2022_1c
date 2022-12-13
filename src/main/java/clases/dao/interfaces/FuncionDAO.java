@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import clases.entidades.Competencia;
+import clases.entidades.Empresa;
 import clases.entidades.Funcion;
 import clases.entidades.PuntajeNecesario;
 
@@ -12,9 +13,7 @@ public interface FuncionDAO extends CRUD<Funcion>
 
 	public List<Funcion> findByFilters(Integer codigo, String nombre, String empresa) throws SQLException;
 
-	public void setEmpresa(Funcion f) throws SQLException;
-
-	public Funcion findByCodigo(Integer codigo) throws SQLException;
+	public Empresa getEmpresa(Funcion f) throws SQLException;
 	
 	public List<PuntajeNecesario> findPuntajes(Funcion f) throws SQLException; // La instancia tiene los atributos de las relaciones
 	
@@ -28,8 +27,8 @@ public interface FuncionDAO extends CRUD<Funcion>
 
 	public PuntajeNecesario findPuntaje(Funcion f, Competencia c) throws SQLException;
 
-	public Funcion find(Integer id, boolean b) throws SQLException;
+	public Funcion findByCodigo(Integer codigo, boolean puntajes, boolean empresa) throws SQLException;
 
-	public Funcion findByCodigo(Integer codigo, Boolean b) throws SQLException;
+	Funcion find(Integer id, boolean puntajes, boolean empresa) throws SQLException;
 
 }
