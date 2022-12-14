@@ -53,7 +53,7 @@ public class PostgresFuncion implements FuncionDAO
 			if (rs.next())
 				t.setId(rs.getInt(1));
 
-			addPuntajeCompetencia(t.getPuntajeNecesarioPorCompetencia());
+			addPuntajeCompetencia(t,t.getPuntajeNecesarioPorCompetencia());
 			conn.commit();
 		} catch (SQLException e)
 		{
@@ -65,14 +65,14 @@ public class PostgresFuncion implements FuncionDAO
 		}
 	}
 
-	private void addPuntajeCompetencia(List<PuntajeNecesario> puntajeNecesarioPorCompetencia) throws SQLException
+	private void addPuntajeCompetencia(Funcion f,List<PuntajeNecesario> puntajeNecesarioPorCompetencia) throws SQLException
 	{
 		try (PreparedStatement pstm = conn.prepareStatement(
 				"INSERT INTO dds.funcion_competencias (funcion,competencia,puntaje_necesario) VALUES (?,?,?)"))
 		{
 			for (PuntajeNecesario p : puntajeNecesarioPorCompetencia)
 			{
-				pstm.setInt(1, p.getFuncion().getId());
+				pstm.setInt(1, f.getId());
 				pstm.setInt(2, p.getCompetencia().getId());
 				pstm.setInt(3, p.getPuntaje());
 				pstm.executeUpdate();
@@ -312,7 +312,7 @@ public class PostgresFuncion implements FuncionDAO
 			update(f);
 			updateEmpresa(f);
 			removePuntajes(f);
-			addPuntajeCompetencia(f.getPuntajeNecesarioPorCompetencia());
+			addPuntajeCompetencia(f,f.getPuntajeNecesarioPorCompetencia());
 		} catch (SQLException e)
 		{
 			conn.rollback();

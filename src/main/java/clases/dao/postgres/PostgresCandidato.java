@@ -208,7 +208,7 @@ public class PostgresCandidato implements CandidatoDAO
 		Cuestionario cuestionario = new Cuestionario();
 
 		try (PreparedStatement pstm = conn.prepareStatement(
-				"SELECT c.id,c.estado,c.fecha_inicio,c.fecha_fin,c.cantidad_accesos_maxima,c.cantidad_accesos,c.ultimo_ingreso,c.fecha_limite,c.puntaje_obtenido,c.clave,c.tiempo_maximo FROM dds.cuestionario c, dds.candidato cand WHERE c.id_candidato = ?;"))
+				"SELECT c.id,c.estado,c.fecha_inicio,c.fecha_fin,c.cantidad_accesos_maxima,c.cantidad_accesos,c.ultimo_ingreso,c.fecha_limite,c.puntaje_obtenido,c.clave,c.tiempo_maximo FROM dds.cuestionario c, dds.candidato cand WHERE c.id_candidato = ? AND c.estado = 'Activo';"))
 		{
 			pstm.setInt(1, candidato.getId());
 			ResultSet rs = pstm.executeQuery();
