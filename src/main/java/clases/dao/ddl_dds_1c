@@ -22,7 +22,7 @@ CREATE TABLE dds.competencia (
     id serial,
     nombre character varying(200),
     codigo integer,
-    eliminado boolean
+    eliminado boolean,
     descripcion character varying(500)
 );
 
